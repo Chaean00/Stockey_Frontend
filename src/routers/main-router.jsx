@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../layout/Layout';
+import Layout from '../components/Layout';
 import LandingPage from '../pages/LandingPage/LandingPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
