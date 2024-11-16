@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../../services/userApi';
 
 export default function SignUpPage() {
   const [isAlarmOn, setIsAlarmOn] = useState(false);
@@ -10,6 +12,7 @@ export default function SignUpPage() {
     slack_id: '',
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
@@ -23,11 +26,18 @@ export default function SignUpPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('회원가입 정보:', userInfo);
-      // 추가적인 회원가입 로직 수행
+      try {
+        const response = await registerUser(userInfo);
+        console.log('회원가입 성공:', response);
+        alert('회원가입에 성공했습니다!');
+        navigate('/login');
+      } catch (error) {
+        console.error('회원가입 실패:', error);
+        alert('회원가입에 실패했습니다...');
+      }
     }
   };
 
