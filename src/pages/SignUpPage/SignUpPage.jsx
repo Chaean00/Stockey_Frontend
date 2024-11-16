@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../services/userApi';
+import userApi from '../../services/userApi';
 
 export default function SignUpPage() {
   const [isAlarmOn, setIsAlarmOn] = useState(false);
@@ -30,12 +30,12 @@ export default function SignUpPage() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await registerUser(userInfo);
-        console.log('회원가입 성공:', response);
+        const response = await userApi.register(userInfo);
+        console.log('회원가입 성공:', response.data);
         alert('회원가입에 성공했습니다!');
         navigate('/login');
       } catch (error) {
-        console.error('회원가입 실패:', error);
+        console.error('회원가입 실패:', error.response?.data?.message || error.message);
         alert('회원가입에 실패했습니다...');
       }
     }

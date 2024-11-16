@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/userApi';
+import userApi from '../../services/userApi';
+import { useAuth } from '../../utils/authContext';
 
 export default function LoginPage() {
   const [userInfo, setUserInfo] = useState({
     account_id: '',
     password: '',
   });
-
+  const { login } = useAuth();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -24,12 +25,13 @@ export default function LoginPage() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await loginUser(userInfo);
-        console.log('로그인 성공:', response);
+        const response = await userApi.login(userInfo);
+        login(response.data.nickname);
+        console.log('로그인 성공:', response.data);
         alert('로그인에 성공했습니다!');
         navigate('/');
       } catch (error) {
-        console.error('로그인 실패:', error);
+        console.error('로그인 실패:', error.response?.data?.message || error.message);
         alert('로그인에 실패했습니다...');
       }
     }
