@@ -1,10 +1,8 @@
 // userApi.jsx
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000';
-
 const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true, // 필요 시 인증 정보를 포함
 });
 
