@@ -1,15 +1,15 @@
 import React from 'react';
 import Footer from './Footer';
 import Header from './Header';
-import Sidebar from './Sidebar';
+import SidebarKeyword from './SidebarKeyword';
 import { Outlet } from 'react-router-dom';
 
-export default function Layout() {
+export default function LayoutKeyword() {
   return (
     <div>
       {/* Header/Navbar */}
       <Header />
-      <Sidebar />
+      <SidebarKeyword />
 
       {/* Main Content */}
       <main>
