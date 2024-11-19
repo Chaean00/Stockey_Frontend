@@ -1,15 +1,15 @@
 import React from 'react';
 import Footer from './Footer';
 import Header from './Header';
-import Sidebar from './Sidebar';
+import SidebarStock from './SidebarStock';
 import { Outlet } from 'react-router-dom';
 
-export default function Layout() {
+export default function LayoutStock() {
   return (
     <div>
       {/* Header/Navbar */}
       <Header />
-      <Sidebar />
+      <SidebarStock />
 
       {/* Main Content */}
       <main>
