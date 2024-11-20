@@ -8,7 +8,6 @@ export default function Layout() {
     <div>
       {/* Header/Navbar */}
       <Header />
-
       {/* Main Content */}
       <main>
         <Outlet />
