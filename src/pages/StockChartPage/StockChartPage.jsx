@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SidebarStock from '../../components/SidebarStock';
-import Chart from '../../components/Chart';
+import {CandleChart} from '../../components/CandleChart';
 import stockApi from '../../services/stockApi';
 
 export default function StockChartPage() {
@@ -18,7 +18,6 @@ export default function StockChartPage() {
   }, []);
 
   const searchStock = async () => {
-    /** 
     try {
       const response = await stockApi.searchStock(search);
       setSearchResult(response.data);
@@ -26,17 +25,16 @@ export default function StockChartPage() {
       console.error('종목 검색 실패:', error.response?.data?.message || error.message);
       alert('종목 검색에 실패했습니다...');
     }
-    */
   };
 
   const bringStockChart = async () => {
-    // try {
-    //   const response = await stockApi.getStockChart(stockInfo);
-    //   setChartData(response.data);
-    // } catch (error) {
-    //   console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-    //   alert('차트 조회에 실패했습니다...');
-    // }
+    try {
+      const response = await stockApi.getStockChart(stockInfo);
+      setChartData(response.data);
+    } catch (error) {
+      console.error('차트 조회 실패:', error.response?.data?.message || error.message);
+      alert('차트 조회에 실패했습니다...');
+    }
   };
 
   return (
@@ -73,7 +71,7 @@ export default function StockChartPage() {
       </div>
       {/** main */}
       <div>
-        <Chart stockInfo={stockInfo} chartData={chartData} />
+        <CandleChart stockInfo={stockInfo} chartData={chartData} />
       </div>
     </div>
   );
