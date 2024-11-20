@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SidebarStock from '../../components/SidebarStock';
-import Chart from '../../components/Chart';
+import CandleChart from '../../components/CandleChart';
 import stockApi from '../../services/stockApi';
 
 export default function StockChartPage() {
@@ -18,7 +18,6 @@ export default function StockChartPage() {
   }, []);
 
   const searchStock = async () => {
-    /** 
     try {
       const response = await stockApi.searchStock(search);
       setSearchResult(response.data);
@@ -26,7 +25,6 @@ export default function StockChartPage() {
       console.error('종목 검색 실패:', error.response?.data?.message || error.message);
       alert('종목 검색에 실패했습니다...');
     }
-    */
   };
 
   const bringStockChart = async () => {
@@ -72,7 +70,9 @@ export default function StockChartPage() {
         <SidebarStock stockInfo={stockInfo} />
       </div>
       {/** main */}
-      <div>{chartData ? <Chart stockInfo={stockInfo} chartData={chartData} /> : '로딩 중'}</div>
+      <div>
+        <CandleChart stockInfo={stockInfo} chartData={chartData} />
+      </div>
     </div>
   );
 }
