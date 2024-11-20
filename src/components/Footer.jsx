@@ -1,3 +1,3 @@
 export default function Footer() {
-  return <div className="text-3xl font-bold underline">Footer</div>;
+  return <div className="bg-blue-100">Footer</div>;
 }

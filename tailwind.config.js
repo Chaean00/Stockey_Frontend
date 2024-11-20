@@ -12,14 +12,18 @@ export default {
         300: '#DDDDDD', //stroke
         400: '#A1A4AF', //sidebar gray text
       },
-      black: '#4C526B',
+      black: '#313544',
       red: '#FF7A73',
       blue: {
         100: '#88AAFD',
         200: '#0046FF',
       },
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Arial', 'ui-sans-serif', 'system-ui'],
+      },
+    },
   },
   plugins: [],
 };
