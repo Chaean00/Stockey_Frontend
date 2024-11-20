@@ -5,6 +5,7 @@ import { BASE_URL } from '../../lib/api/api';
 // import { toast } from 'react-toastify';
 // import { socket } from '../ChattingPage';
 import { socket } from '../pages/ChattingPage/ChattingPage';
+import chatApi from '../services/chatApi';
 
 export default function MessageInput({ roomId }) {
   const [message, setMessage] = useState('');
@@ -28,11 +29,8 @@ export default function MessageInput({ roomId }) {
 
       try {
         // DB에 채팅 메시지 저장
-        await axios.post(
-            `${BASE_URL}/api/chat/chat-rooms/${roomId}/messages`,
-            newComment,
-            { withCredentials: true }
-          );
+        await chatApi.postMessage(roomId, newComment);
+        
         // 소켓으로 전송
         socket.emit('sendTotalMessage', {
         //   username: username,

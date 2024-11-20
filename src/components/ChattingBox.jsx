@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-// import PropTypes from 'prop-types';
 import MessageInput from './ChattingInput';
 
 export default function ChattingBox({ messages, username, roomId }) {
@@ -28,16 +27,3 @@ export default function ChattingBox({ messages, username, roomId }) {
     </div>
   );
 }
-
-// ChatBox.propTypes = {
-//   messages: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       username: PropTypes.string,
-//       room_id: PropTypes.number,
-//       message: PropTypes.string,
-//       created_at: PropTypes.string,
-//     })
-//   ).isRequired,
-//   username: PropTypes.string.isRequired,
-//   roomId: PropTypes.number.isRequired,
-// };
