@@ -9,7 +9,7 @@ const stockApi = {
   searchStock: (stockName) => axiosInstance.get(`/stocks/${stockName}`),
 
   // 주식 차트 조회
-  getStockChart: (stockInfo) => axiosInstance.get('/stocks/chart', stockInfo),
+  getStockChart: (stock_code) => axiosInstance.get(`/stocks/chart/${stock_code}`),
 };
 
 export default stockApi;

@@ -30,13 +30,13 @@ export default function StockChartPage() {
   };
 
   const bringStockChart = async () => {
-    // try {
-    //   const response = await stockApi.getStockChart(stockInfo);
-    //   setChartData(response.data);
-    // } catch (error) {
-    //   console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-    //   alert('차트 조회에 실패했습니다...');
-    // }
+    try {
+      const response = await stockApi.getStockChart(stockInfo.stock_code);
+      setChartData(response.data);
+    } catch (error) {
+      console.error('차트 조회 실패:', error.response?.data?.message || error.message);
+      alert('차트 조회에 실패했습니다...');
+    }
   };
 
   return (
@@ -72,9 +72,7 @@ export default function StockChartPage() {
         <SidebarStock stockInfo={stockInfo} />
       </div>
       {/** main */}
-      <div>
-        <Chart stockInfo={stockInfo} chartData={chartData} />
-      </div>
+      <div>{chartData ? <Chart stockInfo={stockInfo} chartData={chartData} /> : '로딩 중'}</div>
     </div>
   );
 }
