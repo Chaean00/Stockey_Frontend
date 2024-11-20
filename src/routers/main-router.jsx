@@ -5,7 +5,8 @@ import LandingPage from '../pages/LandingPage/LandingPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import ChattingPage from '../pages/ChattingPage/ChattingPage';
-import ChartPage from '../pages/ChartPage/ChartPage';
+import StockChartPage from '../pages/StockChartPage/StockChartPage';
+import KeywordChartPage from '../pages/KeywordChartPage/KeywordChartPage';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,8 @@ const router = createBrowserRouter([
       { path: 'signUp', element: <SignUpPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'chat', element: <ChattingPage /> },
-      { path: 'chart', element: <ChartPage /> },
+      { path: 'stock', element: <StockChartPage /> },
+      { path: 'keyword', element: <KeywordChartPage /> },
     ],
   },
 ]);
