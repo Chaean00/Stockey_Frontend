@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ChartPage() {
+export default function KeywordChartPage() {
   return (
     <div>
       {/** header */}
