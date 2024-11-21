@@ -18,6 +18,17 @@ const userApi = {
 
   // 회원가입 처리
   register: (userData) => axiosInstance.post('/users/register', userData),
+
+  //종목 즐겨찾기 조회
+  getStockLike: () => axiosInstance.get('/users/stocks'),
+
+  //종목 즐겨찾기 추가
+  addStockLike: (stockData) => axiosInstance.post('/users/stocks', stockData),
+
+  //종목 즐겨찾기 삭제
+  removeStockLike: (stockData) => {
+    axiosInstance.delete(`/users/stocks?stock_id=${stockData.stock_id}`);
+  },
 };
 
 export default userApi;

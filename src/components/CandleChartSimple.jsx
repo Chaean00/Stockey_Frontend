@@ -27,7 +27,7 @@ import {
   withSize,
 } from 'react-financial-charts';
 
-const CandleChart = (props) => {
+const CandleChartSimple = (props) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
   const height = 500;
   const width = 900;
@@ -155,37 +155,9 @@ const CandleChart = (props) => {
         <ZoomButtons />
         <OHLCTooltip origin={[8, 16]} />
       </Chart>
-      <Chart
-        id={4}
-        height={elderRayHeight}
-        yExtents={[0, elder.accessor()]}
-        origin={elderRayOrigin}
-        padding={{ top: 8, bottom: 8 }}
-      >
-        <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
-        <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
-
-        <MouseCoordinateX displayFormat={timeDisplayFormat} />
-        <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
-
-        <ElderRaySeries
-          yAccessor={elder.accessor()}
-          fillStyle={{
-            bearPower: 'rgba(255, 98, 111, 0.7)',
-            bullPower: 'rgba(49, 130, 246, 0.7)',
-          }}
-        />
-
-        <SingleValueTooltip
-          yAccessor={elder.accessor()}
-          yLabel="Elder Ray"
-          yDisplayFormat={(d) => `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(d.bearPower)}`}
-          origin={[8, 16]}
-        />
-      </Chart>
       <CrossHairCursor />
     </ChartCanvas>
   );
 };
 
-export default CandleChart;
+export default CandleChartSimple;
