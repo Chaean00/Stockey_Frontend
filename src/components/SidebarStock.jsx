@@ -28,19 +28,32 @@ export default function SidebarStock(props) {
   };
 
   return (
-    <div>
+    <div className="p-5">
       {/** header */}
-      <div>
+      <div className="lg:text-2xl sm:text-lg mb-5 font-extrabold w-full border-b border-gray-300 py-3">
         {stockInfo?.stock_id ? (
-          <h2>{stockInfo.stock_name}에서 가장 많이 언급된 키워드는?</h2>
+          <h2>
+            <span className="text-blue-200 text-3xl font-bold">[ </span>
+            {stockInfo.stock_name}
+            <span className="text-blue-200 text-3xl font-bold"> ]</span> 에서 가장 많이 언급된
+          </h2>
         ) : (
-          <h2>오늘 가장 많이 언급된 키워드는?</h2>
+          <h2>
+            <span className="text-blue-200 text-3xl font-bold">[</span>
+            오늘
+            <span className="text-blue-200 text-3xl font-bold">]</span> 가장 많이 언급된
+          </h2>
         )}
       </div>
       {/** list */}
-      <ul>
+      <ul className="flex flex-col gap-1">
         {keywordRank?.map((el, i) => {
-          return <li key={i}>{el.keyword}</li>;
+          return (
+            <li key={i} className="text-xl font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl">
+              <div className="text-2xl text-blue-200 mr-16">{i + 1}</div>
+              <div>{el.keyword}</div>
+            </li>
+          );
         })}
       </ul>
     </div>
