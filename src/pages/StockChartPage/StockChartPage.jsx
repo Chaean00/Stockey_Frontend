@@ -65,7 +65,15 @@ export default function StockChartPage() {
       console.error('즐겨찾기 삭제 실패:', error.response?.data?.message || error.message);
     }
   };
-  const addLike = async () => {};
+  const addLike = async () => {
+    //즐겨찾기에 추가
+    const stock_id = stockInfo.stock_id;
+    try {
+      const response = await userApi.addStockLike({ stock_id: stock_id, alarm_status: false });
+    } catch (error) {
+      console.error('즐겨찾기 추가 실패:', error.response?.data?.message || error.message);
+    }
+  };
 
   return (
     <div className="text-black flex-grow bg-white">
