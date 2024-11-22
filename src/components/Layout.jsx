@@ -46,7 +46,7 @@ export default function Layout() {
         <Header className="fixed top-0 left-0 right-0 z-10" />
 
         {/* Page Content */}
-        <main className="flex-grow bg-white p-20 pb-16">
+        <main className="flex-grow flex bg-white p-12 pb-16 items-center justify-center">
           <Outlet className="mb-10" />
         </main>
         {/* Footer */}
