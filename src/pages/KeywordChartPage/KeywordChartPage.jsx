@@ -62,10 +62,9 @@ import userApi from '../../services/userApi';
       }
     };
 
-    const removeLike = async () => {
-      console.log(currentKeyword)
+    const removeLike = async (keyword) => {
       try {
-        await userApi.removeKeywordLike({ keyword: currentKeyword });
+        await userApi.removeKeywordLike({ keyword: keyword });
       } catch (error) {
         console.error('즐겨찾기 삭제 실패:', error.response?.data?.message || error.message);
         alert("즐겨찾기 삭제 실패")

@@ -10,7 +10,7 @@ export default function UserLike(props) {
     <div className="border w-full h-full border-gray-300 mb-3 pl-10 py-3 rounded-xl">
       <div className="mb-2">키워드 즐겨찾기</div>
 
-      {props.stockLikeList.map((el, index) => {
+      {props?.stockLikeList?.map((el, index) => {
         return (
           <p
             key={index}
