@@ -59,15 +59,15 @@ export default function Layout() {
         } transition-all duration-300 bg-gray-100 shadow-md h-full flex justify-center`}
       >
         {isSidebarOpen ? <div className="flex-grow overflow-y-auto">{renderSidebar()}</div> : null}
-        <div>
+        <div className="min-w-20">
           <div
             onClick={() => {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('main');
             }}
-            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md"
+            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md mb-3"
           >
-            <GoHomeFill className="text-4xl text-gray-400" />
+            <GoHomeFill className="text-3xl text-gray-400" />
             <p className="font-semibold text-sm">메인</p>
           </div>
           <div
@@ -75,7 +75,11 @@ export default function Layout() {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('stock');
             }}
-            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md"
+            className={
+              location.pathname.startsWith('/keyword')
+                ? 'hidden'
+                : 'flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md  mb-3'
+            }
           >
             <RiKey2Fill className="text-4xl text-gray-400" />
             <p className="font-semibold text-sm">키워드</p>
@@ -85,7 +89,11 @@ export default function Layout() {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('keyword');
             }}
-            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md"
+            className={
+              location.pathname.startsWith('/stock')
+                ? 'hidden'
+                : 'flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md  mb-3'
+            }
           >
             <FaChartLine className="text-4xl text-gray-400" />
             <p className="font-semibold text-sm">종목</p>

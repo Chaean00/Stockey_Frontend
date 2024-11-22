@@ -28,8 +28,9 @@ import {
 } from 'react-financial-charts';
 
 const CandleChart = (props) => {
+  //const { width, height } = props;
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
-  const height = 500;
+  const height = 700;
   const width = 1000;
   const margin = { left: 0, right: 48, top: 0, bottom: 24 };
 
@@ -116,7 +117,7 @@ const CandleChart = (props) => {
       </Chart>
       <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
         <XAxis showGridLines showTickLabel={false} />
-        <YAxis showGridLines tickFormat={pricesDisplayFormat} />
+        <YAxis showGridLines tickFormat={pricesDisplayFormat} fontSize={15} />
         <CandlestickSeries
           fill={(d) => (d.close > d.open ? '#3182F6' : '#FF626F')} // 양봉: 초록, 음봉: 빨강
           wickStroke={(d) => (d.close > d.open ? '#3182F6' : '#FF626F')} // 위아래 꼬리선 색상
@@ -135,7 +136,7 @@ const CandleChart = (props) => {
           yAccessor={yEdgeIndicator}
         />
         <MovingAverageTooltip
-          origin={[8, 24]}
+          origin={[8, 32]}
           options={[
             {
               yAccessor: ema26.accessor(),
@@ -150,10 +151,11 @@ const CandleChart = (props) => {
               windowSize: ema12.options().windowSize,
             },
           ]}
+          fontSize={12}
         />
 
         <ZoomButtons />
-        <OHLCTooltip origin={[8, 16]} />
+        <OHLCTooltip origin={[8, 16]} fontSize={15} />
       </Chart>
       <Chart
         id={4}
@@ -162,8 +164,8 @@ const CandleChart = (props) => {
         origin={elderRayOrigin}
         padding={{ top: 8, bottom: 8 }}
       >
-        <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
-        <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
+        <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" fontSize={15} />
+        <YAxis ticks={4} tickFormat={pricesDisplayFormat} fontSize={15} />
 
         <MouseCoordinateX displayFormat={timeDisplayFormat} />
         <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
@@ -181,6 +183,7 @@ const CandleChart = (props) => {
           yLabel="Elder Ray"
           yDisplayFormat={(d) => `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(d.bearPower)}`}
           origin={[8, 16]}
+          fontSize={15}
         />
       </Chart>
       <CrossHairCursor />
