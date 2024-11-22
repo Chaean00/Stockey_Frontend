@@ -109,7 +109,7 @@ export default function ChattingPage() {
           );
         })}
       </div>
-      <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
+      <ChattingBox messages={messages} username={username} roomId={roomId} />
     </div>
   );
 }

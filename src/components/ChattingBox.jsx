@@ -5,7 +5,7 @@ import { socket } from '../pages/ChattingPage/ChattingPage';
 import chatApi from '../services/chatApi';
 
 
-export default function ChattingBox({ messages, setMessages, username, roomId }) {
+export default function ChattingBox({ messages, username, roomId }) {
   const messageContainerRef = useRef(null);
 
   const handleLike = async (e, comment) => {
