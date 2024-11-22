@@ -18,7 +18,7 @@ const router = createBrowserRouter([
       { path: 'login', element: <LoginPage /> },
       { path: 'chat', element: <ChattingPage /> },
       { path: 'stock/:stock_id', element: <StockChartPage /> },
-      { path: 'keyword', element: <KeywordChartPage /> },
+      { path: 'keyword/:keyword_id', element: <KeywordChartPage /> },
     ],
   },
 ]);

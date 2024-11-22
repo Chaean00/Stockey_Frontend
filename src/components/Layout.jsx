@@ -15,12 +15,14 @@ export default function Layout() {
   const [selectedSidebar, setSelectedSidebar] = useState('main');
   const location = useLocation();
   const { stock_id } = useParams();
+  const { keyword_id } = useParams();
+  
 
   const renderSidebar = () => {
     if (selectedSidebar == 'stock') {
       return <SidebarStock stock_id={stock_id} />;
     } else if (selectedSidebar == 'keyword') {
-      return <SidebarKeyword />;
+      return <SidebarKeyword keyword_id={keyword_id}/>;
     } else return <Sidebar />;
   };
 
