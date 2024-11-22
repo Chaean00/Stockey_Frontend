@@ -1,8 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/Layout';
-import LayoutKeyword from '../components/LayoutKeyword';
-import LayoutStock from '../components/LayoutStock';
 import LandingPage from '../pages/LandingPage/LandingPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
@@ -19,17 +17,9 @@ const router = createBrowserRouter([
       { path: 'signUp', element: <SignUpPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'chat', element: <ChattingPage /> },
+      { path: 'stock/:stock_id', element: <StockChartPage /> },
+      { path: 'keyword', element: <KeywordChartPage /> },
     ],
-  },
-  {
-    path: 'stock',
-    element: <LayoutStock />,
-    children: [{ path: '', element: <StockChartPage /> }],
-  },
-  {
-    path: 'keyword',
-    element: <LayoutKeyword />,
-    children: [{ path: '', element: <KeywordChartPage /> }],
   },
 ]);
 
