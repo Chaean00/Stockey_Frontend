@@ -7,20 +7,18 @@ export default function SidebarKeyword(props) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
   const getStockRank = async () => {
-    try {
-      const res = await keywordApi.getStockRankAboutKeyword(props.keywordData.keyword_id);
-      setStockRank(res.data);
-      setIsLoading(false); // 데이터 로딩 완료 시 로딩 상태 false로 설정
-    } catch (err) {
-      console.error('랭킹 조회 실패:', err.response?.data?.message || err.message);
-      alert('랭킹 조회에 실패했습니다...');
-      setIsLoading(false); // 에러 발생 시에도 로딩 상태를 false로 설정
-    }
+    const res = await keywordApi.getStockRankAboutKeyword(props.keywordData.keyword_id);
+    setStockRank(res.data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    getStockRank();
-  }, [props.keywordData.keyword_id]);
+    const fetchData = async () => {
+      await getStockRank();
+      console.log(props.keywordData)
+    }
+    fetchData();
+  }, [isLoading]);
 
   if (isLoading) {
     return <div>로딩 중...</div>; // 로딩 중일 때 보여줄 내용
