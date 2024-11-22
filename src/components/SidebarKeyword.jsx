@@ -9,7 +9,6 @@ export default function SidebarKeyword(props) {
     keywordInfo.keyword_id = props.keyword_id
     setKeywordInfo(keywordInfo)
     getStockInfo();
-    console.log(keywordInfo)
   }, [props.keyword_id])
 
   const getStockInfo = async () => {
@@ -18,7 +17,6 @@ export default function SidebarKeyword(props) {
         const response = await keywordApi.getStockRankAboutKeyword(keywordInfo.keyword_id);
         setKeywordInfo({...keywordInfo, keyword: response.data.keyword}) 
         setStockRank(response.data.stock_rankings)
-        console.log(response.data)
       } else {
         const response = await keywordApi.getKeywordRank();
         setKeywordRank(response.data);

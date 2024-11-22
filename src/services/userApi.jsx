@@ -29,6 +29,15 @@ const userApi = {
   removeStockLike: (stockData) => {
     axiosInstance.delete(`/users/stocks?stock_id=${stockData.stock_id}`);
   },
+
+  // 키워드 즐겨찾기 추가
+  addKeywordLike: (keywordData) => axiosInstance.post('/users/keywords', keywordData),
+
+  // 키워드 즐겨찾기 삭제
+  removeKeywordLike: (keywordData) => axiosInstance.delete(`/users/keywords?keyword=${keywordData.keyword}`),
+
+  // 유저의 키워드 즐겨찾기 조회
+  getKeywordLike: () => axiosInstance.get ('/users/keywords'),
 };
 
 export default userApi;
