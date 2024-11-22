@@ -30,8 +30,8 @@ import {
 const CandleChart = (props) => {
   //const { width, height } = props;
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
-  const height = 700;
-  const width = 1000;
+  const height = props.height;
+  const width = props.width;
   const margin = { left: 0, right: 48, top: 0, bottom: 24 };
 
   const ema12 = ema()
