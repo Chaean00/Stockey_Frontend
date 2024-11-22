@@ -32,6 +32,7 @@ export default function ChattingPage() {
       try {
         const response = await chatApi.getTotalComments(roomId);
         setMessages(response.data);
+        console.log("전체 댓글:", response.data);
       } catch (error) {
         console.error('전체 댓글 로드 실패:', error);
       }
@@ -65,6 +66,8 @@ export default function ChattingPage() {
           room_id: data.roomId,
           message: data.message,
           created_at: data.created_at,
+          totalLikes: 0,
+          linkedByUser: false,
         },
       ]);
     });
@@ -74,8 +77,28 @@ export default function ChattingPage() {
     };
   }, [roomId]);
 
+  // 다른 사용자가 보낸 좋아요 받기
+  useEffect(() => {
+    // 좋아요 변경 이벤트 수신
+    socket.on('updateMessageLike', (data) => {
+      const { messageId, totalLikes, likedByUser } = data;
+
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === messageId
+            ? { ...msg, totalLikes, likedByUser }
+            : msg
+        )
+      );
+    });
+
+    return () => {
+      socket.off('updateMessageLike');
+    };
+  }, [setMessages]);
+
   return (
-    <div className="flex flex-col h-screen text-white">
+    <div className="flex flex-col h-screen">
       <div>
         {/* 사이드 바로 변경될 부분 */}
         {chatRoomList.map((item, index) => {
@@ -86,7 +109,7 @@ export default function ChattingPage() {
           );
         })}
       </div>
-      <ChattingBox messages={messages} username={username} roomId={roomId} />
+      <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
     </div>
   );
 }

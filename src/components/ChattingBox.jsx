@@ -1,8 +1,41 @@
 import React, { useRef } from 'react';
 import MessageInput from './ChattingInput';
 
-export default function ChattingBox({ messages, username, roomId }) {
+import { socket } from '../pages/ChattingPage/ChattingPage';
+import chatApi from '../services/chatApi';
+
+
+export default function ChattingBox({ messages, setMessages, username, roomId }) {
   const messageContainerRef = useRef(null);
+
+  const handleLike = async (e, comment) => {
+    e.preventDefault();
+  
+    try {
+      if (comment.likedByUser) {
+        // 좋아요 취소 API 호출
+        await chatApi.unlikeMessage(comment.id);
+  
+        // 좋아요 취소 소켓 이벤트 전송
+        socket.emit('unlikeMessage', {
+          messageId: comment.id,
+          roomId: roomId,
+        });
+      } else {
+        // 좋아요 추가 API 호출
+        await chatApi.likeMessage(comment.id);
+  
+        // 좋아요 추가 소켓 이벤트 전송
+        socket.emit('likeMessage', {
+          messageId: comment.id,
+          roomId: roomId,
+        });
+      }
+    } catch (error) {
+      console.error('좋아요 처리 실패:', error);
+    }
+  };
+  
 
   return (
     <div className="flex flex-col h-full">
@@ -19,6 +52,17 @@ export default function ChattingBox({ messages, username, roomId }) {
             {/* <p>{comment.username}</p> */}
             <p>{comment.created_at}</p>
             <p>{comment.message}</p>
+
+            {/* 좋아요 버튼 */}
+            {/* <button onClick={() => handleLike(comment.id, comment.likedByUser)}> */}
+            <button onClick={(e) => {
+              handleLike(e, comment);
+            }}>
+              {comment.likedByUser ? '❤️' : '♡'}
+            </button>
+
+            {/* 좋아요 개수 */}
+            <p>{comment.totalLikes}</p>
           </div>
         ))}
       </div>

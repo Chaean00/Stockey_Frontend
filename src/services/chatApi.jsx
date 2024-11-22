@@ -15,6 +15,12 @@ const chatApi = {
 
     // 채팅 메시지 저장
     postMessage: (roomId, newComment) => axiosInstance.post(`api/chat/chat-rooms/${roomId}/messages`, newComment),
+
+    // 메시지 좋아요
+    likeMessage: (messageId) => axiosInstance.post(`api/chat/messages/${messageId}/like`),
+
+    // 메시지 좋아요 취소
+    unlikeMessage: (messageId) => axiosInstance.delete(`api/chat/messages/${messageId}/unlike`),
 };
 
 export default chatApi;
