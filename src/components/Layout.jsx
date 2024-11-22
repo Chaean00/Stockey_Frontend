@@ -75,7 +75,11 @@ export default function Layout() {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('stock');
             }}
-            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md"
+            className={
+              location.pathname.startsWith('/keyword')
+                ? 'hidden'
+                : 'flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md'
+            }
           >
             <RiKey2Fill className="text-4xl text-gray-400" />
             <p className="font-semibold text-sm">키워드</p>
@@ -85,7 +89,11 @@ export default function Layout() {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('keyword');
             }}
-            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md"
+            className={
+              location.pathname.startsWith('/stock')
+                ? 'hidden'
+                : 'flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md'
+            }
           >
             <FaChartLine className="text-4xl text-gray-400" />
             <p className="font-semibold text-sm">종목</p>

@@ -38,11 +38,7 @@ export default function SidebarStock(props) {
             <span className="text-blue-200 text-3xl font-bold"> ]</span> 에서 가장 많이 언급된
           </h2>
         ) : (
-          <h2>
-            <span className="text-blue-200 text-3xl font-bold">[</span>
-            오늘
-            <span className="text-blue-200 text-3xl font-bold">]</span> 가장 많이 언급된
-          </h2>
+          <h2>오늘 가장 많이 언급된</h2>
         )}
       </div>
       {/** list */}
