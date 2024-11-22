@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import SidebarStock from '../../components/SidebarStock';
 import stockApi from '../../services/stockApi';
 import ChartBox from '../../components/ChartBox/ChartBox';
 import { AiFillHeart } from 'react-icons/ai';
-
 import { FaSearch } from 'react-icons/fa';
 import userApi from '../../services/userApi';
+import { useParams } from 'react-router-dom';
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
@@ -18,11 +17,27 @@ export default function StockChartPage() {
     stock_code: '055550',
   });
   const [stockLikeList, setStockLikeList] = useState([]);
+  const { stock_id } = useParams();
 
   useEffect(() => {
+    bringStockInfo(stock_id);
     bringStockChart();
     findInitialLikeStock();
-  }, []);
+  }, [stock_id]);
+
+  const bringStockInfo = async (stock_id) => {
+    try {
+      const response = await stockApi.getStockById(stock_id);
+      setStockInfo({
+        stock_id: response.data.id,
+        stock_name: response.data.stock_name,
+        stock_code: response.data.code,
+      });
+    } catch (error) {
+      console.error('종목 조회 실패:', error.response?.data?.message || error.message);
+      alert('종목 조회에 실패했습니다...');
+    }
+  };
 
   const searchStock = async () => {
     try {
