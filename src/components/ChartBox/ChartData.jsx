@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Typography } from '@material-tailwind/react';
+import { Typography } from '@material-tailwind/react';
 
 export default function ChartData(props) {
   // stockInfo가 undefined/null인 경우 기본값을 빈 객체로 설정
@@ -29,54 +29,36 @@ export default function ChartData(props) {
 
   return (
     <div>
-      <Card className="h-full w-full ">
-        <table className="w-full min-w-max table-auto text-left border-collapse border border-gray-200">
-          <tbody>
-            {stockInfoEntries.map(([key, value], index) => {
-              // 짝수 인덱스일 때 한 줄에 두 개의 속성을 렌더링
-              if (index % 2 === 0) {
-                const nextEntry = stockInfoEntries[index + 1];
-                return (
-                  <tr key={index}>
-                    {/* 현재 속성 */}
-                    <td className="border-y border-gray-200 px-4 py-2 ">
-                      <Typography variant="small">
-                        {keyMapping[key] || key} {/* 한국어로 매핑된 키 */}
-                      </Typography>
-                    </td>
-                    <td className="border-y border-gray-200 px-4 py-2">
-                      <Typography variant="small" className="font-semibold">
-                        {value}
-                      </Typography>
-                    </td>
-                    {/* 다음 속성, 없으면 빈 셀 */}
-                    {nextEntry ? (
-                      <>
-                        <td className="border-y border-gray-200 px-4 py-2">
-                          <Typography variant="small">
-                            {keyMapping[nextEntry[0]] || nextEntry[0]} {/* 한국어로 매핑된 다음 키 */}
-                          </Typography>
-                        </td>
-                        <td className="border-y border-gray-200 px-4 py-2">
-                          <Typography variant="small" className="font-semibold">
-                            {nextEntry[1]}
-                          </Typography>
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        <td className="border border-gray-200 px-4 py-2"></td>
-                        <td className="border border-gray-200 px-4 py-2"></td>
-                      </>
-                    )}
-                  </tr>
-                );
-              }
-              return null;
-            })}
-          </tbody>
-        </table>
-      </Card>
+      {[...Array(Math.ceil(stockInfoEntries.length / 5))].map((_, tableIndex) => {
+        // 현재 테이블에 포함될 5개의 요소 추출
+        const tableEntries = stockInfoEntries.slice(tableIndex * 5, tableIndex * 5 + 5);
+
+        return (
+          <div key={tableIndex} className="border w-full border-gray-300 mb-3 pl-10 py-3 rounded-xl">
+            <table>
+              <tbody>
+                {tableEntries.map(([key, value], index) => {
+                  return (
+                    <tr key={index}>
+                      {/* 현재 속성 */}
+                      <td className="py-2">
+                        <Typography variant="small">
+                          {keyMapping[key] || key} {/* 한국어로 매핑된 키 */}
+                        </Typography>
+                      </td>
+                      <td className="pl-10 py-2">
+                        <Typography variant="small" className="font-semibold">
+                          {value}
+                        </Typography>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        );
+      })}
     </div>
   );
 }

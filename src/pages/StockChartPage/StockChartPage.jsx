@@ -17,6 +17,7 @@ export default function StockChartPage() {
     stock_name: '신한지주',
     stock_code: '055550',
   });
+  const [stockLikeList, setStockLikeList] = useState([]);
 
   useEffect(() => {
     bringStockChart();
@@ -46,6 +47,7 @@ export default function StockChartPage() {
   const findInitialLikeStock = async () => {
     try {
       const response = await userApi.getStockLike();
+      setStockLikeList(response.data.userStocks);
       response.data.userStocks.map((like) => {
         if (like.stock_id == stockInfo.stock_id) {
           setIsLiked(true);
@@ -130,7 +132,7 @@ export default function StockChartPage() {
       </div>
       {/** main */}
       <div>
-        <ChartBox chartData={chartData} stockInfo={stockInfo} />
+        <ChartBox chartData={chartData} stockInfo={stockInfo} stockLikeList={stockLikeList} />
       </div>
     </div>
   );
