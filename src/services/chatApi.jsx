@@ -21,6 +21,9 @@ const chatApi = {
 
     // 메시지 좋아요 취소
     unlikeMessage: (messageId) => axiosInstance.delete(`api/chat/messages/${messageId}/unlike`),
+
+    // 로그인한 유저에 대한 메시지 상태 가져오기
+    messageStatus: (messageId) => axiosInstance.get(`api/chat/messages/${messageId}/like-status`),
 };
 
 export default chatApi;

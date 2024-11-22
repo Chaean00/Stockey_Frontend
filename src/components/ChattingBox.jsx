@@ -5,13 +5,14 @@ import { socket } from '../pages/ChattingPage/ChattingPage';
 import chatApi from '../services/chatApi';
 
 
-export default function ChattingBox({ messages, username, roomId }) {
+export default function ChattingBox({ messages, setMessages, username, roomId }) {
   const messageContainerRef = useRef(null);
 
   const handleLike = async (e, comment) => {
     e.preventDefault();
   
     try {
+      // 좋아요가 눌린 상태면
       if (comment.likedByUser) {
         // 좋아요 취소 API 호출
         await chatApi.unlikeMessage(comment.id);
@@ -21,7 +22,14 @@ export default function ChattingBox({ messages, username, roomId }) {
           messageId: comment.id,
           roomId: roomId,
         });
-      } else {
+
+        // 좋아요 표시 본인 로컬에만 반영
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.id === comment.id ? { ...msg, likedByUser: false } : msg
+          )
+        );
+      } else { // 좋아요가 눌리지 않은 상태면
         // 좋아요 추가 API 호출
         await chatApi.likeMessage(comment.id);
   
@@ -30,6 +38,13 @@ export default function ChattingBox({ messages, username, roomId }) {
           messageId: comment.id,
           roomId: roomId,
         });
+
+        // 좋아요 표시 본인 로컬에만 반영
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.id === comment.id ? { ...msg, likedByUser: true } : msg
+          )
+        );
       }
     } catch (error) {
       console.error('좋아요 처리 실패:', error);

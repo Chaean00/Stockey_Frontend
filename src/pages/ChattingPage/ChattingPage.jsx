@@ -62,6 +62,7 @@ export default function ChattingPage() {
       setMessages((prevMessages) => [
         ...prevMessages,
         {
+          id: data.message_id,
           username: data.username,
           room_id: data.roomId,
           message: data.message,
@@ -80,13 +81,13 @@ export default function ChattingPage() {
   // 다른 사용자가 보낸 좋아요 받기
   useEffect(() => {
     // 좋아요 변경 이벤트 수신
-    socket.on('updateMessageLike', (data) => {
-      const { messageId, totalLikes, likedByUser } = data;
+    socket.on('updateMessageLike', async (data) => {
+      const { messageId, totalLikes } = data;
 
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
           msg.id === messageId
-            ? { ...msg, totalLikes, likedByUser }
+            ? { ...msg, totalLikes}
             : msg
         )
       );
@@ -109,7 +110,7 @@ export default function ChattingPage() {
           );
         })}
       </div>
-      <ChattingBox messages={messages} username={username} roomId={roomId} />
+      <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
     </div>
   );
 }
