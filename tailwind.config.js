@@ -14,7 +14,7 @@ export default withMT({
         400: '#A1A4AF', //sidebar gray text
       },
       black: '#313544',
-      red: '#FF7A73',
+      red: { 100: '#FF7A73', 200: '#F04452' },
       blue: {
         100: '#88AAFD',
         200: '#0046FF',
@@ -26,5 +26,5 @@ export default withMT({
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 });

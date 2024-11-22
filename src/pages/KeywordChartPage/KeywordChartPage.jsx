@@ -3,7 +3,7 @@ import SidebarKeyword from '../../components/SidebarKeyword';
 import { useParams } from 'react-router-dom';
 import keywordApi from '../../services/keywordApi';
 import stockApi from '../../services/stockApi';
-import CandleChart from '../../components/CandleChart';
+import CandleChart from '../../components/ChartBox/CandleChart';
 
 export default function KeywordChartPage() {
   const { keywordId } = useParams();
@@ -17,25 +17,15 @@ export default function KeywordChartPage() {
   // 키워드 데이터
   const [keywordData, setKeywordData] = useState({});
 
-  // 키워드 기준 종목의 랭킹 조회
-  const getStockDataByKeyword = async () => {
-    const res = await keywordApi.getStockRankAboutKeyword(keywordId);
-    setKeywordData(res.data);
-    console.log(res.data)
-  };
-
   // 차트 데이터 가져오기
   const getChartData = async () => {
-    console.log(keywordData.stock_rankings)
-    console.log(keywordData.stock_rankings[0].code)
     const res = stockApi.getStockChart(keywordData.stock_rankings[0].code)
     setChartData(res.data)
   }
 
   useEffect(() => {
-    getChartData();
-    getStockDataByKeyword();
-  }, [keywordId])
+    // getChartData();
+  }, [])
 
   return (
     <div>
@@ -48,14 +38,9 @@ export default function KeywordChartPage() {
         </div>
       </div>
 
-      {/* side bar */}
-      <div>
-        <keywordData SidebarKeyword keywordData={keywordData} />
-      </div>
-
       {/** main */}
       <div>
-        <CandleChart chartData={chartData} />
+        {/* <CandleChart chartData={chartData} /> */}
       </div>
     </div>
   );
