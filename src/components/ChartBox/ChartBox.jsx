@@ -47,7 +47,7 @@ export default function ChartBox(props) {
   const isCompact = containerDimensions.width / containerDimensions.height <= 5 / 6;
 
   // CandleChart에 고정된 비율로 높이 조정
-  const chartHeight = chartDimensions.width * 0.5; // 예: 60% 비율로 고정
+  const chartHeight = 600; // 예: 60% 비율로 고정
 
   return (
     <div ref={containerRef}>

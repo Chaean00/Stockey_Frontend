@@ -24,6 +24,9 @@ export default function StockChartPage() {
     bringStockChart();
     findInitialLikeStock();
   }, [stock_id]);
+  useEffect(() => {
+    findInitialLikeStock();
+  }, [isLiked]);
 
   const bringStockInfo = async (stock_id) => {
     try {
