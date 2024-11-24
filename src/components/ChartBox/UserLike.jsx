@@ -14,7 +14,7 @@ export default function UserLike(props) {
         return (
           <p
             key={index}
-            className="inline-block bg-gray-100 p-2 rounded-lg text-sm mr-2 hover:bg-blue-100"
+            className="inline-block bg-gray-100 p-2 rounded-lg text-sm mr-2 hover:bg-blue-100 mb-2"
             onClick={() => {
               moveToStock(el.stock_id);
             }}

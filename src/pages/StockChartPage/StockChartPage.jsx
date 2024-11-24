@@ -11,22 +11,27 @@ export default function StockChartPage() {
   const [isLiked, setIsLiked] = useState(false); // 초기 좋아요 상태
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [stockInfo, setStockInfo] = useState({
-    stock_id: 311,
-    stock_name: '신한지주',
-    stock_code: '055550',
-  });
+  const [stockInfo, setStockInfo] = useState({});
   const [stockLikeList, setStockLikeList] = useState([]);
   const { stock_id } = useParams();
 
   useEffect(() => {
-    bringStockInfo(stock_id);
-    bringStockChart();
-    findInitialLikeStock();
+    if (stock_id) {
+      bringStockInfo(stock_id);
+    }
   }, [stock_id]);
+
   useEffect(() => {
-    findInitialLikeStock();
-  }, [isLiked]);
+    if (stockInfo.stock_code) {
+      bringStockChart();
+    }
+  }, [stockInfo.stock_code]);
+
+  useEffect(() => {
+    if (stockInfo.stock_id) {
+      findInitialLikeStock();
+    }
+  }, [stockInfo.stock_id]);
 
   const bringStockInfo = async (stock_id) => {
     try {
@@ -65,31 +70,31 @@ export default function StockChartPage() {
   const findInitialLikeStock = async () => {
     try {
       const response = await userApi.getStockLike();
+      const isStockLiked = response.data.userStocks.some((like) => like.stock_id === stockInfo.stock_id);
       setStockLikeList(response.data.userStocks);
-      response.data.userStocks.map((like) => {
-        if (like.stock_id == stockInfo.stock_id) {
-          setIsLiked(true);
-        }
-      });
+      setIsLiked(isStockLiked);
     } catch (error) {
       console.error('즐겨찾기 불러오기 실패:', error.response?.data?.message || error.message);
     }
   };
 
   const removeLike = async () => {
-    //즐겨찾기에서 삭제
-    const stock_id = stockInfo.stock_id;
     try {
-      const response = await userApi.removeStockLike({ stock_id: stock_id });
+      await userApi.removeStockLike({ stock_id: stockInfo.stock_id });
+      setIsLiked(false);
+      // 바로 stockLikeList에서 제거
+      setStockLikeList((prevList) => prevList.filter((like) => like.stock_id !== stockInfo.stock_id));
     } catch (error) {
       console.error('즐겨찾기 삭제 실패:', error.response?.data?.message || error.message);
     }
   };
+
   const addLike = async () => {
-    //즐겨찾기에 추가
-    const stock_id = stockInfo.stock_id;
     try {
-      const response = await userApi.addStockLike({ stock_id: stock_id, alarm_status: false });
+      await userApi.addStockLike({ stock_id: stockInfo.stock_id, alarm_status: false });
+      setIsLiked(true);
+      // 바로 stockLikeList에 추가
+      setStockLikeList((prevList) => [...prevList, { stock_id: stockInfo.stock_id, stock_name: stockInfo.stock_name }]);
     } catch (error) {
       console.error('즐겨찾기 추가 실패:', error.response?.data?.message || error.message);
     }
@@ -104,7 +109,6 @@ export default function StockChartPage() {
           <AiFillHeart
             className={`text-3xl cursor-pointer ${isLiked ? 'text-red-100' : 'text-gray-200'} `}
             onClick={() => {
-              setIsLiked(!isLiked);
               if (isLiked) {
                 removeLike();
               } else {
@@ -131,20 +135,17 @@ export default function StockChartPage() {
           </div>
 
           <ul>
-            {searchResult?.map((el, i) => {
-              return (
-                <li
-                  key={i}
-                  onClick={() => {
-                    setStockInfo(el);
-                    bringStockChart();
-                  }}
-                >
-                  <div>{el.stock_name}</div>
-                  <div>{el.stock_code}</div>
-                </li>
-              );
-            })}
+            {searchResult?.map((el, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  setStockInfo(el);
+                }}
+              >
+                <div>{el.stock_name}</div>
+                <div>{el.stock_code}</div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
