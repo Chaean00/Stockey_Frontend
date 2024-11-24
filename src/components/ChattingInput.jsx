@@ -39,6 +39,7 @@ export default function MessageInput({ roomId }) {
           message_id: message_id,
           message: newComment.message,
           created_at: newComment.created_at,
+          nickname: localStorage.getItem('nickname'),
         });
         setMessage('');
       } catch (error) {
