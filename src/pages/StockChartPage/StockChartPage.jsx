@@ -25,13 +25,10 @@ export default function StockChartPage() {
     if (stockInfo.stock_code) {
       bringStockChart();
     }
-  }, [stockInfo.stock_code]);
-
-  useEffect(() => {
     if (stockInfo.stock_id) {
       findInitialLikeStock();
     }
-  }, [stockInfo.stock_id]);
+  }, [stockInfo]);
 
   const bringStockInfo = async (stock_id) => {
     try {
