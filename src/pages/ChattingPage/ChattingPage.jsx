@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import ChattingBox from '../../components/ChattingBox';
 import { BASE_URL } from '../../../lib/api/api';
 import chatApi from '../../services/chatApi';
+import { TbMapPin2 } from 'react-icons/tb';
 
 // 소켓 백엔드와 연결
 export const socket = io('http://localhost:3000/', {
@@ -63,12 +64,12 @@ export default function ChattingPage() {
         ...prevMessages,
         {
           id: data.message_id,
-          username: data.username,
           room_id: data.roomId,
           message: data.message,
           created_at: data.created_at,
           totalLikes: 0,
           linkedByUser: false,
+          nickname: data.nickname,
         },
       ]);
     });
