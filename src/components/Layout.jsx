@@ -16,13 +16,12 @@ export default function Layout() {
   const location = useLocation();
   const { stock_id } = useParams();
   const { keyword_id } = useParams();
-  
 
   const renderSidebar = () => {
     if (selectedSidebar == 'stock') {
       return <SidebarStock stock_id={stock_id} />;
     } else if (selectedSidebar == 'keyword') {
-      return <SidebarKeyword keyword_id={keyword_id}/>;
+      return <SidebarKeyword keyword_id={keyword_id} />;
     } else return <Sidebar />;
   };
 
@@ -40,20 +39,21 @@ export default function Layout() {
   }, [selectedSidebar]);
 
   return (
-    <div className="flex h-screen font-black">
+    <div className="flex h-screen font-black overflow-x-hidden">
       {/* Main Content */}
-      <div className="flex flex-col flex-grow w-3/">
+      <div className="flex flex-col flex-grow w-3/4">
         {/* Header/Navbar */}
         <Header className="fixed top-0 left-0 right-0 z-10" />
 
         {/* Page Content */}
-        <main className="flex-grow bg-white p-20 ">
+        <main className="flex-grow bg-white p-20 pb-16 overflow-hidden">
           <Outlet />
         </main>
 
         {/* Footer */}
-        <Footer className="mt-auto" />
+        <Footer className="bg-gray-200" />
       </div>
+
       {/* Sidebar */}
       <div
         className={`${
@@ -77,11 +77,10 @@ export default function Layout() {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('stock');
             }}
-            className={
-              location.pathname.startsWith('/keyword')
-                ? 'hidden'
-                : 'flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md  mb-3'
-            }
+            className={`
+              ${location.pathname.startsWith('/keyword') ? 'hidden' : 'flex flex-col items-center'}
+              hover:bg-blue-gray-100 m-1 p-1 rounded-md mb-3
+            `}
           >
             <RiKey2Fill className="text-4xl text-gray-400" />
             <p className="font-semibold text-sm">키워드</p>
@@ -91,11 +90,10 @@ export default function Layout() {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('keyword');
             }}
-            className={
-              location.pathname.startsWith('/stock')
-                ? 'hidden'
-                : 'flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md  mb-3'
-            }
+            className={`
+              ${location.pathname.startsWith('/stock') ? 'hidden' : 'flex flex-col items-center'}
+              hover:bg-blue-gray-100 m-1 p-1 rounded-md mb-3
+            `}
           >
             <FaChartLine className="text-4xl text-gray-400" />
             <p className="font-semibold text-sm">종목</p>
