@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import stockApi from '../../services/stockApi';
-import userApi from '../../services/userApi';
 import ChartBox from '../../components/ChartBox/ChartBox';
 import SearchInput from '../../components/SearchInput';
 import LikeButton from '../../components/LikeButton';
