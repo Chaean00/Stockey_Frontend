@@ -25,6 +25,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # 빌드된 파일만 Nginx로 복사
 COPY --from=build /app/dist /usr/share/nginx/html
 
+ENV VITE_BASE_URL http://stockey-express/api/
+
 # 80 포트 개방
 EXPOSE 80
 
