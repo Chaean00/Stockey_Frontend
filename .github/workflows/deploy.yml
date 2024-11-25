@@ -56,4 +56,4 @@ jobs:
             docker rm stockey-react || true
 
             # 새로운 컨테이너 실행 (Nginx와 연결)
-            docker run -d --name stockey-react --network app-network -e VITE_BASE_URL=${{ secrets.VITE_BASE_URL }} -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest
+            docker run -d --name stockey-react --network app-network -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest
