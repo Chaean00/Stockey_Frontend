@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import stockApi from '../../services/stockApi';
 import ChartBox from '../../components/ChartBox/ChartBox';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaSearch } from 'react-icons/fa';
 import userApi from '../../services/userApi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
@@ -14,6 +14,22 @@ export default function StockChartPage() {
   const [stockInfo, setStockInfo] = useState({});
   const [stockLikeList, setStockLikeList] = useState([]);
   const { stock_id } = useParams();
+  const navigate = useNavigate();
+  const resultRef = useRef(null);
+
+  // SearchResult 바깥을 클릭했을 때 닫히도록 설정
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (resultRef.current && !resultRef.current.contains(event.target)) {
+        setSearchResult([]); // searchResult 초기화
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (stock_id) {
@@ -113,11 +129,10 @@ export default function StockChartPage() {
             }}
           />
         </div>
-
-        <div>
+        <div className="relative">
           <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
             <input
-              className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-gray-700"
+              className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-black"
               maxLength={16}
               placeholder="원하는 종목을 검색하세요"
               onChange={(e) => setSearch(e.target.value)}
@@ -127,21 +142,35 @@ export default function StockChartPage() {
                 }
               }}
             />
-            <FaSearch className="text-gray-500 ml-3" />
+            <FaSearch
+              className="text-gray-500 ml-3"
+              onClick={() => {
+                searchStock();
+              }}
+            />
           </div>
 
-          <ul>
-            {searchResult?.map((el, i) => (
-              <li
-                key={i}
-                onClick={() => {
-                  setStockInfo(el);
-                }}
-              >
-                <div>{el.stock_name}</div>
-                <div>{el.stock_code}</div>
-              </li>
-            ))}
+          <ul
+            ref={resultRef}
+            className={`absolute z-10 left-0 w-full bg-white rounded-md shadow-md max-h-60 overflow-y-auto ${
+              searchResult?.length > 0 ? 'border border-gray-200' : ''
+            }`}
+          >
+            {searchResult?.length > 0
+              ? searchResult.map((el, i) => (
+                  <li
+                    className="cursor-pointer px-4 py-2 hover:bg-blue-50 border-b last:border-none flex justify-between"
+                    key={i}
+                    onClick={() => {
+                      navigate(`/stock/${el.id}`);
+                      setSearchResult([]); // searchResult 초기화
+                    }}
+                  >
+                    <div className="font-medium text-black">{el.stock_name}</div>
+                    <div className="text-sm text-blue-100">{el.code}</div>
+                  </li>
+                ))
+              : null}
           </ul>
         </div>
       </div>
