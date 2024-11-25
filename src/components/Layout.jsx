@@ -39,7 +39,7 @@ export default function Layout() {
   }, [selectedSidebar]);
 
   return (
-    <div className="flex h-screen font-black overflow-x-hidden">
+    <div className="flex font-black overflow-x-hidden  scrollbar-hide items-stretch h-auto">
       {/* Main Content */}
       <div className="flex flex-col flex-grow w-3/4">
         {/* Header/Navbar */}
@@ -57,9 +57,9 @@ export default function Layout() {
       <div
         className={`${
           isSidebarOpen ? 'w-1/4' : 'w-20'
-        } transition-all duration-300 bg-gray-100 shadow-md h-full flex justify-center`}
+        } transition-all duration-300 bg-gray-100 shadow-md flex justify-center`}
       >
-        {isSidebarOpen ? <div className="flex-grow overflow-y-auto">{renderSidebar()}</div> : null}
+        {isSidebarOpen ? <div className="flex-grow  scrollbar-hide overflow-y-auto">{renderSidebar()}</div> : null}
         <div className="min-w-20">
           <div
             onClick={() => {
