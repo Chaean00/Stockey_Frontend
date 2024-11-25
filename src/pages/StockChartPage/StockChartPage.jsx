@@ -5,7 +5,7 @@ import userApi from '../../services/userApi';
 import ChartBox from '../../components/ChartBox/ChartBox';
 import SearchInput from '../../components/SearchInput';
 import LikeButton from '../../components/LikeButton';
-import { removeLike, addLike } from '../../utils/likeFunction';
+import { removeLike, addLike, findInitialLikeStock } from '../../utils/likeFunction';
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
@@ -28,7 +28,7 @@ export default function StockChartPage() {
       bringStockChart();
     }
     if (stockInfo.stock_id) {
-      findInitialLikeStock();
+      handleInitialStockLikeList();
     }
   }, [stockInfo]);
 
@@ -66,15 +66,8 @@ export default function StockChartPage() {
     }
   };
 
-  const findInitialLikeStock = async () => {
-    try {
-      const response = await userApi.getStockLike();
-      const isStockLiked = response.data.userStocks.some((like) => like.stock_id === stockInfo.stock_id);
-      setStockLikeList(response.data.userStocks);
-      setIsLiked(isStockLiked);
-    } catch (error) {
-      console.error('즐겨찾기 불러오기 실패:', error.response?.data?.message || error.message);
-    }
+  const handleInitialStockLikeList = () => {
+    findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
   };
 
   const handleAddLike = () => {
