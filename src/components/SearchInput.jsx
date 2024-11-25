@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
+import { FaSearch } from 'react-icons/fa';
 
-export default function SearchInput({ search, setSearch, searchResult, searchStock, navigate }) {
+export default function SearchInput({ search, setSearch, searchResult, setSearchResult, searchStock, navigate }) {
   const resultRef = useRef(null);
 
   useEffect(() => {

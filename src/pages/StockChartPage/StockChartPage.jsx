@@ -5,6 +5,7 @@ import userApi from '../../services/userApi';
 import ChartBox from '../../components/ChartBox/ChartBox';
 import SearchInput from '../../components/SearchInput';
 import LikeButton from '../../components/LikeButton';
+import { removeLike, addLike } from '../../utils/likeFunction';
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
@@ -76,24 +77,14 @@ export default function StockChartPage() {
     }
   };
 
-  const removeLike = async () => {
-    try {
-      await userApi.removeStockLike({ stock_id: stockInfo.stock_id });
-      setIsLiked(false);
-      setStockLikeList((prevList) => prevList.filter((like) => like.stock_id !== stockInfo.stock_id));
-    } catch (error) {
-      console.error('즐겨찾기 삭제 실패:', error.response?.data?.message || error.message);
-    }
+  const handleAddLike = () => {
+    addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList);
+    setIsLiked(true); // 상태 직접 관리
   };
 
-  const addLike = async () => {
-    try {
-      await userApi.addStockLike({ stock_id: stockInfo.stock_id, alarm_status: false });
-      setIsLiked(true);
-      setStockLikeList((prevList) => [...prevList, { stock_id: stockInfo.stock_id, stock_name: stockInfo.stock_name }]);
-    } catch (error) {
-      console.error('즐겨찾기 추가 실패:', error.response?.data?.message || error.message);
-    }
+  const handleRemoveLike = () => {
+    removeLike(stockInfo.stock_id, setStockLikeList);
+    setIsLiked(false); // 상태 직접 관리
   };
 
   return (
@@ -101,12 +92,13 @@ export default function StockChartPage() {
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-3">
           <div className="font-extrabold text-4xl">{stockInfo.stock_name}</div>
-          <LikeButton isLiked={isLiked} addLike={addLike} removeLike={removeLike} />
+          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
         <SearchInput
           search={search}
           setSearch={setSearch}
           searchResult={searchResult}
+          setSearchResult={setSearchResult}
           searchStock={searchStock}
           navigate={navigate}
         />
