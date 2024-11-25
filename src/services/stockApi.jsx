@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: "/api",
+  withCredentials: true, // 필요 시 인증 정보를 포함
 });
 
 const stockApi = {
