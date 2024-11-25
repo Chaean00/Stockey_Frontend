@@ -10,24 +10,19 @@ import {
   CurrentCoordinate,
   BarSeries,
   CandlestickSeries,
-  ElderRaySeries,
   LineSeries,
   MovingAverageTooltip,
   OHLCTooltip,
-  SingleValueTooltip,
   lastVisibleItemBasedZoomAnchor,
   XAxis,
   YAxis,
   CrossHairCursor,
   EdgeIndicator,
-  MouseCoordinateX,
   MouseCoordinateY,
   ZoomButtons,
-  withDeviceRatio,
-  withSize,
 } from 'react-financial-charts';
 
-const CandleChartSimple = (props) => {
+const CandleChartSimple = ({ chartData, period }) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
   const height = 500;
   const width = 900;
@@ -49,9 +44,6 @@ const CandleChartSimple = (props) => {
     })
     .accessor((d) => d.ema26);
 
-  const elder = elderRay();
-
-  const calculatedData = elder(ema26(ema12(props.chartData)));
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartData);
   const pricesDisplayFormat = format('.2f');
   const max = xAccessor(data[data.length - 1]);
@@ -61,15 +53,9 @@ const CandleChartSimple = (props) => {
   const gridHeight = height - margin.top - margin.bottom;
 
   const elderRayHeight = 100;
-  const elderRayOrigin = (_, h) => [0, h - elderRayHeight];
   const barChartHeight = gridHeight / 4;
   const barChartOrigin = (_, h) => [0, h - barChartHeight - elderRayHeight];
   const chartHeight = gridHeight - elderRayHeight;
-  const yExtents = (data) => {
-    return [data.high, data.low];
-  };
-  const dateTimeFormat = '%d %b';
-  const timeDisplayFormat = timeFormat(dateTimeFormat);
 
   const barChartExtents = (data) => {
     return data.volume;
@@ -151,7 +137,6 @@ const CandleChartSimple = (props) => {
             },
           ]}
         />
-
         <ZoomButtons />
         <OHLCTooltip origin={[8, 16]} />
       </Chart>

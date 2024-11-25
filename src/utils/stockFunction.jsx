@@ -24,9 +24,10 @@ const searchStock = async (search, updateSearchResult) => {
   }
 };
 
-const bringStockChart = async (stock_code, updateChart) => {
+const bringStockChart = async (stock_code, updateChart, stock_period) => {
+  console.log(stock_code);
   try {
-    const response = await stockApi.getStockChart(stock_code);
+    const response = await stockApi.getStockChart(stock_code, stock_period);
     updateChart(response.data);
   } catch (error) {
     console.error('차트 조회 실패:', error.response?.data?.message || error.message);

@@ -24,7 +24,7 @@ export default function StockChartPage() {
 
   useEffect(() => {
     if (stockInfo.stock_code) {
-      bringStockChart(stockInfo.stock_code, setChartData);
+      bringStockChart(stockInfo.stock_code, setChartData, 'D');
     }
     if (stockInfo.stock_id) {
       findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
@@ -35,8 +35,8 @@ export default function StockChartPage() {
     searchStock(search, setSearchResult);
   };
 
-  const handleAddLike = () => {
-    addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList);
+  const handleAddLike = (chart_period) => {
+    addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList, chart_period);
     setIsLiked(true); // 상태 직접 관리
   };
 
@@ -62,7 +62,13 @@ export default function StockChartPage() {
         />
       </div>
       <div>
-        <ChartBox chartData={chartData} stockInfo={stockInfo} stockLikeList={stockLikeList} />
+        <ChartBox
+          chartData={chartData}
+          setChartData={setChartData}
+          stockInfo={stockInfo}
+          stockLikeList={stockLikeList}
+          bringStockChart={bringStockChart}
+        />
       </div>
     </div>
   );
