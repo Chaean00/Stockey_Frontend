@@ -39,7 +39,7 @@ export default function StockChartPage() {
 
   useEffect(() => {
     if (stockInfo.stock_code) {
-      bringStockChart();
+      bringStockChart('D');
     }
     if (stockInfo.stock_id) {
       findInitialLikeStock();
@@ -70,13 +70,12 @@ export default function StockChartPage() {
     }
   };
 
-  const bringStockChart = async () => {
+  const bringStockChart = async (chart_period) => {
     try {
-      const response = await stockApi.getStockChart(stockInfo.stock_code);
+      const response = await stockApi.getStockChart(stockInfo.stock_code, chart_period);
       setChartData(response.data);
     } catch (error) {
       console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-      alert('차트 조회에 실패했습니다...');
     }
   };
 
@@ -177,7 +176,12 @@ export default function StockChartPage() {
       </div>
       {/** main */}
       <div>
-        <ChartBox chartData={chartData} stockInfo={stockInfo} stockLikeList={stockLikeList} />
+        <ChartBox
+          chartData={chartData}
+          stockInfo={stockInfo}
+          stockLikeList={stockLikeList}
+          bringStockChart={bringStockChart}
+        />
       </div>
     </div>
   );
