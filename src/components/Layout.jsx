@@ -46,7 +46,8 @@ export default function Layout() {
         <Header className="fixed top-0 left-0 right-0 z-10" />
 
         {/* Page Content */}
-        <main className="flex-grow bg-white p-20 pb-16 overflow-hidden">
+        {/* 채팅 페이지 패딩값 조정 */}
+        <main className={`flex-grow bg-white pb-16 overflow-hidden ${ location.pathname.startsWith('/chat') ? 'p-4' : 'p-20' }`}>
           <Outlet />
         </main>
 

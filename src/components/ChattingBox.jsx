@@ -174,11 +174,11 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
   
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white rounded-lg border border-black-500">
-      <div className="p-4">
-        <div className="flex justify-end mb-4">
+    <div className="w-full max-w-4xl mx-auto bg-white rounded-lg border border-black-500">
+      <div className="p-1">
+        <div className="flex justify-end mb-2 p-3">
           <div className="relative">
-            <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
               최신순
               <ChevronDown className="w-4 h-4" />
             </button>
@@ -192,16 +192,24 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
           {/* 채팅 메시지 목록 */}
           {messages.map((comment) => (
             <div key={comment.id} className="flex gap-4 border-b border-black-500 pb-4">
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-semibold">
-                  {/* {comment.nickname} */}
-                </div>
-              </div>
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-medium">{comment.nickname}</span>
-                  <span className="text-sm text-gray-500">{formatDate(comment.created_at)}</span>
-                  <div className="flex items-center gap-1 ml-auto">
+                <div className="flex items-center gap-3 mb-1">
+
+                  {/* 원 아이콘 */}
+                  <div className="flex-shrink-0">
+                    <div className="w-10 h-10 bg-gray-200 rounded-full">
+                      {/* {comment.nickname} */}
+                    </div>
+                  </div>
+
+                  {/* 닉네임 */}
+                  <span>{comment.nickname}</span>
+
+                  {/* 메시지 시간 */}
+                  <span className="text-sm text-gray-500 font-medium pl-3">{formatDate(comment.created_at)}</span>
+
+                  {/* 좋아요 하트 및 개수 */}
+                  <div className="flex items-center gap-1">
                     <div className='cursor-pointer hover:text-red-500' onClick={(e) => {
                       handleLike(e, comment);
                     }}>
@@ -211,10 +219,11 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
                       <Heart className="w-4 h-4 text-gray-500 hover:text-red-500 hover:scale-110 transition-transform" />
                     )}
                     </div>
-                    <span className="text-sm text-gray-500">{comment.totalLikes}</span>
+                    <span className="text-sm text-gray-500 font-medium">{comment.totalLikes}</span>
                   </div>
                 </div>
-                <p className="text-gray-700">{comment.message}</p>
+                {/* 메시지 내용 */}
+                <p className="text-gray-700 font-medium mt-3">{comment.message}</p>
               </div>
             </div>
           ))}

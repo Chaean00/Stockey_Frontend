@@ -111,7 +111,9 @@ export default function ChattingPage() {
           );
         })}
       </div>
-      <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
+        <div className="">
+          <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
+        </div>
     </div>
   );
 }

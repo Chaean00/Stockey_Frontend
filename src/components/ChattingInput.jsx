@@ -54,30 +54,38 @@ export default function MessageInput({ roomId }) {
     }
   };
 
+  // 엔터 누를 때 바로 채팅이 보내지도록 handler 설정
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(e);
+    }
+  };
+
   return (
     //  메시지 입력란 (화면 하단 고정)
-    <div className="flex mx-3 mb-3 px-2 py-2 rounded-full bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <form onSubmit={sendMessage} className="flex justify-between w-full">
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your message"
-          className="focus:outline-none w-10/12"
-        />
-        <button type="submit" className="flex items-center justify-center mx-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            className="size-6 text-blue-600 hover:text-blue-900"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
-          </svg>
-        </button>
+    <div className="flex mx-3 mb-3 px-2 py-2 bg-gray-100 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg">
+      <form onSubmit={sendMessage} className="w-full">
+        <div className="flex flex-col h-full w-full">
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyPress}
+            placeholder="의견을 자유롭게 남겨주세요."
+            className="focus:outline-none w-full bg-gray-100 font-medium resize-none h-8 pt-2 pl-2"
+            rows={3}
+          />
+          <div className="flex justify-end mt-2 p-1">
+            <button 
+              type="submit" 
+              className="font-medium text-white bg-blue-200 hover:bg-blue-100 px-3 py-1 rounded-lg"
+            >
+              보내기
+            </button>
+          </div>
+        </div>
       </form>
     </div>
+    
   );
 }
