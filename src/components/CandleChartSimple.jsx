@@ -27,7 +27,7 @@ import {
   withSize,
 } from 'react-financial-charts';
 
-const CandleChartSimple = (props) => {
+const CandleChartSimple = ({ chartData, period }) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
   const height = 500;
   const width = 900;
@@ -50,9 +50,50 @@ const CandleChartSimple = (props) => {
     .accessor((d) => d.ema26);
 
   const elder = elderRay();
+  
+  // 주봉, 월봉 데이터를 처리하는 로직
+  const aggregateData = (data, period) => {
+    if (period === 'W') {
+      // 주봉 데이터 처리 (각 주의 첫 번째 날짜로 집계)
+      return data.reduce((acc, curr) => {
+        const weekStart = new Date(curr.date);
+        weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // 각 주의 첫 번째 날
+        const weekKey = weekStart.toISOString().split('T')[0]; // 주 단위로 그룹화
+        if (!acc[weekKey]) {
+          acc[weekKey] = { ...curr, date: weekStart }; // 새로운 주 시작 시 데이터 초기화
+        } else {
+          acc[weekKey].high = Math.max(acc[weekKey].high, curr.high);
+          acc[weekKey].low = Math.min(acc[weekKey].low, curr.low);
+          acc[weekKey].close = curr.close; // 마지막 종가를 기록
+          acc[weekKey].open = acc[weekKey].open || curr.open;
+          acc[weekKey].volume += curr.volume; // 주간 거래량 합산
+        }
+        return acc;
+      }, []);
+    }
+    if (period === 'M') {
+      // 월봉 데이터 처리 (각 월의 첫 번째 날짜로 집계)
+      return data.reduce((acc, curr) => {
+        const monthStart = new Date(curr.date);
+        monthStart.setDate(1); // 각 월의 첫 번째 날
+        const monthKey = monthStart.toISOString().split('T')[0]; // 월 단위로 그룹화
+        if (!acc[monthKey]) {
+          acc[monthKey] = { ...curr, date: monthStart }; // 새로운 월 시작 시 데이터 초기화
+        } else {
+          acc[monthKey].high = Math.max(acc[monthKey].high, curr.high);
+          acc[monthKey].low = Math.min(acc[monthKey].low, curr.low);
+          acc[monthKey].close = curr.close; // 마지막 종가를 기록
+          acc[monthKey].open = acc[monthKey].open || curr.open;
+          acc[monthKey].volume += curr.volume; // 월간 거래량 합산
+        }
+        return acc;
+      }, []);
+    }
+    return data; // 기본적으로 일봉
+  };
 
-  const calculatedData = elder(ema26(ema12(props.chartData)));
-  const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartData);
+  const aggregatedData = aggregateData(chartData, period);
+  const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(aggregatedData);
   const pricesDisplayFormat = format('.2f');
   const max = xAccessor(data[data.length - 1]);
   const min = xAccessor(data[Math.max(0, data.length - 100)]);
@@ -151,7 +192,6 @@ const CandleChartSimple = (props) => {
             },
           ]}
         />
-
         <ZoomButtons />
         <OHLCTooltip origin={[8, 16]} />
       </Chart>

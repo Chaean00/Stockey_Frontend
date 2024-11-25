@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Tabs, Tab } from 'react-bootstrap'
 import CandleChart from './CandleChart';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
@@ -8,6 +10,13 @@ export default function ChartBox(props) {
   const chartContainerRef = useRef(null); // CandleChart 상위 div 참조
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
+  const [period, setPeriod] = useState('D');
+  const navigate = useNavigate();
+
+  const moveToStock = (chart_period) => {
+    setPeriod(chart_period)
+    navigate(`/stock/${props.stock_id}/${chart_period}`)
+  }
 
   // 전체 컨테이너 크기 측정
   useEffect(() => {
@@ -57,11 +66,34 @@ export default function ChartBox(props) {
           ref={chartContainerRef} // CandleChart 상위 div 참조
           className={`border rounded-xl p-4 ${isCompact ? 'w-full' : 'w-3/4'}`}
         >
-          <CandleChart
-            chartData={props.chartData}
-            width={chartDimensions.width || 0} // 상위 div의 너비 전달
-            height={chartHeight || 0} // 고정 비율로 높이 전달
-          />
+          <Tabs
+            id="period-tabs"
+            activeKey={period}
+            onSelect={moveToStock}
+            className="mb-3"
+          >
+            <Tab eventKey="D" title="일봉">
+              <CandleChart
+                chartData={props.chartData}
+                width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                height={chartHeight || 0} // 고정 비율로 높이 전달
+              />
+            </Tab>
+            <Tab eventKey="W" title="주봉">
+              <CandleChart
+                chartData={props.chartData}
+                width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                height={chartHeight || 0} // 고정 비율로 높이 전달
+              />
+            </Tab>
+            <Tab eventKey="M" title="월봉">
+              <CandleChart
+                chartData={props.chartData}
+                width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                height={chartHeight || 0} // 고정 비율로 높이 전달
+              />
+            </Tab>
+          </Tabs>
         </div>
 
         {/** data box */}
