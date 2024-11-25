@@ -6,6 +6,7 @@ import ChartBox from '../../components/ChartBox/ChartBox';
 import SearchInput from '../../components/SearchInput';
 import LikeButton from '../../components/LikeButton';
 import { removeLike, addLike, findInitialLikeStock } from '../../utils/likeFunction';
+import { bringStockChart, bringStockInfo, searchStock } from '../../utils/stockFunction';
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
@@ -19,55 +20,21 @@ export default function StockChartPage() {
 
   useEffect(() => {
     if (stock_id) {
-      bringStockInfo(stock_id);
+      bringStockInfo(stock_id, setStockInfo);
     }
   }, [stock_id]);
 
   useEffect(() => {
     if (stockInfo.stock_code) {
-      bringStockChart();
+      bringStockChart(stockInfo.stock_code, setChartData);
     }
     if (stockInfo.stock_id) {
-      handleInitialStockLikeList();
+      findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
     }
   }, [stockInfo]);
 
-  const bringStockInfo = async (stock_id) => {
-    try {
-      const response = await stockApi.getStockById(stock_id);
-      setStockInfo({
-        stock_id: response.data.id,
-        stock_name: response.data.stock_name,
-        stock_code: response.data.code,
-      });
-    } catch (error) {
-      console.error('종목 조회 실패:', error.response?.data?.message || error.message);
-      alert('종목 조회에 실패했습니다...');
-    }
-  };
-
-  const searchStock = async () => {
-    try {
-      const response = await stockApi.searchStock(search);
-      setSearchResult(response.data);
-    } catch (error) {
-      console.error('종목 검색 실패:', error.response?.data?.message || error.message);
-      alert('종목 검색에 실패했습니다...');
-    }
-  };
-
-  const bringStockChart = async () => {
-    try {
-      const response = await stockApi.getStockChart(stockInfo.stock_code);
-      setChartData(response.data);
-    } catch (error) {
-      console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-      alert('차트 조회에 실패했습니다...');
-    }
-  };
-
-  const handleInitialStockLikeList = () => {
-    findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
+  const handleSearch = () => {
+    searchStock(search, setSearchResult);
   };
 
   const handleAddLike = () => {
@@ -92,7 +59,7 @@ export default function StockChartPage() {
           setSearch={setSearch}
           searchResult={searchResult}
           setSearchResult={setSearchResult}
-          searchStock={searchStock}
+          searchStock={handleSearch}
           navigate={navigate}
         />
       </div>
