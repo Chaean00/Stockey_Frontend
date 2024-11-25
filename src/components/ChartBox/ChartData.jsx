@@ -27,6 +27,17 @@ export default function ChartData(props) {
     return [[key, value]]; // 나머지 값은 그대로 반환
   });
 
+  const formatNumber = (key, value) => {
+    if (['open', 'high', 'low', 'close', 'volume', 'ema12', 'ema26'].includes(key)) {
+      return Number(value) % 1 === 0
+        ? Number(value).toLocaleString()
+        : Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } else if (['bullPower', 'bearPower'].includes(key)) {
+      return Number(value).toFixed(2);
+    }
+    return value;
+  };
+
   return (
     <div>
       {[...Array(Math.ceil(stockInfoEntries.length / 5))].map((_, tableIndex) => {
@@ -48,7 +59,7 @@ export default function ChartData(props) {
                       </td>
                       <td className="pl-10 py-2">
                         <Typography variant="small" className="font-semibold">
-                          {value}
+                          {formatNumber(key, value)}
                         </Typography>
                       </td>
                     </tr>

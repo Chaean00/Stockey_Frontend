@@ -1,15 +1,19 @@
 import axios from 'axios';
 
+const axiosInstance = axios.create({
+  baseURL: "/api",
+  withCredentials: true, // 필요 시 인증 정보를 포함
+});
 
 const keywordApi = {
   //특정 종목에 대한 키워드 랭킹 반환
-  getKeywordRankAboutStock: (stock_id) => axios.get(`/api/keywords/stocks/${stock_id}`),
+  getKeywordRankAboutStock: (stock_id) => axiosInstance.get(`/keywords/stocks/${stock_id}`),
 
-  getStockRankAboutKeyword: (keyword_id) => axios.get(`/api/keywords/${keyword_id}/stock-rankings`),
+  getStockRankAboutKeyword: (keyword_id) => axiosInstance.get(`/keywords/${keyword_id}/stock-rankings`),
 
-  getKeywordRank: () => axios.get(`/api/keywords/total-rankings`),
+  getKeywordRank: () => axiosInstance.get(`/keywords/total-rankings`),
 
-  searchKeywordByWord: (word) => axios.get(`/api/keywords/${word}`)
+  searchKeywordByWord: (word) => axiosInstance.get(`/keywords/${word}`)
 };
 
 export default keywordApi;
