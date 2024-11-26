@@ -27,10 +27,8 @@ import {
   withSize,
 } from 'react-financial-charts';
 
-const CandleChartSimple = ({ chartData, period }) => {
+const CandleChartSimple = ({ chartData, period, height, width }) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
-  const height = 500;
-  const width = 900;
   const margin = { left: 0, right: 48, top: 0, bottom: 24 };
 
   const ema12 = ema()
