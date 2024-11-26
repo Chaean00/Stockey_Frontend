@@ -22,7 +22,7 @@ export default withMT({
     },
     extend: {
       fontFamily: {
-        sans: ['Arial', 'ui-sans-serif', 'system-ui'],
+        sans: ['Noto Sans KR', 'Arial', 'sans-serif'],
       },
     },
   },

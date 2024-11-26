@@ -81,9 +81,9 @@ export default function StockBox() {
           searchStock={handleSearch} //검색 시 실행하는 함수
         />
       </div>
-      <div className="grid-cols-2 flex">
+      <div className="grid-cols-2 flex gap-2">
         {/** list */}
-        <div className="p-5">
+        <div className="p-5 border rounded-xl">
           <ul className="flex flex-col gap-1">
             {keywordRank?.slice(0, 10).map((el, i) => {
               return (
