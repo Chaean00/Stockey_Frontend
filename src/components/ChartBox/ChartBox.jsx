@@ -1,12 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple'
 import ChartData from './ChartData';
 import UserLike from './UserLike';
 
-export default function ChartBox(props) {
+export default function ChartBox({ chartData, setChartData, stockInfo, stockLikeList, bringStockChart }) {
   const containerRef = useRef(null); // 전체 컨테이너 참조
   const chartContainerRef = useRef(null); // CandleChart 상위 div 참조
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
@@ -14,7 +13,7 @@ export default function ChartBox(props) {
   const [period, setPeriod] = useState('D');
 
   useEffect(() => {
-    props.bringStockChart(period);
+    bringStockChart(stockInfo.stock_code, setChartData, period);
   }, [period]);
 
   const moveToStock = (chart_period) => {
@@ -53,7 +52,7 @@ export default function ChartBox(props) {
     return () => observer.disconnect();
   }, []);
 
-  const currData = props.chartData[props.chartData.length - 1];
+  const currData = chartData[chartData.length - 1];
 
   // 정렬을 변경하는 임계값
   const isCompact = containerDimensions.width / containerDimensions.height <= 5 / 6;
@@ -72,14 +71,14 @@ export default function ChartBox(props) {
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">
               <CandleChart
-                chartData={props.chartData}
+                chartData={chartData}
                 width={chartDimensions.width || 0} // 상위 div의 너비 전달
                 height={chartHeight || 0} // 고정 비율로 높이 전달
               />
             </Tab>
             <Tab eventKey="W" title="주봉">
               <CandleChart
-                chartData={props.chartData}
+                chartData={chartData}
                 width={chartDimensions.width || 0} // 상위 div의 너비 전달
                 height={chartHeight || 0} // 고정 비율로 높이 전달
               />
@@ -97,7 +96,7 @@ export default function ChartBox(props) {
         {/** data box */}
         <div className={`${isCompact ? 'w-full' : 'w-1/4'}`}>
           <ChartData stockInfo={currData} />
-          <UserLike stockLikeList={props.stockLikeList} />
+          <UserLike stockLikeList={stockLikeList} />
         </div>
       </div>
     </div>

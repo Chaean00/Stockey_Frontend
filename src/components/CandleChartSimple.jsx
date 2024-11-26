@@ -10,21 +10,16 @@ import {
   CurrentCoordinate,
   BarSeries,
   CandlestickSeries,
-  ElderRaySeries,
   LineSeries,
   MovingAverageTooltip,
   OHLCTooltip,
-  SingleValueTooltip,
   lastVisibleItemBasedZoomAnchor,
   XAxis,
   YAxis,
   CrossHairCursor,
   EdgeIndicator,
-  MouseCoordinateX,
   MouseCoordinateY,
   ZoomButtons,
-  withDeviceRatio,
-  withSize,
 } from 'react-financial-charts';
 
 const CandleChartSimple = ({ chartData, period, height, width }) => {
@@ -48,7 +43,7 @@ const CandleChartSimple = ({ chartData, period, height, width }) => {
     .accessor((d) => d.ema26);
 
   const elder = elderRay();
-  
+
   // 주봉, 월봉 데이터를 처리하는 로직
   const aggregateData = (data, period) => {
     if (period === 'W') {
@@ -100,15 +95,9 @@ const CandleChartSimple = ({ chartData, period, height, width }) => {
   const gridHeight = height - margin.top - margin.bottom;
 
   const elderRayHeight = 100;
-  const elderRayOrigin = (_, h) => [0, h - elderRayHeight];
   const barChartHeight = gridHeight / 4;
   const barChartOrigin = (_, h) => [0, h - barChartHeight - elderRayHeight];
   const chartHeight = gridHeight - elderRayHeight;
-  const yExtents = (data) => {
-    return [data.high, data.low];
-  };
-  const dateTimeFormat = '%d %b';
-  const timeDisplayFormat = timeFormat(dateTimeFormat);
 
   const barChartExtents = (data) => {
     return data.volume;
