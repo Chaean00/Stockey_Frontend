@@ -4,7 +4,7 @@ import StockBox from './StockBox';
 
 export default function LandingPage() {
   return (
-    <div className="w-full">
+    <div className="max-w-fit">
       {/**키워드에 대한 랭킹 및 차트 */}
       <div>
         <KeywordBox />
