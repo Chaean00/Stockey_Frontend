@@ -39,7 +39,7 @@ export default function Layout() {
   }, [selectedSidebar]);
 
   return (
-    <div className="flex font-black overflow-x-hidden min-h-screen items-stretch h-auto">
+    <div className="font-sans flex font-black_default overflow-x-hidden min-h-screen items-stretch h-auto">
       {/* Main Content */}
       <div className="flex flex-col flex-grow w-3/4">
         {/* Header/Navbar */}

@@ -28,12 +28,15 @@ import {
 } from 'react-financial-charts';
 
 const CandleChart = (props) => {
-
   if (!props.chartData || props.chartData.length === 0) {
     return <div>데이터를 불러오는 중입니다...</div>;
   }
 
   //const { width, height } = props;
+  if (!props.chartData || props.chartData.length === 0) {
+    return <div>데이터를 불러오는 중입니다...</div>;
+  }
+
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
   const height = props.height;
   const width = props.width;
@@ -128,9 +131,15 @@ const CandleChart = (props) => {
           wickStroke={(d) => (d.close > d.open ? '#3182F6' : '#FF626F')} // 위아래 꼬리선 색상
         />
         <LineSeries yAccessor={(d) => (d.ema26 !== null ? ema26.accessor()(d) : null)} strokeStyle={ema26.stroke()} />
-        <CurrentCoordinate yAccessor={(d) => (d.ema26 !== null ? ema26.accessor()(d) : null)} fillStyle={ema26.stroke()} />
+        <CurrentCoordinate
+          yAccessor={(d) => (d.ema26 !== null ? ema26.accessor()(d) : null)}
+          fillStyle={ema26.stroke()}
+        />
         <LineSeries yAccessor={(d) => (d.ema12 !== null ? ema12.accessor()(d) : null)} strokeStyle={ema12.stroke()} />
-        <CurrentCoordinate yAccessor={(d) => (d.ema12 !== null ? ema12.accessor()(d) : null)} fillStyle={ema12.stroke()} />
+        <CurrentCoordinate
+          yAccessor={(d) => (d.ema12 !== null ? ema12.accessor()(d) : null)}
+          fillStyle={ema12.stroke()}
+        />
         <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
         <EdgeIndicator
           itemType="last"

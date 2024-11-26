@@ -13,7 +13,7 @@ export default withMT({
         300: '#DDDDDD', //stroke
         400: '#A1A4AF', //sidebar gray text
       },
-      black: '#313544',
+      black_default: '#313544',
       red: { 100: '#FF7A73', 200: '#F04452' },
       blue: {
         100: '#88AAFD',
@@ -22,7 +22,7 @@ export default withMT({
     },
     extend: {
       fontFamily: {
-        sans: ['Arial', 'ui-sans-serif', 'system-ui'],
+        sans: ['Noto Sans KR', 'Arial', 'sans-serif'],
       },
     },
   },
