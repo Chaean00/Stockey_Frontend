@@ -112,32 +112,28 @@ export default function StockBox() {
       </div>
 
       {/** 그리드 레이아웃 */}
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-5 gap-4 border rounded-xl">
         {/** 리스트 (1/4 차지) */}
-        <div className="col-span-1 border rounded-xl p-5 flex">
-          <table className="w-full">
-            <tbody>
-              {keywordRank?.slice(0, 10).map((el, i) => (
-                <tr key={i} className="text-md font-extrabold text-gray-700 hover:bg-gray-100 rounded-lg">
-                  <td className="text-blue-200 py-2 px-3 w-1/3">{i + 1}</td>
-                  <td className="py-2 px-3 w-2/3">{el.keyword}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="col-span-1 p-4 flex flex-col justify-center gap-2">
+          {keywordRank?.slice(0, 10).map((el, i) => (
+            <div key={i} className="flex justify-between hover:bg-gray-100 rounded-xl pl-6">
+              <div className="text-blue-200 py-2 px-3 w-1/3 font-semibold text-lg">{i + 1}</div>
+              <div className="py-2 px-3 w-2/3 font-semibold">{el.keyword}</div>
+            </div>
+          ))}
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div ref={chartContainerRef} className="col-span-4 border rounded-xl p-4">
+        <div ref={chartContainerRef} className="col-span-4 p-4">
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">
-              <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={500} />
+              <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={450} />
             </Tab>
             <Tab eventKey="W" title="주봉">
-              <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={500} />
+              <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={450} />
             </Tab>
             <Tab eventKey="M" title="월봉">
-              <CandleChartSimple chartData={chartData} width={chartSize.width * 0.95} height={500} />
+              <CandleChartSimple chartData={chartData} width={chartSize.width * 0.95} height={450} />
             </Tab>
           </Tabs>
         </div>
