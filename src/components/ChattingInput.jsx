@@ -9,7 +9,7 @@ import chatApi from '../services/chatApi';
 
 export default function MessageInput({ roomId }) {
   const [message, setMessage] = useState('');
-//   const [username] = useState(localStorage.getItem('username'));
+  //   const [username] = useState(localStorage.getItem('username'));
 
   //메시지 보내기
   const sendMessage = async (e) => {
@@ -30,11 +30,11 @@ export default function MessageInput({ roomId }) {
       try {
         // DB에 채팅 메시지 저장
         const response = await chatApi.postMessage(roomId, newComment);
-        const message_id = response.data.message_id
-        
+        const message_id = response.data.message_id;
+
         // 소켓으로 전송
         socket.emit('sendTotalMessage', {
-        //   username: username,
+          //   username: username,
           roomId: roomId,
           message_id: message_id,
           message: newComment.message,
@@ -56,7 +56,7 @@ export default function MessageInput({ roomId }) {
 
   return (
     //  메시지 입력란 (화면 하단 고정)
-    <div className="flex mx-3 mb-3 px-2 py-2 rounded-full bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <div className="flex mx-3 mb-3 px-2 py-2 rounded-full bg-white text-black_default placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
       <form onSubmit={sendMessage} className="flex justify-between w-full">
         <input
           type="text"

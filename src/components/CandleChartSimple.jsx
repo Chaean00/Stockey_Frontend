@@ -103,7 +103,7 @@ const CandleChartSimple = ({ chartData, period, height, width }) => {
       </Chart>
       <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
         <XAxis showGridLines showTickLabel={false} />
-        <YAxis showGridLines tickFormat={pricesDisplayFormat} fontSize={15}/>
+        <YAxis showGridLines tickFormat={pricesDisplayFormat} fontSize={15} />
         <CandlestickSeries
           fill={(d) => (d.close > d.open ? '#3182F6' : '#FF626F')} // 양봉: 초록, 음봉: 빨강
           wickStroke={(d) => (d.close > d.open ? '#3182F6' : '#FF626F')} // 위아래 꼬리선 색상

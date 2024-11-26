@@ -23,7 +23,7 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
     <div className="relative">
       <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
         <input
-          className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-black"
+          className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-black_default"
           maxLength={16}
           placeholder="원하는 종목을 검색하세요"
           onChange={(e) => setSearch(e.target.value)}
@@ -56,7 +56,7 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
                   setSearchResult([]); // searchResult 초기화
                 }}
               >
-                <div className="font-medium text-black">{el.stock_name}</div>
+                <div className="font-medium text-black_default">{el.stock_name}</div>
                 <div className="text-sm text-blue-100">{el.code}</div>
               </li>
             ))

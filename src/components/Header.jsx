@@ -20,7 +20,7 @@ export default function Header() {
   };
 
   return (
-    <div className="flex text-black justify-between p-3">
+    <div className="flex text-black_default justify-between p-3">
       <div
         className="cursor-pointer"
         onClick={() => {

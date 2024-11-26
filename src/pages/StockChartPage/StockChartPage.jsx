@@ -54,7 +54,7 @@ export default function StockChartPage() {
   };
 
   return (
-    <div className="text-black flex-grow bg-white">
+    <div className="text-black_default flex-grow bg-white">
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-3">
           <div className="font-extrabold text-4xl">{stockInfo.stock_name}</div>
