@@ -85,7 +85,7 @@ export default function ChartBox({ chartData, setChartData, stockInfo, stockLike
             </Tab>
             <Tab eventKey="M" title="월봉">
               <CandleChartSimple
-                chartData={props.chartData}
+                chartData={chartData}
                 width={chartDimensions.width || 0} // 상위 div의 너비 전달
                 height={chartHeight || 0} // 고정 비율로 높이 전달
               />
