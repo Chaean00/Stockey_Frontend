@@ -5,6 +5,7 @@ import { Outlet, useLocation, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import SidebarStock from './SidebarStock';
 import SidebarKeyword from './SidebarKeyword';
+import SidebarChat from './SidebarChat';
 import { RiKey2Fill } from 'react-icons/ri';
 import { GoHomeFill } from 'react-icons/go';
 import { FaChartLine } from 'react-icons/fa6';
@@ -22,6 +23,8 @@ export default function Layout() {
       return <SidebarStock stock_id={stock_id} />;
     } else if (selectedSidebar == 'keyword') {
       return <SidebarKeyword keyword_id={keyword_id} />;
+    } else if (selectedSidebar == 'chat') {
+      return <SidebarChat />;
     } else return <Sidebar />;
   };
 
@@ -31,6 +34,8 @@ export default function Layout() {
       setSelectedSidebar('stock');
     } else if (location.pathname.startsWith('/keyword')) {
       setSelectedSidebar('keyword');
+    } else if (location.pathname.startsWith('/chat')) {
+      setSelectedSidebar('chat');
     } else setSelectedSidebar('main');
   }, []);
 

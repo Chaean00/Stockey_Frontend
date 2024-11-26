@@ -139,6 +139,9 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
       }
     } catch (error) {
       console.error('좋아요 처리 실패:', error);
+      if (error.response.data.message === "Authorization Null") {
+        alert("로그인 후 사용해 주세요.")
+      }
     }
   };
 
@@ -152,7 +155,7 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
   // scrollHeight가 변경될 때 스크롤 이동
   useEffect(() => {
     scrollToBottom();
-  }, [messageContainerRef.current?.scrollHeight]);
+  }, [messageContainerRef.current?.scrollHeight, messages]);
 
   //시간 format 수정
   function formatDate(dateString) {

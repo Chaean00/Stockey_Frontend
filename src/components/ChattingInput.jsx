@@ -2,14 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../lib/api/api';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 // import { socket } from '../ChattingPage';
 import { socket } from '../pages/ChattingPage/ChattingPage';
 import chatApi from '../services/chatApi';
 
 export default function MessageInput({ roomId }) {
   const [message, setMessage] = useState('');
-//   const [username] = useState(localStorage.getItem('username'));
+  const [username, setUsername] = useState(localStorage.getItem('nickname'));
 
   //메시지 보내기
   const sendMessage = async (e) => {
@@ -18,9 +18,11 @@ export default function MessageInput({ roomId }) {
     e.preventDefault();
 
     // if (!username) {
-    //   toast.error('로그인 후 사용해 주세요.');
+    //   // toast.error('로그인 후 사용해 주세요.');
+    //   alert("로그인 후 사용해 주세요.")
     //   return;
     // }
+
     if (message && roomId) {
       const newComment = {
         message: message,
@@ -39,17 +41,14 @@ export default function MessageInput({ roomId }) {
           message_id: message_id,
           message: newComment.message,
           created_at: newComment.created_at,
-          nickname: localStorage.getItem('nickname'),
+          nickname: username,
         });
         setMessage('');
       } catch (error) {
         console.error('댓글 저장 실패:', error);
-        // toast.error('댓글을 저장하지 못했습니다. 다시 시도해 주세요.');
-
-        // Optional: Delay navigation or other actions to ensure the toast is displayed
-        setTimeout(() => {
-          // Perform any actions like navigation or state updates here
-        }, 2000); // 3-second delay to ensure toast is shown
+        if (error.response.data.message === "Authorization Null") {
+          alert("로그인 후 사용해 주세요.")
+        }
       }
     }
   };
@@ -57,6 +56,7 @@ export default function MessageInput({ roomId }) {
   // 엔터 누를 때 바로 채팅이 보내지도록 handler 설정
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
+      console.log("Enter");
       e.preventDefault();
       sendMessage(e);
     }
@@ -70,11 +70,19 @@ export default function MessageInput({ roomId }) {
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={handleKeyPress}
+            onKeyPress={(e) => {handleKeyPress(e)}}
             placeholder="의견을 자유롭게 남겨주세요."
             className="focus:outline-none w-full bg-gray-100 font-medium resize-none h-8 pt-2 pl-2"
             rows={3}
           />
+          {/* <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="의견을 자유롭게 남겨주세요."
+
+            className="focus:outline-none w-50 bg-gray-100 font-medium resize-none h-8 pt-2 pl-2 overflow-scroll"
+            // className="focus:outline-none w-50 bg-gray-100 font-medium h-20 pt-2 pl-2 overflow-y-scroll resize-none"
+          /> */}
           <div className="flex justify-end mt-2 p-1">
             <button 
               type="submit" 
