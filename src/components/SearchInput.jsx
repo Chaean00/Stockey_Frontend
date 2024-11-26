@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
-export default function SearchInput({ search, setSearch, searchResult, setSearchResult, searchStock, navigate }) {
+export default function SearchInput({ setSearch, searchResult, setSearchResult, searchStock }) {
   const resultRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
