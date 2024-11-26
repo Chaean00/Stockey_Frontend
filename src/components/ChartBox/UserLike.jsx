@@ -6,6 +6,7 @@ export default function UserLike(props) {
   const moveToStock = (stock_id) => {
     navigate(`/stock/${stock_id}`);
   };
+
   return (
     <div className="border w-full h-full border-gray-300 mb-3 pl-10 py-3 rounded-xl">
       <div className="mb-2">키워드 즐겨찾기</div>
@@ -14,7 +15,7 @@ export default function UserLike(props) {
         return (
           <p
             key={index}
-            className="inline-block bg-gray-100 p-2 rounded-lg text-sm mr-2 hover:bg-blue-100"
+            className="inline-block bg-gray-100 p-2 rounded-lg text-sm mr-2 hover:bg-blue-100 mb-2"
             onClick={() => {
               moveToStock(el.stock_id);
             }}

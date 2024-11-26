@@ -44,7 +44,7 @@ export default function Layout() {
   }, [selectedSidebar]);
 
   return (
-    <div className="flex h-screen font-black overflow-x-hidden">
+    <div className="flex font-black overflow-x-hidden min-h-screen items-stretch h-auto">
       {/* Main Content */}
       <div className="flex flex-col flex-grow w-3/4">
         {/* Header/Navbar */}
@@ -52,10 +52,11 @@ export default function Layout() {
 
         {/* Page Content */}
         {/* 채팅 페이지 패딩값 조정 */}
-        <main className={`flex-grow bg-white pb-16 overflow-hidden ${ location.pathname.startsWith('/chat') ? 'p-4' : 'p-20' }`}>
-          <Outlet />
+        <main className={`flex-grow flex bg-white pb-16 items-center justify-center ${ location.pathname.startsWith('/chat') ? 'p-4' : 'p-12' }`}>
+          <Outlet className="mb-10" />
+        {/* <main className="flex-grow flex bg-white p-12 pb-16 items-center justify-center">
+          <Outlet className="mb-10" /> */}
         </main>
-
         {/* Footer */}
         <Footer className="bg-gray-200" />
       </div>
@@ -64,9 +65,9 @@ export default function Layout() {
       <div
         className={`${
           isSidebarOpen ? 'w-1/4' : 'w-20'
-        } transition-all duration-300 bg-gray-100 shadow-md h-full flex justify-center`}
+        } transition-all duration-300 bg-gray-100 shadow-md flex justify-center`}
       >
-        {isSidebarOpen ? <div className="flex-grow overflow-y-auto">{renderSidebar()}</div> : null}
+        {isSidebarOpen ? <div className="flex-grow  scrollbar-hide overflow-y-auto">{renderSidebar()}</div> : null}
         <div className="min-w-20">
           <div
             onClick={() => {

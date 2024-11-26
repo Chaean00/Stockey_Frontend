@@ -1,153 +1,79 @@
-import React, { useEffect, useState } from 'react';
-import stockApi from '../../services/stockApi';
-import ChartBox from '../../components/ChartBox/ChartBox';
-import { AiFillHeart } from 'react-icons/ai';
-import { FaSearch } from 'react-icons/fa';
-import userApi from '../../services/userApi';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ChartBox from '../../components/ChartBox/ChartBox';
+import SearchInput from '../../components/SearchInput'; //검색 버튼
+import LikeButton from '../../components/LikeButton'; //좋아요 버튼
+import { removeLike, addLike, findInitialLikeStock } from '../../utils/likeFunction'; //즐겨찾기 관련 함수
+import { bringStockChart, bringStockInfo, searchStock } from '../../utils/stockFunction'; //주식 정보 조회 관련 함수
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
-  const [isLiked, setIsLiked] = useState(false); // 초기 좋아요 상태
+  const [isLiked, setIsLiked] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [stockInfo, setStockInfo] = useState({
-    stock_id: 311,
-    stock_name: '신한지주',
-    stock_code: '055550',
-  });
+  const [stockInfo, setStockInfo] = useState({});
   const [stockLikeList, setStockLikeList] = useState([]);
-  const { stock_id } = useParams();
+  const { stock_id } = useParams(); //useParams를 통해 경로에서 주식 id 가져옴
 
+  //1. 주식 id 변경 시, 주식 id로 나머지 주식 정보 조회(stock_code, stock_name 등)
   useEffect(() => {
-    bringStockInfo(stock_id);
-    bringStockChart();
-    findInitialLikeStock();
+    if (stock_id) {
+      //stock_id와 stockInfo update useState를 매개변수로 전달
+      bringStockInfo(stock_id, setStockInfo);
+    }
   }, [stock_id]);
 
-  const bringStockInfo = async (stock_id) => {
-    try {
-      const response = await stockApi.getStockById(stock_id);
-      setStockInfo({
-        stock_id: response.data.id,
-        stock_name: response.data.stock_name,
-        stock_code: response.data.code,
-      });
-    } catch (error) {
-      console.error('종목 조회 실패:', error.response?.data?.message || error.message);
-      alert('종목 조회에 실패했습니다...');
+  //2. 주식 id를 통해 주식 정보(stockInfo)를 업데이트 => stockInfo가 변경될 시, 차트 데이터 및 즐겨찾기한 종목 조회
+  useEffect(() => {
+    if (stockInfo.stock_code) {
+      //주식 차트 조회
+      bringStockChart(stockInfo.stock_code, setChartData, 'D'); //주식 정보에서 stock_code, ChartData update useState, 초기 일봉('D')으로 조회
     }
+    if (stockInfo.stock_id) {
+      //즐겨찾기 리스트 및 현재 종목 즐겨찾기 상태 조회
+      findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList); //주식 정보에서 stock_id, 현재 주식에 대한 즐겨찾기 상태 업데이트 변수, 즐겨찾기 리스트 상태 업데이트 변수
+    }
+  }, [stockInfo]);
+
+  //검색 컴포넌트 실행 시, 검색 함수
+  const handleSearch = () => {
+    searchStock(search, setSearchResult); //(검색어, 검색 결과 상태 업데이트 변수) => 이 부분은 키워드 검색 api로 대체해서 사용해주세요
   };
 
-  const searchStock = async () => {
-    try {
-      const response = await stockApi.searchStock(search);
-      setSearchResult(response.data);
-    } catch (error) {
-      console.error('종목 검색 실패:', error.response?.data?.message || error.message);
-      alert('종목 검색에 실패했습니다...');
-    }
+  //종목 즐겨찾기 추가 함수
+  const handleAddLike = () => {
+    addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList);
+    setIsLiked(true); // 상태 직접 관리
   };
 
-  const bringStockChart = async () => {
-    try {
-      const response = await stockApi.getStockChart(stockInfo.stock_code);
-      setChartData(response.data);
-    } catch (error) {
-      console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-      alert('차트 조회에 실패했습니다...');
-    }
-  };
-
-  const findInitialLikeStock = async () => {
-    try {
-      const response = await userApi.getStockLike();
-      setStockLikeList(response.data.userStocks);
-      response.data.userStocks.map((like) => {
-        if (like.stock_id == stockInfo.stock_id) {
-          setIsLiked(true);
-        }
-      });
-    } catch (error) {
-      console.error('즐겨찾기 불러오기 실패:', error.response?.data?.message || error.message);
-    }
-  };
-
-  const removeLike = async () => {
-    //즐겨찾기에서 삭제
-    const stock_id = stockInfo.stock_id;
-    try {
-      const response = await userApi.removeStockLike({ stock_id: stock_id });
-    } catch (error) {
-      console.error('즐겨찾기 삭제 실패:', error.response?.data?.message || error.message);
-    }
-  };
-  const addLike = async () => {
-    //즐겨찾기에 추가
-    const stock_id = stockInfo.stock_id;
-    try {
-      const response = await userApi.addStockLike({ stock_id: stock_id, alarm_status: false });
-    } catch (error) {
-      console.error('즐겨찾기 추가 실패:', error.response?.data?.message || error.message);
-    }
+  //종목 즐겨찾기 삭제 함수
+  const handleRemoveLike = () => {
+    removeLike(stockInfo.stock_id, setStockLikeList);
+    setIsLiked(false); // 상태 직접 관리
   };
 
   return (
     <div className="text-black flex-grow bg-white">
-      {/** header */}
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-3">
           <div className="font-extrabold text-4xl">{stockInfo.stock_name}</div>
-          <AiFillHeart
-            className={`text-3xl cursor-pointer ${isLiked ? 'text-red-100' : 'text-gray-200'} `}
-            onClick={() => {
-              setIsLiked(!isLiked);
-              if (isLiked) {
-                removeLike();
-              } else {
-                addLike();
-              }
-            }}
-          />
+          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
-
-        <div>
-          <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
-            <input
-              className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-gray-700"
-              maxLength={16}
-              placeholder="원하는 종목을 검색하세요"
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  searchStock();
-                }
-              }}
-            />
-            <FaSearch className="text-gray-500 ml-3" />
-          </div>
-
-          <ul>
-            {searchResult?.map((el, i) => {
-              return (
-                <li
-                  key={i}
-                  onClick={() => {
-                    setStockInfo(el);
-                    bringStockChart();
-                  }}
-                >
-                  <div>{el.stock_name}</div>
-                  <div>{el.stock_code}</div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <SearchInput
+          setSearch={setSearch} //검색어 update 변수
+          searchResult={searchResult} //검색 결과 변수
+          setSearchResult={setSearchResult} //검색 결과 update 변수
+          searchStock={handleSearch} //검색 시 실행하는 함수
+        />
       </div>
-      {/** main */}
       <div>
-        <ChartBox chartData={chartData} stockInfo={stockInfo} stockLikeList={stockLikeList} />
+        <ChartBox
+          chartData={chartData} //차트 데이터
+          setChartData={setChartData} //차트 업데이트 변수
+          stockInfo={stockInfo} //주식 정보(stock_id, stock_code, stock_name 등아 포함된 객체)
+          stockLikeList={stockLikeList} //주식 즐겨찾기 list
+          bringStockChart={bringStockChart} //주식 차트 데이터 조회 함수
+        />
       </div>
     </div>
   );
