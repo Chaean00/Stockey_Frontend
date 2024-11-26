@@ -14,6 +14,7 @@ export default function StockChartPage() {
   const [stockInfo, setStockInfo] = useState({});
   const [stockLikeList, setStockLikeList] = useState([]);
   const { stock_id } = useParams(); //useParams를 통해 경로에서 주식 id 가져옴
+  const [period, setPeriod] = useState('D');
 
   //1. 주식 id 변경 시, 주식 id로 나머지 주식 정보 조회(stock_code, stock_name 등)
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function StockChartPage() {
   useEffect(() => {
     if (stockInfo.stock_code) {
       //주식 차트 조회
-      bringStockChart(stockInfo.stock_code, setChartData, 'D'); //주식 정보에서 stock_code, ChartData update useState, 초기 일봉('D')으로 조회
+      bringStockChart(stockInfo.stock_code, setChartData, period); //주식 정보에서 stock_code, ChartData update useState, 초기 일봉('D')으로 조회
     }
     if (stockInfo.stock_id) {
       //즐겨찾기 리스트 및 현재 종목 즐겨찾기 상태 조회
@@ -73,6 +74,8 @@ export default function StockChartPage() {
           stockInfo={stockInfo} //주식 정보(stock_id, stock_code, stock_name 등아 포함된 객체)
           stockLikeList={stockLikeList} //주식 즐겨찾기 list
           bringStockChart={bringStockChart} //주식 차트 데이터 조회 함수
+          period={period}
+          setPeriod={setPeriod}
         />
       </div>
     </div>
