@@ -32,6 +32,11 @@ const CandleChart = (props) => {
     return <div>데이터를 불러오는 중입니다...</div>;
   }
 
+  //const { width, height } = props;
+  if (!props.chartData || props.chartData.length === 0) {
+    return <div>데이터를 불러오는 중입니다...</div>;
+  }
+
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
   const height = props.height;
   const width = props.width;

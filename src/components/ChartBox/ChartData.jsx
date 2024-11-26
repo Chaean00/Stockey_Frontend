@@ -25,7 +25,8 @@ export default function ChartData(props) {
       return Object.entries(value).map(([subKey, subValue]) => [subKey, subValue]);
     }
     return [[key, value]]; // 나머지 값은 그대로 반환
-  });
+  })
+  .filter(([key, value]) => value !== undefined && value !== null);
 
   const formatNumber = (key, value) => {
     if (['open', 'high', 'low', 'close', 'volume', 'ema12', 'ema26'].includes(key)) {
