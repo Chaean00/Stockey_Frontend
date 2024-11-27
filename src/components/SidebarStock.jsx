@@ -28,9 +28,9 @@ export default function SidebarStock(props) {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-3">
       {/** header */}
-      <div className="lg:text-lg mb-5 font-extrabold w-full border-b border-gray-300 py-3">
+      <div className="lg:text-lg mb-3 font-extrabold w-full border-b border-gray-300 py-3">
         {stockInfo?.stock_id ? (
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
@@ -42,15 +42,15 @@ export default function SidebarStock(props) {
         )}
       </div>
       {/** list */}
-      <ul className="flex flex-col gap-1">
+      <ul className="flex flex-col gap-1 p-2">
         {keywordRank?.map((el, i) => {
           return (
             <li
               key={i}
               className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
             >
-              <div className=" text-blue-200 mr-16">{i + 1}</div>
-              <div className="mr-16">{el.keyword}</div>
+              <div className=" text-blue-200 w-1/3">{i + 1}</div>
+              <div className="w-2/3">{el.keyword}</div>
             </li>
           );
         })}
