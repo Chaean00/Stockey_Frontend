@@ -97,9 +97,9 @@ export default function StockBox() {
       {/** Header */}
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-3">
-          <div className="font-extrabold text-4xl">
+          <div className="font-extrabold text-2xl">
             {stockInfo.stock_name}
-            <span className="text-gray-500 text-2xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
           </div>
           <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
@@ -112,7 +112,7 @@ export default function StockBox() {
       </div>
 
       {/** 그리드 레이아웃 */}
-      <div className="grid grid-cols-5 gap-1 border rounded-xl">
+      <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
         <div className="col-span-1 p-4 flex flex-col justify-center gap-2">
           {keywordRank?.slice(0, 10).map((el, i) => (
