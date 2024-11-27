@@ -1,11 +1,12 @@
-  import React, { useEffect, useState } from 'react';
-  import { useParams } from 'react-router-dom';
-  import stockApi from '../../services/stockApi';
-  import ChartBox from '../../components/ChartBox/ChartBox';
-  import keywordApi from '../../services/keywordApi';
-  import { FaSearch } from 'react-icons/fa';
-  import { AiFillHeart } from 'react-icons/ai';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import stockApi from '../../services/stockApi';
+import ChartBox from '../../components/ChartBox/ChartBox';
+import keywordApi from '../../services/keywordApi';
+import { FaSearch } from 'react-icons/fa';
+import { AiFillHeart } from 'react-icons/ai';
 import userApi from '../../services/userApi';
+import { useRef } from 'react';
 
   export default function KeywordChartPage() {
     const { keyword_id } = useParams();
@@ -15,6 +16,34 @@ import userApi from '../../services/userApi';
     const [keywordData, setKeywordData] = useState('');
     const [search, setSearch] = useState('');
     const [searchResult, setSearchResult] = useState()
+    const resultRef = useRef(null);
+    const [keywordLikeList, setKeywordLikeList] = useState([]);
+    const navigate = useNavigate();
+
+    const bringStockChart = async () => {
+      if (keywordData && keywordData.stock_rankings && keywordData.stock_rankings.length > 0) {
+        try {
+          const response = await stockApi.getStockChart(keywordData.stock_rankings[0].code);
+          setChartData(response.data);
+        } catch (error) {
+          console.error('차트 데이터를 가져오는 중 오류 발생:', error);
+        }
+      }
+    };
+
+    // SearchResult 바깥을 클릭했을 때 닫히도록 설정
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (resultRef.current && !resultRef.current.contains(event.target)) {
+          setSearchResult([]); // searchResult 초기화
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
 
     // 키워드 데이터 가져오기
     useEffect(() => {
@@ -32,20 +61,15 @@ import userApi from '../../services/userApi';
 
     // 차트 데이터 가져오기
     useEffect(() => {
-      const getChartData = async () => {
-        if (keywordData && keywordData.stock_rankings && keywordData.stock_rankings.length > 0) {
-          try {
-            const response = await stockApi.getStockChart(keywordData.stock_rankings[0].code);
-            setChartData(response.data);
-          } catch (error) {
-            console.error('차트 데이터를 가져오는 중 오류 발생:', error);
-          }
-        }
-      };
+
       
-      getChartData();
-      findInitialLikeStock();
+      bringStockChart();
     }, [keywordData, currentKeyword]);
+
+    // console.log(chartData)
+    useEffect(() => {
+      findInitialLikeStock();
+    },[keywordLikeList])
 
     const findInitialLikeStock = async () => {
       try {
@@ -65,9 +89,10 @@ import userApi from '../../services/userApi';
     const removeLike = async (keyword) => {
       try {
         await userApi.removeKeywordLike({ keyword: keyword });
+        setIsLiked(false)
+        setKeywordLikeList((prevList) => prevList.filter((like) => like.keyword !== keywordData.keyword))
       } catch (error) {
         console.error('즐겨찾기 삭제 실패:', error.response?.data?.message || error.message);
-        alert("즐겨찾기 삭제 실패")
       }
     }
 
@@ -75,9 +100,10 @@ import userApi from '../../services/userApi';
       //즐겨찾기에 추가
       try {
         await userApi.addKeywordLike({ keyword: keyword, alarm_status: false });
+        setIsLiked(true);
+        setKeywordLikeList((prevList) => [...prevList, {keyword: keyword, alarm_status: false}])
       } catch (error) {
         console.error('즐겨찾기 추가 실패:', error.response?.data?.message || error.message);
-        alert("즐겨찾기 추가 실패")
       }
     };
 
@@ -91,58 +117,80 @@ import userApi from '../../services/userApi';
     }
 
     return (
-      <div>
-        {/* header */}
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-3">
-          <h1 className="font-extrabold text-4xl">
-            {keywordData?.keyword|| '로딩 중...'}
-          </h1>
-            <AiFillHeart
-              className={`text-3xl cursor-pointer ${isLiked ? 'text-red-100' : 'text-gray-200'} `}
-              onClick={() => {
-                setIsLiked(!isLiked);
-                if (isLiked) {
-                  removeLike(keywordData?.keyword);
-                } else {
-                  addLike(keywordData?.keyword);
-                }
-              }}
-            />
-          </div>
-          <div>
-            <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
-              <input
-                className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-gray-700"
-                maxLength={16}
-                placeholder="원하는 키워드를 검색하세요"
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    searchKeyword();
+      <div className="text-black flex-grow bg-white">
+        <div>
+          {/* header */}
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-3">
+            <h1 className="font-extrabold text-4xl">
+              {keywordData?.keyword|| '로딩 중...'}
+            </h1>
+              <AiFillHeart
+                className={`text-3xl cursor-pointer ${isLiked ? 'text-red-100' : 'text-gray-200'} `}
+                onClick={() => {
+                  if (isLiked) {
+                    removeLike(keywordData.keyword);
+                    setKeywordLikeList(prevList => prevList.filter(keyword => keyword !== keywordData.keyword));
+                  } else {
+                    addLike(keywordData.keyword);
+                    setKeywordLikeList(prevList => [...prevList, keywordData.keyword]);
                   }
                 }}
               />
-              <FaSearch className="text-gray-500 ml-3" />
             </div>
+            <div className="relative">
+              <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
+                <input
+                  className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-gray-700"
+                  maxLength={16}
+                  placeholder="원하는 키워드를 검색하세요"
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      searchKeyword();
+                      setSearch('')
+                    }
+                  }}
+                />
+                <FaSearch className="text-gray-500 ml-3" 
+                onClick={() => {
+                  searchKeyword();
+                }}/>
+              </div>
 
-            <ul>
-              {searchResult?.map((el, i) => {
-                return (
-                  <li
-                    key={i}
-                  >
-                    <div>{el.keyword}</div>
-                  </li>
-                );
-              })}
-            </ul>
+              <ul
+            ref={resultRef}
+            className={`absolute z-10 left-0 w-full bg-white rounded-md shadow-md max-h-60 overflow-y-auto ${
+              searchResult?.length > 0 ? 'border border-gray-200' : ''
+            }`}>
+              {searchResult?.length > 0 
+              ? searchResult.map((el, i) => (
+                <li
+                className="cursor-pointer px-4 py-2 hover:bg-blue-50 border-b last:border-none flex justify-between"
+                key={i}
+                onClick={() => {
+                  navigate(`/keyword/${el.id}`)
+                  setSearchResult([]);
+                }}
+              >
+                <div className="font-medium text-black">{el.keyword}</div>
+              </li>
+              ))
+            : null}
+              </ul>
+            </div>
           </div>
-        </div>
 
-        {/* main */}
-        <div>
-          {chartData.length > 0 && <ChartBox chartData={chartData} />}
+          {/* main */}
+          <div>
+            {/* <{chartData.length > 0 && <ChartBox chartData={chartData} />}> */}
+            <ChartBox 
+            chartData={chartData}
+            // stockInfo={keywordData.stock_rankings[0]}
+            bringStockChart={bringStockChart}
+            
+            />
+          </div>
         </div>
       </div>
     );
