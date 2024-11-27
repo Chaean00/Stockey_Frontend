@@ -1,15 +1,23 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import CandleChart from './CandleChart';
+import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
 
-export default function ChartBox({ chartData, setChartData, stockInfo, stockLikeList, bringStockChart }) {
+export default function ChartBox({
+  chartData,
+  setChartData,
+  stockInfo,
+  stockLikeList,
+  bringStockChart,
+  period,
+  setPeriod,
+}) {
   const containerRef = useRef(null); // 전체 컨테이너 참조
   const chartContainerRef = useRef(null); // CandleChart 상위 div 참조
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
-  const [period, setPeriod] = useState('D');
 
   useEffect(() => {
     bringStockChart(stockInfo.stock_code, setChartData, period);
@@ -83,7 +91,7 @@ export default function ChartBox({ chartData, setChartData, stockInfo, stockLike
               />
             </Tab>
             <Tab eventKey="M" title="월봉">
-              <CandleChart
+              <CandleChartSimple
                 chartData={chartData}
                 width={chartDimensions.width || 0} // 상위 div의 너비 전달
                 height={chartHeight || 0} // 고정 비율로 높이 전달

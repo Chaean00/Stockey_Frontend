@@ -32,11 +32,11 @@ export default function MessageInput({ roomId }) {
       try {
         // DB에 채팅 메시지 저장
         const response = await chatApi.postMessage(roomId, newComment);
-        const message_id = response.data.message_id
-        
+        const message_id = response.data.message_id;
+
         // 소켓으로 전송
         socket.emit('sendTotalMessage', {
-        //   username: username,
+          //   username: username,
           roomId: roomId,
           message_id: message_id,
           message: newComment.message,

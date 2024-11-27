@@ -13,7 +13,7 @@ export default withMT({
         300: '#DDDDDD', //stroke
         400: '#A1A4AF', //sidebar gray text
       },
-      black: '#313544',
+      black_default: '#313544',
       red: { 100: '#FF7A73', 200: '#F04452' },
       blue: {
         100: '#88AAFD',
@@ -23,7 +23,29 @@ export default withMT({
     },
     extend: {
       fontFamily: {
-        sans: ['Arial', 'ui-sans-serif', 'system-ui'],
+        sans: ['Noto Sans KR', 'Arial', 'sans-serif'],
+      },
+      backgroundSize: {
+        small: '50%',
+        medium: '75%',
+        large: '100%',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(100%)', opacity: 0 },
+          '100%': { transform: 'translateY(0)', opacity: 1 },
+        },
+      },
+      animation: {
+        fadeIn: 'fadeIn 1s ease-out',
+        slideUp: 'slideUp 0.8s ease-out',
       },
     },
   },

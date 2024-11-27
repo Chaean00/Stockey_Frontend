@@ -45,9 +45,12 @@ export default function SidebarStock(props) {
       <ul className="flex flex-col gap-1">
         {keywordRank?.map((el, i) => {
           return (
-            <li key={i} className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl">
+            <li
+              key={i}
+              className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+            >
               <div className=" text-blue-200 mr-16">{i + 1}</div>
-              <div>{el.keyword}</div>
+              <div className="mr-16">{el.keyword}</div>
             </li>
           );
         })}

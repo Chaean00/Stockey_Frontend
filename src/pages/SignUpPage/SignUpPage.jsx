@@ -42,14 +42,14 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="relative">
+      <h2 className="text-3xl font-semibold mb-10 text-center animate-fadeIn">회원가입</h2>
       {/** Sign up box */}
-      <div className="bg-white p-6 rounded-lg shadow-md w-full">
-        <h2 className="text-2xl font-bold mb-10 text-center">회원가입</h2>
+      <div className="bg-white p-6 rounded-lg w-full animate-fadeIn">
         <form onSubmit={handleSubmit}>
           {/** 닉네임 입력 */}
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">
+            <label className="block text-sm font-semibold mb-2">
               닉네임
               <input
                 type="text"
@@ -58,15 +58,15 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, nickname: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 hover:ring-2 hover:ring-blue-100 focus:outline-none"
               />
             </label>
-            {errors.nickname && <p className="text-red-200 text-xs mt-2">{errors.nickname}</p>}
+            {errors.nickname && <p className="text-red-100 text-xs mt-2">{errors.nickname}</p>}
           </div>
 
           {/** 아이디 입력 */}
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">
+            <label className="block text-sm font-semibold mb-2">
               아이디
               <input
                 type="text"
@@ -75,15 +75,15 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, account_id: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
-            {errors.account_id && <p className="text-red-200 text-xs mt-2">{errors.account_id}</p>}
+            {errors.account_id && <p className="text-red-100 text-xs mt-2">{errors.account_id}</p>}
           </div>
 
           {/** 비밀번호 입력 */}
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">
+            <label className="block text-sm font-semibold mb-2">
               비밀번호
               <input
                 type="password"
@@ -92,15 +92,15 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, password: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
-            {errors.password && <p className="text-red-200 text-xs mt-2">{errors.password}</p>}
+            {errors.password && <p className="text-red-100 text-xs mt-2">{errors.password}</p>}
           </div>
 
           {/** 비밀번호 확인 입력 */}
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">
+            <label className="block text-sm font-semibold mb-2">
               비밀번호 확인
               <input
                 type="password"
@@ -109,15 +109,15 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, confirmPassword: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
-            {errors.confirmPassword && <p className="text-red-200 text-xs mt-2">{errors.confirmPassword}</p>}
+            {errors.confirmPassword && <p className="text-red-100 text-xs mt-2">{errors.confirmPassword}</p>}
           </div>
 
           {/** 알림 설정 */}
           <div className="mb-6">
-            <label className="block text-sm font-bold mb-2">
+            <label className="block text-sm font-semibold mb-2">
               알림 설정
               <p className="text-gray-500 text-xs mb-2">
                 알림 설정 시, Slack으로 즐겨찾기한 키워드의 정보를 받으실 수 있습니다.
@@ -128,7 +128,7 @@ export default function SignUpPage() {
                   onClick={() => {
                     setIsAlarmOn((prev) => !prev);
                   }}
-                  className={`px-4 py-2 rounded-lg text-white font-bold ${isAlarmOn ? 'bg-blue-200' : 'bg-gray-300'}`}
+                  className={`px-4 py-2 rounded-lg text-white font-semibold ${isAlarmOn ? 'bg-blue-200' : 'bg-gray-300'}`}
                 >
                   {isAlarmOn ? 'ON' : 'OFF'}
                 </button>
@@ -141,8 +141,8 @@ export default function SignUpPage() {
                   }}
                   disabled={!isAlarmOn}
                   className={`w-full px-4 py-2 border ${
-                    isAlarmOn ? 'border-gray-300' : 'border-gray-200 bg-gray-100'
-                  } rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none`}
+                    isAlarmOn ? 'border-gray-300 hover:ring-2 hover:ring-blue-100 ' : 'border-gray-200 bg-gray-100'
+                  } rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none `}
                 />
               </div>
             </label>
@@ -151,12 +151,14 @@ export default function SignUpPage() {
           {/** 회원가입 버튼 */}
           <button
             type="submit"
-            className="w-full bg-blue-200 hover:bg-blue-100 text-white font-bold py-2 px-4 rounded-lg"
+            className="w-full bg-blue-200 hover:bg-blue-100 text-white font-semibold py-2 px-4 rounded-lg"
           >
             회원가입하기
           </button>
         </form>
       </div>
+      {/** Radial Gradient Background */}
+      <div className="fixed inset-0 bg-gradient-to-b from-blue-100 via-blue-50 to-white z-[-1] animate-fadeIn" />
     </div>
   );
 }

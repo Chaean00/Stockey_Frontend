@@ -12,7 +12,7 @@ import { FaChartLine } from 'react-icons/fa6';
 import { IoChatbubblesSharp } from 'react-icons/io5';
 
 export default function Layout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedSidebar, setSelectedSidebar] = useState('main');
   const location = useLocation();
   const { stock_id } = useParams();
@@ -44,7 +44,7 @@ export default function Layout() {
   }, [selectedSidebar]);
 
   return (
-    <div className="flex font-black overflow-x-hidden min-h-screen items-stretch h-auto">
+    <div className="font-sans flex font-black_default overflow-x-hidden min-h-screen items-stretch h-auto">
       {/* Main Content */}
       <div className="flex flex-col flex-grow w-3/4">
         {/* Header/Navbar */}
@@ -52,7 +52,8 @@ export default function Layout() {
 
         {/* Page Content */}
         {/* 채팅 페이지 패딩값 조정 */}
-        <main className={`flex min-w-4xl bg-white items-center justify-center ${ location.pathname.startsWith('/chat') ? 'p-2' : 'flex p-12 pb-16' }`}>
+        {/* <main className={`flex min-w-4xl bg-white items-center justify-center ${ location.pathname.startsWith('/chat') ? 'p-2' : 'flex p-12 pb-16' }`}> */}
+        <main className="flex-grow flex  lg:p-20 p-12 pb-16 items-center justify-center">
           <Outlet className="mb-10" />
         {/* <main className="flex-grow flex bg-white p-12 pb-16 items-center justify-center">
           <Outlet className="mb-10" /> */}
