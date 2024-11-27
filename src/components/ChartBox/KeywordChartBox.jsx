@@ -4,12 +4,13 @@ import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
+import UserKeywordLike from './UserKeywordLike';
 
-export default function ChartBox({
+export default function KeywordChartBox({
   chartData,
   setChartData,
   stockInfo,
-  stockLikeList,
+  keywordLikeList,
   bringStockChart,
   period,
   setPeriod,
@@ -103,7 +104,7 @@ export default function ChartBox({
         {/** data box */}
         <div className={`${isCompact ? 'w-full' : 'w-1/4'}`}>
           <ChartData stockInfo={currData} />
-          <UserLike stockLikeList={stockLikeList} />
+          <UserKeywordLike keywordLikeList={keywordLikeList} />
         </div>
       </div>
     </div>
