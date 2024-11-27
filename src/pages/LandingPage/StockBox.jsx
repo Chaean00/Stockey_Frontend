@@ -3,11 +3,11 @@ import SearchInput from '../../components/SearchInput'; // 검색 버튼
 import LikeButton from '../../components/LikeButton'; // 좋아요 버튼
 import { removeLike, addLike, findInitialLikeStock } from '../../utils/likeFunction'; // 즐겨찾기 관련 함수
 import { bringStockChart, searchStock } from '../../utils/stockFunction'; // 주식 정보 조회 관련 함수
-import CandleChart from '../../components/ChartBox/CandleChart';
-import CandleChartSimple from '../../components/CandleChartSimple';
 import { Tabs, Tab } from 'react-bootstrap';
 import keywordApi from '../../services/keywordApi';
 import ResizeObserver from 'resize-observer-polyfill';
+import CandleChart from '../../components/ChartBox/CandleChart';
+import CandleChartSimple from '../../components/CandleChartSimple';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
@@ -22,15 +22,19 @@ export default function StockBox() {
   const [stockLikeList, setStockLikeList] = useState([]);
   const [keywordRank, setKeywordRank] = useState([]);
   const [period, setPeriod] = useState('D');
+  const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
-  const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
+  const [chartSize, setChartSize] = useState({ width: 600, height: 400 }); // 초기값 설정
 
   // 부모 <div> 크기 변화 감지 및 업데이트
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
-        setChartSize({ width, height: height - 50 }); // 여백 고려
+        setChartSize({
+          width: width || 600, // 기본값 설정
+          height: height ? height - 50 : 400, // 기본값 설정
+        });
       }
     });
 
@@ -51,12 +55,23 @@ export default function StockBox() {
     }
   }, [stockInfo.stock_id]);
 
-  // 차트 데이터 가져오기
+  // 차트 데이터 Lazy Loading
   useEffect(() => {
-    if (stockInfo.stock_code) {
-      bringStockChart(stockInfo.stock_code, setChartData, period);
+    if (period && stockInfo.stock_code && !chartDataLoaded) {
+      bringStockChart(
+        stockInfo.stock_code,
+        (data) => {
+          if (data && data.length > 0) {
+            setChartData(data);
+            setChartDataLoaded(true);
+          } else {
+            console.error('차트 데이터가 비어 있습니다.');
+          }
+        },
+        period,
+      );
     }
-  }, [stockInfo.stock_code, period]);
+  }, [period, stockInfo.stock_code, chartDataLoaded]);
 
   // 검색 실행
   const handleSearch = () => {
@@ -89,6 +104,7 @@ export default function StockBox() {
 
   // 차트 기간 변경
   const moveToStock = (chart_period) => {
+    setChartDataLoaded(false); // Lazy Loading 초기화
     setPeriod(chart_period);
   };
 
@@ -127,13 +143,25 @@ export default function StockBox() {
         <div ref={chartContainerRef} className="col-span-4 lg:p-4">
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">
-              <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={450} />
+              {chartDataLoaded ? (
+                <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={450} />
+              ) : (
+                <div>차트 데이터를 로드 중입니다...</div>
+              )}
             </Tab>
             <Tab eventKey="W" title="주봉">
-              <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={450} />
+              {chartDataLoaded ? (
+                <CandleChart chartData={chartData} width={chartSize.width * 0.95} height={450} />
+              ) : (
+                <div>차트 데이터를 로드 중입니다...</div>
+              )}
             </Tab>
             <Tab eventKey="M" title="월봉">
-              <CandleChartSimple chartData={chartData} width={chartSize.width * 0.95} height={450} />
+              {chartDataLoaded ? (
+                <CandleChartSimple chartData={chartData} width={chartSize.width * 0.95} height={450} />
+              ) : (
+                <div>차트 데이터를 로드 중입니다...</div>
+              )}
             </Tab>
           </Tabs>
         </div>
