@@ -11,7 +11,7 @@ import { FaChartLine } from 'react-icons/fa6';
 import { IoChatbubblesSharp } from 'react-icons/io5';
 
 export default function Layout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedSidebar, setSelectedSidebar] = useState('main');
   const location = useLocation();
   const { stock_id } = useParams();
