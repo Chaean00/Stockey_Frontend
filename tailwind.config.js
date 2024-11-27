@@ -19,6 +19,7 @@ export default withMT({
         100: '#88AAFD',
         200: '#0046FF',
       },
+      defaultText: '#4C526B'
     },
     extend: {
       fontFamily: {

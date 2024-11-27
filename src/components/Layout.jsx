@@ -5,6 +5,7 @@ import { Outlet, useLocation, useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import SidebarStock from './SidebarStock';
 import SidebarKeyword from './SidebarKeyword';
+import SidebarChat from './SidebarChat';
 import { RiKey2Fill } from 'react-icons/ri';
 import { GoHomeFill } from 'react-icons/go';
 import { FaChartLine } from 'react-icons/fa6';
@@ -22,6 +23,8 @@ export default function Layout() {
       return <SidebarStock stock_id={stock_id} />;
     } else if (selectedSidebar == 'keyword') {
       return <SidebarKeyword keyword_id={keyword_id} />;
+    } else if (selectedSidebar == 'chat') {
+      return <SidebarChat />;
     } else return <Sidebar />;
   };
 
@@ -31,6 +34,8 @@ export default function Layout() {
       setSelectedSidebar('stock');
     } else if (location.pathname.startsWith('/keyword')) {
       setSelectedSidebar('keyword');
+    } else if (location.pathname.startsWith('/chat')) {
+      setSelectedSidebar('chat');
     } else setSelectedSidebar('main');
   }, []);
 
@@ -46,8 +51,12 @@ export default function Layout() {
         <Header className="fixed top-0 left-0 right-0 z-10" />
 
         {/* Page Content */}
+        {/* 채팅 페이지 패딩값 조정 */}
+        {/* <main className={`flex min-w-4xl bg-white items-center justify-center ${ location.pathname.startsWith('/chat') ? 'p-2' : 'flex p-12 pb-16' }`}> */}
         <main className="flex-grow flex  lg:p-20 p-12 pb-16 items-center justify-center">
           <Outlet className="mb-10" />
+        {/* <main className="flex-grow flex bg-white p-12 pb-16 items-center justify-center">
+          <Outlet className="mb-10" /> */}
         </main>
         {/* Footer */}
         <Footer className="bg-gray-200" />
