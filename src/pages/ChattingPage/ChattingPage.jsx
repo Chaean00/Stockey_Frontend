@@ -5,6 +5,7 @@ import ChattingBox from '../../components/ChattingBox';
 import { BASE_URL } from '../../../lib/api/api';
 import chatApi from '../../services/chatApi';
 import { TbMapPin2 } from 'react-icons/tb';
+import { useChatContext } from '../../utils/chatContext';
 
 // 소켓 백엔드와 연결
 export const socket = io('http://localhost:3000/', {
@@ -14,8 +15,12 @@ export const socket = io('http://localhost:3000/', {
 export default function ChattingPage() {
   const [messages, setMessages] = useState([]);
   const [username] = useState(localStorage.getItem('username'));
-  const [chatRoomList, setChatRoomList] = useState([]);
-  const [roomId, setRoomId] = useState(1);
+
+  // chatContext로 관리하는 방법으로 수정
+  // const [chatRoomList, setChatRoomList] = useState([]);
+  // const [roomId, setRoomId] = useState(1);
+
+  const { chatRoomList, setChatRoomList, roomId, setRoomId } = useChatContext();
 
   // 방 입장
   useEffect(() => {
@@ -41,20 +46,21 @@ export default function ChattingPage() {
     fetchTotalComments();
   }, [roomId]);
 
+  // chatContext로 관리하는 방법으로 수정
   // 채팅방 목록 로드
-  useEffect(() => {
-    // 전체 채팅방 목록 요청
-    const fetchChatList = async () => {
-      try {
-        const response = await chatApi.getChatList();
-        setChatRoomList(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('채팅방 목록 로드 실패:', error);
-      }
-    }
-    fetchChatList();
-  }, []);
+  // useEffect(() => {
+  //   // 전체 채팅방 목록 요청
+  //   const fetchChatList = async () => {
+  //     try {
+  //       const response = await chatApi.getChatList();
+  //       setChatRoomList(response.data);
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       console.error('채팅방 목록 로드 실패:', error);
+  //     }
+  //   }
+  //   fetchChatList();
+  // }, []);
 
 
   // 다른 사용자가 보낸 메시지 받기
@@ -100,18 +106,23 @@ export default function ChattingPage() {
   }, [setMessages]);
 
   return (
-    <div className="flex flex-col h-screen">
-      <div>
-        {/* 사이드 바로 변경될 부분 */}
-        {chatRoomList.map((item, index) => {
-          return (
-            <button key={index} onClick={() => setRoomId(item.id)}>
-              {item.id}
-            </button>
-          );
-        })}
-      </div>
-      <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
-    </div>
+    // <div className="flex flex-col h-screen">
+        // <div className='min-w-full'>
+        //     <p className="mb-[26px] font-sans font-bold text-[28px]">{chatRoomList.find(chatRoom => chatRoom.id === roomId)?.name}</p>
+        //     <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
+        // </div>
+        <div className="flex flex-col items-start  w-full min-h-screen px-4">
+    <p className="mb-2 font-sans font-bold text-[28px]">
+        {chatRoomList.find(chatRoom => chatRoom.id === roomId)?.name}
+    </p>
+    <ChattingBox 
+        className="w-full"
+        messages={messages} 
+        setMessages={setMessages} 
+        username={username} 
+        roomId={roomId} 
+    />
+</div>
+    // </div>
   );
 }
