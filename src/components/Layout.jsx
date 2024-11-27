@@ -52,7 +52,7 @@ export default function Layout() {
 
         {/* Page Content */}
         {/* 채팅 페이지 패딩값 조정 */}
-        <main className={`flex min-w-4xl bg-white items-center justify-center ${ location.pathname.startsWith('/chat') ? 'p-[33px]' : 'flex p-12 pb-16' }`}>
+        <main className={`flex min-w-4xl bg-white items-center justify-center ${ location.pathname.startsWith('/chat') ? 'p-2' : 'flex p-12 pb-16' }`}>
           <Outlet className="mb-10" />
         {/* <main className="flex-grow flex bg-white p-12 pb-16 items-center justify-center">
           <Outlet className="mb-10" /> */}

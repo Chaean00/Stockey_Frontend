@@ -111,8 +111,8 @@ export default function ChattingPage() {
         //     <p className="mb-[26px] font-sans font-bold text-[28px]">{chatRoomList.find(chatRoom => chatRoom.id === roomId)?.name}</p>
         //     <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
         // </div>
-        <div className="flex flex-col items-start justify-center min-h-screen px-4">
-    <p className="mb-[26px] font-sans font-bold text-[28px]">
+        <div className="flex flex-col items-start  w-full min-h-screen px-4">
+    <p className="mb-2 font-sans font-bold text-[28px]">
         {chatRoomList.find(chatRoom => chatRoom.id === roomId)?.name}
     </p>
     <ChattingBox 
