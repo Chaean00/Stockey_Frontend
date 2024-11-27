@@ -38,10 +38,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full max-w-lg">
+    <div className="relative">
       {/** Login box */}
-      <div className="bg-white p-6 rounded-lg shadow-md w-full">
-        <h2 className="text-2xl font-bold mb-10 text-center">로그인</h2>
+      <h2 className="text-2xl font-bold mb-10 text-center animate-fadeIn">로그인</h2>
+      <div className="bg-white p-6 rounded-lg w-full max-w-lg z-10 relative animate-fadeIn">
         <form onSubmit={handleSubmit}>
           {/** 아이디 입력 */}
           <div className="mb-4">
@@ -86,6 +86,9 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
+
+      {/** Radial Gradient Background */}
+      <div className="fixed inset-0 bg-gradient-to-b from-blue-100 via-blue-50 to-white z-[-1] animate-fadeIn" />
     </div>
   );
 }
