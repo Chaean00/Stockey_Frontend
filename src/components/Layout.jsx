@@ -43,6 +43,20 @@ export default function Layout() {
     renderSidebar();
   }, [selectedSidebar]);
 
+  // 사이드바 동작 핸들러
+  const sidebarHandler = (clicked) => {
+    if (isSidebarOpen) {
+      if (selectedSidebar === clicked) {
+        setIsSidebarOpen(!isSidebarOpen);
+      } else {
+        setSelectedSidebar(clicked)
+      }
+    } else {
+      setSelectedSidebar(clicked)
+      setIsSidebarOpen(!isSidebarOpen);
+    }
+  }
+
   return (
     <div className="font-sans flex text-black_default overflow-x-hidden min-h-screen items-stretch h-auto">
       {/* Main Content */}
@@ -74,8 +88,9 @@ export default function Layout() {
         <div className="min-w-20">
           <div
             onClick={() => {
-              setIsSidebarOpen(!isSidebarOpen);
-              setSelectedSidebar('main');
+              // setIsSidebarOpen(!isSidebarOpen);
+              // setSelectedSidebar('main');
+              sidebarHandler('main');
             }}
             className={`${selectedSidebar == 'main' && isSidebarOpen ? 'bg-gray-300 text-gray-700' : 'text-gray-400'} flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3`}
           >
@@ -84,8 +99,9 @@ export default function Layout() {
           </div>
           <div
             onClick={() => {
-              setIsSidebarOpen(!isSidebarOpen);
-              setSelectedSidebar('stock');
+              // setIsSidebarOpen(!isSidebarOpen);
+              // setSelectedSidebar('stock');
+              sidebarHandler('stock');
             }}
             className={`
               ${location.pathname.startsWith('/keyword') ? 'hidden' : 'flex flex-col items-center'}
@@ -97,8 +113,9 @@ export default function Layout() {
           </div>
           <div
             onClick={() => {
-              setIsSidebarOpen(!isSidebarOpen);
-              setSelectedSidebar('keyword');
+              // setIsSidebarOpen(!isSidebarOpen);
+              // setSelectedSidebar('keyword');
+              sidebarHandler('keyword');
             }}
             className={`
               ${location.pathname.startsWith('/stock') ? 'hidden' : 'flex flex-col items-center'}
@@ -110,8 +127,9 @@ export default function Layout() {
           </div>
           <div
             onClick={() => {
-              setIsSidebarOpen(!isSidebarOpen);
-              setSelectedSidebar('chat');
+              // setIsSidebarOpen(!isSidebarOpen);
+              // setSelectedSidebar('chat');
+              sidebarHandler('chat');
             }}
             className={`${selectedSidebar == 'chat' && isSidebarOpen ? 'bg-gray-300 text-gray-700' : 'text-gray-400'} flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3`}
           >
