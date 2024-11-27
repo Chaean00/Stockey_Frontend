@@ -40,12 +40,12 @@ export default function LoginPage() {
   return (
     <div className="relative">
       {/** Login box */}
-      <h2 className="text-2xl font-bold mb-10 text-center animate-fadeIn">로그인</h2>
+      <h2 className="text-3xl font-semibold mb-10 text-center animate-fadeIn">로그인</h2>
       <div className="bg-white p-6 rounded-lg w-full max-w-lg z-10 relative animate-fadeIn">
         <form onSubmit={handleSubmit}>
           {/** 아이디 입력 */}
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">
+            <label className="block text-sm font-semibold mb-2">
               아이디
               <input
                 type="text"
@@ -54,15 +54,15 @@ export default function LoginPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, account_id: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
-            {errors.account_id && <p className="text-red-200 text-xs mt-2">{errors.account_id}</p>}
+            {errors.account_id && <p className="text-red-100 text-xs mt-2">{errors.account_id}</p>}
           </div>
 
           {/** 비밀번호 입력 */}
           <div className="mb-10">
-            <label className="block text-sm font-bold mb-2">
+            <label className="block text-sm font-semibold mb-2">
               비밀번호
               <input
                 type="password"
@@ -71,16 +71,16 @@ export default function LoginPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, password: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
-            {errors.password && <p className="text-red-200 text-xs mt-2">{errors.password}</p>}
+            {errors.password && <p className="text-red-100 text-xs mt-2">{errors.password}</p>}
           </div>
 
           {/** 로그인 버튼 */}
           <button
             type="submit"
-            className="w-full bg-blue-200 hover:bg-blue-100 text-white font-bold py-2 px-4 rounded-lg "
+            className="w-full bg-blue-200 hover:bg-blue-100 text-white font-semibold py-2 px-4 rounded-lg "
           >
             로그인하기
           </button>
