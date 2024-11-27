@@ -53,10 +53,9 @@ const CandleChartSimple = ({ chartData, period, height, width }) => {
 
   const gridHeight = height - margin.top - margin.bottom;
 
-  const elderRayHeight = 100;
   const barChartHeight = gridHeight / 4;
-  const barChartOrigin = (_, h) => [0, h - barChartHeight - elderRayHeight];
-  const chartHeight = gridHeight - elderRayHeight;
+  const barChartOrigin = (_, h) => [0, h - barChartHeight];
+  const chartHeight = gridHeight;
 
   const barChartExtents = (data) => {
     return data.volume;
