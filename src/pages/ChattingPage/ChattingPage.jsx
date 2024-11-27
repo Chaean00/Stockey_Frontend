@@ -106,11 +106,23 @@ export default function ChattingPage() {
   }, [setMessages]);
 
   return (
-    <div className="flex flex-col h-screen">
-        <div className="">
-          <h1 className="ml-40 mb-2">{chatRoomList.find(chatRoom => chatRoom.id === roomId)?.name}</h1>
-          <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
-        </div>
-    </div>
+    // <div className="flex flex-col h-screen">
+        // <div className='min-w-full'>
+        //     <p className="mb-[26px] font-sans font-bold text-[28px]">{chatRoomList.find(chatRoom => chatRoom.id === roomId)?.name}</p>
+        //     <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
+        // </div>
+        <div className="flex flex-col items-start justify-center min-h-screen px-4">
+    <p className="mb-[26px] font-sans font-bold text-[28px]">
+        {chatRoomList.find(chatRoom => chatRoom.id === roomId)?.name}
+    </p>
+    <ChattingBox 
+        className="w-full"
+        messages={messages} 
+        setMessages={setMessages} 
+        username={username} 
+        roomId={roomId} 
+    />
+</div>
+    // </div>
   );
 }

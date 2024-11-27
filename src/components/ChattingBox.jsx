@@ -155,7 +155,7 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
   // scrollHeight가 변경될 때 스크롤 이동
   useEffect(() => {
     scrollToBottom();
-  }, [messageContainerRef.current?.scrollHeight, messages]);
+  }, [messageContainerRef.current?.scrollHeight]);
 
   //시간 format 수정
   function formatDate(dateString) {
@@ -177,7 +177,7 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
   
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-lg border border-black-500">
+    <div className="w-full mx-auto bg-white rounded-lg border border-black-500">
       <div className="p-1">
         <div className="flex justify-end mb-2 p-3">
           <div className="relative">
@@ -190,11 +190,12 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
 
         <div
           ref={messageContainerRef}
-          className="flex-grow overflow-y-auto p-3 space-y-4 md:h-96 h-40 scrollbar-hide"
+          className="overflow-y-auto px-3 py-0 space-y-4 h-auto max-h-[calc(100vh-20rem)] md:max-h-[calc(100vh-20rem)] scrollbar-hide"
+          // className="flex-grow overflow-y-auto p-3 space-y-4 md:max-h-[calc(100vh-20rem)] max-h-[calc(100vh-10rem)] scrollbar-hide"
         >
           {/* 채팅 메시지 목록 */}
           {messages.map((comment) => (
-            <div key={comment.id} className="flex gap-4 border-b border-black-500 pb-4">
+            <div key={comment.id} className="flex gap-4 border-b border-black-500 pb-[36px]">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-1">
 
@@ -206,7 +207,7 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
                   </div>
 
                   {/* 닉네임 */}
-                  <span>{comment.nickname}</span>
+                  <span className="font-sans font-medium text-[20px]">{comment.nickname}</span>
 
                   {/* 메시지 시간 */}
                   <span className="text-sm text-gray-500 font-medium pl-3">{formatDate(comment.created_at)}</span>
@@ -226,7 +227,7 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
                   </div>
                 </div>
                 {/* 메시지 내용 */}
-                <p className="text-gray-700 font-medium mt-3">{comment.message}</p>
+                <p className="text-gray-700 font-medium mt-[30px]">{comment.message}</p>
               </div>
             </div>
           ))}

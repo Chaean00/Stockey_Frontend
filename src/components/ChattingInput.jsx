@@ -64,36 +64,75 @@ export default function MessageInput({ roomId }) {
 
   return (
     //  메시지 입력란 (화면 하단 고정)
-    <div className="flex mx-3 mb-3 px-2 py-2 bg-gray-100 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg">
-      <form onSubmit={sendMessage} className="w-full">
-        <div className="flex flex-col h-full w-full">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={(e) => {handleKeyPress(e)}}
-            placeholder="의견을 자유롭게 남겨주세요."
-            className="focus:outline-none w-full bg-gray-100 font-medium resize-none h-8 pt-2 pl-2"
-            rows={3}
-          />
-          {/* <input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="의견을 자유롭게 남겨주세요."
+    // <div className="flex mx-3 mb-3 px-2 py-2 bg-gray-100 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg">
+    //   <form onSubmit={sendMessage} className="w-full">
+    //     {/* 채팅 입력 부분 긴 버전 */}
+    //     {/* <div className="flex flex-col h-full w-full"> */}
+    //       {/* <textarea
+    //         value={message}
+    //         onChange={(e) => setMessage(e.target.value)}
+    //         onKeyPress={(e) => {handleKeyPress(e)}}
+    //         placeholder="의견을 자유롭게 남겨주세요."
+    //         className="focus:outline-none w-full bg-gray-100 font-medium resize-none h-[143px] pt-2 pl-2"
+    //         rows={3}
+    //       /> */}
+    //       {/* 채팅 입력 부분 짧은 버전 */}
+    //         <div className='flex flex-row w-full justify-between'>
+    //       <input
+    //         value={message}
+    //         onChange={(e) => setMessage(e.target.value)}
+    //         placeholder="의견을 자유롭게 남겨주세요."
+    //         className="focus:outline-none bg-gray-100 font-medium"
+    //       />
+    //       <div className="flex justify-end mt-2 p-1">
+    //         <button 
+    //           type="submit" 
+    //           className="font-medium text-white bg-blue-200 hover:bg-blue-100 px-3 py-1 rounded-lg"
+    //         >
+    //           보내기
+    //         </button>
+    //       </div>
+    //     </div>
+    //   </form>
+    // </div>
 
-            className="focus:outline-none w-50 bg-gray-100 font-medium resize-none h-8 pt-2 pl-2 overflow-scroll"
-            // className="focus:outline-none w-50 bg-gray-100 font-medium h-20 pt-2 pl-2 overflow-y-scroll resize-none"
-          /> */}
-          <div className="flex justify-end mt-2 p-1">
-            <button 
-              type="submit" 
-              className="font-medium text-white bg-blue-200 hover:bg-blue-100 px-3 py-1 rounded-lg"
-            >
-              보내기
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+  //   <div className="p-4">
+  //   <div className="flex gap-2">
+  //   <form onSubmit={sendMessage} className='w-full'>
+  //     <input
+  //       type="text"
+  //       value={message}
+  //       onChange={(e) => setMessage(e.target.value)}
+  //       placeholder="의견을 자유롭게 남겨주세요"
+  //       className="flex-1 px-4 py-2 rounded-lg border bg-gray-100 font-medium focus:outline-none focus:ring-2 focus:ring-blue-100"
+  //     />
+  //     <button
+  //       type="submit" 
+  //       className="px-4 py-2 bg-blue-200 text-white rounded-lg">
+  //       보내기
+  //     </button>
+  //     </form>
+  //   </div>
+  // </div>
+
+  <div className="p-4">
+  <div className="flex">
+    <form onSubmit={sendMessage} className="flex gap-x-2 w-full">
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="의견을 자유롭게 남겨주세요"
+        className="flex-1 px-4 py-2 rounded-lg border bg-gray-100 font-medium focus:outline-none focus:ring-2 focus:ring-blue-100"
+      />
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-200 text-white rounded-lg flex-shrink-0">
+        보내기
+      </button>
+    </form>
+  </div>
+</div>
     
   );
 }
