@@ -7,191 +7,85 @@ import { FaSearch } from 'react-icons/fa';
 import { AiFillHeart } from 'react-icons/ai';
 import userApi from '../../services/userApi';
 import { useRef } from 'react';
+import LikeButton from '../../components/LikeButton';
+import { findInitialLikeKeyword, keywordAddLike, keywordRemoveLike } from '../../utils/likeFunction';
+import SearchInput from '../../components/SearchInput';
+import { searchKeyword, setUpKeywordDataAndStockInfo } from '../../utils/keywordFunction';
+import SearchKeywordInput from '../../components/SearchKeywordInput';
+import { bringStockChart } from '../../utils/stockFunction';
+import KeywordChartBox from '../../components/ChartBox/KeywordChartBox';
 
   export default function KeywordChartPage() {
     const { keyword_id } = useParams();
     const [chartData, setChartData] = useState([]);
     const [isLiked, setIsLiked] = useState(false); // 초기 좋아요 상태
-    const [currentKeyword, setCurrentKeyword] = useState('')
     const [keywordData, setKeywordData] = useState('');
     const [search, setSearch] = useState('');
     const [searchResult, setSearchResult] = useState()
-    const resultRef = useRef(null);
     const [keywordLikeList, setKeywordLikeList] = useState([]);
-    const navigate = useNavigate();
-
-    const bringStockChart = async () => {
-      if (keywordData && keywordData.stock_rankings && keywordData.stock_rankings.length > 0) {
-        try {
-          const response = await stockApi.getStockChart(keywordData.stock_rankings[0].code);
-          setChartData(response.data);
-        } catch (error) {
-          console.error('차트 데이터를 가져오는 중 오류 발생:', error);
-        }
-      }
-    };
-
-    // SearchResult 바깥을 클릭했을 때 닫히도록 설정
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (resultRef.current && !resultRef.current.contains(event.target)) {
-          setSearchResult([]); // searchResult 초기화
-        }
-      };
-
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, []);
+    const [stockInfo, setStockInfo] = useState({});
+    const [period, setPeriod] = useState('D');
 
     // 키워드 데이터 가져오기
     useEffect(() => {
-      const getKeywordData = async () => {
-        try {
-          const response = await keywordApi.getStockRankAboutKeyword(keyword_id);
-          setKeywordData(response.data);
-        } catch (error) {
-          console.error('키워드 데이터를 가져오는 중 오류 발생:', error);
-        }
-      };
-      
-      getKeywordData();
-    }, [keyword_id]);
+      setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo)
+      // console.log("KeywordData => ", keywordData)
+      // console.log("StockINFO => ", stockInfo)
+      console.log("12132312 =>",keywordLikeList)
+    }, [keyword_id])
 
-    // 차트 데이터 가져오기
     useEffect(() => {
-
-      
-      bringStockChart();
-    }, [keywordData, currentKeyword]);
-
-    // console.log(chartData)
-    useEffect(() => {
-      findInitialLikeStock();
-    },[keywordLikeList])
-
-    const findInitialLikeStock = async () => {
-      try {
-        const response = await userApi.getKeywordLike();
-        response.data.userKeywords.map((like) => {
-          if (like.keyword == keywordData.keyword) {
-            console.log(like.keyword)
-            setCurrentKeyword(like.keyword)
-            setIsLiked(true);
-          }
-        });
-      } catch (error) {
-        console.error('즐겨찾기 불러오기 실패:', error.response?.data?.message || error.message);
+      if (stockInfo.stock_code) {
+        bringStockChart(stockInfo.stock_code, setChartData, period); //주식 정보에서 stock_code, ChartData update useState, 초기 일봉('D')으로 조회
       }
-    };
-
-    const removeLike = async (keyword) => {
-      try {
-        await userApi.removeKeywordLike({ keyword: keyword });
-        setIsLiked(false)
-        setKeywordLikeList((prevList) => prevList.filter((like) => like.keyword !== keywordData.keyword))
-      } catch (error) {
-        console.error('즐겨찾기 삭제 실패:', error.response?.data?.message || error.message);
+      if (stockInfo.stock_id) {
+        // keywordData.keyword
+        findInitialLikeKeyword(keywordData.keyword, setIsLiked, setKeywordLikeList);
       }
+    }, [stockInfo])
+
+    // 즐겨찾기 추가 핸들링
+    const handleAddLike = () => {
+      keywordAddLike(keywordData.keyword, setKeywordLikeList)
+      setIsLiked(true);
     }
 
-    const addLike = async (keyword) => {
-      //즐겨찾기에 추가
-      try {
-        await userApi.addKeywordLike({ keyword: keyword, alarm_status: false });
-        setIsLiked(true);
-        setKeywordLikeList((prevList) => [...prevList, {keyword: keyword, alarm_status: false}])
-      } catch (error) {
-        console.error('즐겨찾기 추가 실패:', error.response?.data?.message || error.message);
-      }
-    };
+    // 즐겨찾기 삭제 핸들링
+    const handleRemoveLike = () => {
+      keywordRemoveLike(keywordData.keyword, setKeywordLikeList, keywordData)
+      setIsLiked(false);
+    }
 
-    const searchKeyword = async () => {
-      try {
-        const response = await keywordApi.searchKeywordByWord(search);
-        setSearchResult(response.data)
-      } catch (error) {
-        console.error('종목 검색 실패:', error.response?.data?.message || error.message);
-      }
+    // 검색함수 핸들링
+    const handleSearch = () => {
+      searchKeyword(search, setSearchResult)
     }
 
     return (
-      <div className="text-black flex-grow bg-white">
-        <div>
-          {/* header */}
-          <div className="flex justify-between items-center mb-3">
-            <div className="flex items-center gap-3">
-            <h1 className="font-extrabold text-4xl">
-              {keywordData?.keyword|| '로딩 중...'}
-            </h1>
-              <AiFillHeart
-                className={`text-3xl cursor-pointer ${isLiked ? 'text-red-100' : 'text-gray-200'} `}
-                onClick={() => {
-                  if (isLiked) {
-                    removeLike(keywordData.keyword);
-                    setKeywordLikeList(prevList => prevList.filter(keyword => keyword !== keywordData.keyword));
-                  } else {
-                    addLike(keywordData.keyword);
-                    setKeywordLikeList(prevList => [...prevList, keywordData.keyword]);
-                  }
-                }}
-              />
-            </div>
-            <div className="relative">
-              <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
-                <input
-                  className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-gray-700"
-                  maxLength={16}
-                  placeholder="원하는 키워드를 검색하세요"
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      searchKeyword();
-                      setSearch('')
-                    }
-                  }}
-                />
-                <FaSearch className="text-gray-500 ml-3" 
-                onClick={() => {
-                  searchKeyword();
-                }}/>
-              </div>
-
-              <ul
-            ref={resultRef}
-            className={`absolute z-10 left-0 w-full bg-white rounded-md shadow-md max-h-60 overflow-y-auto ${
-              searchResult?.length > 0 ? 'border border-gray-200' : ''
-            }`}>
-              {searchResult?.length > 0 
-              ? searchResult.map((el, i) => (
-                <li
-                className="cursor-pointer px-4 py-2 hover:bg-blue-50 border-b last:border-none flex justify-between"
-                key={i}
-                onClick={() => {
-                  navigate(`/keyword/${el.id}`)
-                  setSearchResult([]);
-                }}
-              >
-                <div className="font-medium text-black">{el.keyword}</div>
-              </li>
-              ))
-            : null}
-              </ul>
-            </div>
+      <div className="text-black_default flex-grow bg-white">
+        <div className="flex justify-between items-center mb-3">
+          <div className="flex items-center gap-3">
+            <div className="font-extrabold text-4xl">{keywordData?.keyword|| '로딩 중...'}</div>
+            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
-
-          {/* main */}
+          <SearchKeywordInput
+            setSearch={setSearch}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult}
+            searchKeyword={handleSearch}
+          />
+          </div>
           <div>
-            {/* <{chartData.length > 0 && <ChartBox chartData={chartData} />}> */}
-            <ChartBox 
-            chartData={chartData}
-            // stockInfo={keywordData.stock_rankings[0]}
-            bringStockChart={bringStockChart}
-            
+            <KeywordChartBox
+              chartData={chartData} // 차트 데이터
+              setChartData={setChartData}
+              stockInfo={stockInfo} // 주식 정보 {stock_id, stock_code, stock_name}
+              keywordLikeList={keywordLikeList} // 키워드 즐겨찾기 List
+              bringStockChart={bringStockChart} // 주식 차트 데이터 조회
+              period={period} // 일봉, 주봉, 월봉 (default : 일봉)
+              setPeriod={setPeriod}
             />
           </div>
-        </div>
       </div>
     );
   }
