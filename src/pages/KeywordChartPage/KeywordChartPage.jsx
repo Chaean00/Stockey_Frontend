@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import stockApi from '../../services/stockApi';
-import ChartBox from '../../components/ChartBox/ChartBox';
-import keywordApi from '../../services/keywordApi';
-import { FaSearch } from 'react-icons/fa';
-import { AiFillHeart } from 'react-icons/ai';
-import userApi from '../../services/userApi';
-import { useRef } from 'react';
 import LikeButton from '../../components/LikeButton';
 import { findInitialLikeKeyword, keywordAddLike, keywordRemoveLike } from '../../utils/likeFunction';
-import SearchInput from '../../components/SearchInput';
 import { searchKeyword, setUpKeywordDataAndStockInfo } from '../../utils/keywordFunction';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { bringStockChart } from '../../utils/stockFunction';
