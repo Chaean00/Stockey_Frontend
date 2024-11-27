@@ -44,7 +44,7 @@ export default function Layout() {
   }, [selectedSidebar]);
 
   return (
-    <div className="font-sans flex font-black_default overflow-x-hidden min-h-screen items-stretch h-auto">
+    <div className="font-sans flex text-black_default overflow-x-hidden min-h-screen items-stretch h-auto">
       {/* Main Content */}
       <div className="flex flex-col flex-grow w-3/4">
         {/* Header/Navbar */}
@@ -53,9 +53,9 @@ export default function Layout() {
         {/* Page Content */}
         {/* 채팅 페이지 패딩값 조정 */}
         {/* <main className={`flex min-w-4xl bg-white items-center justify-center ${ location.pathname.startsWith('/chat') ? 'p-2' : 'flex p-12 pb-16' }`}> */}
-        <main className="flex-grow flex  lg:p-20 p-12 pb-16 items-center justify-center">
+        <main className="flex-grow flex lg:p-40 p-12 pb-16 items-center justify-center">
           <Outlet className="mb-10" />
-        {/* <main className="flex-grow flex bg-white p-12 pb-16 items-center justify-center">
+          {/* <main className="flex-grow flex bg-white p-12 pb-16 items-center justify-center">
           <Outlet className="mb-10" /> */}
         </main>
         {/* Footer */}
@@ -66,18 +66,20 @@ export default function Layout() {
       <div
         className={`${
           isSidebarOpen ? 'w-1/4' : 'w-20'
-        } transition-all duration-300 bg-gray-100 shadow-md flex justify-center`}
+        } transition-all duration-300 bg-gray-100 shadow-md flex justify-center text-gray-400`}
       >
-        {isSidebarOpen ? <div className="flex-grow  scrollbar-hide overflow-y-auto">{renderSidebar()}</div> : null}
+        {isSidebarOpen ? (
+          <div className="flex-grow scrollbar-hide overflow-y-auto text-black_default">{renderSidebar()}</div>
+        ) : null}
         <div className="min-w-20">
           <div
             onClick={() => {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('main');
             }}
-            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md mb-3"
+            className={`${selectedSidebar == 'main' && isSidebarOpen ? 'bg-gray-300 text-gray-700' : 'text-gray-400'} flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3`}
           >
-            <GoHomeFill className="text-3xl text-gray-400" />
+            <GoHomeFill className="text-2xl" />
             <p className="font-semibold text-sm">메인</p>
           </div>
           <div
@@ -87,10 +89,10 @@ export default function Layout() {
             }}
             className={`
               ${location.pathname.startsWith('/keyword') ? 'hidden' : 'flex flex-col items-center'}
-              hover:bg-blue-gray-100 m-1 p-1 rounded-md mb-3
+              ${selectedSidebar == 'stock' && isSidebarOpen ? 'bg-gray-300 text-gray-700' : 'text-gray-400'} flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3
             `}
           >
-            <RiKey2Fill className="text-4xl text-gray-400" />
+            <RiKey2Fill className="text-2xl" />
             <p className="font-semibold text-sm">키워드</p>
           </div>
           <div
@@ -100,10 +102,10 @@ export default function Layout() {
             }}
             className={`
               ${location.pathname.startsWith('/stock') ? 'hidden' : 'flex flex-col items-center'}
-              hover:bg-blue-gray-100 m-1 p-1 rounded-md mb-3
+              ${selectedSidebar == 'keyword' && isSidebarOpen ? 'bg-gray-300 text-gray-700' : 'text-gray-400'} flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3
             `}
           >
-            <FaChartLine className="text-4xl text-gray-400" />
+            <FaChartLine className="text-2xl" />
             <p className="font-semibold text-sm">종목</p>
           </div>
           <div
@@ -111,9 +113,9 @@ export default function Layout() {
               setIsSidebarOpen(!isSidebarOpen);
               setSelectedSidebar('chat');
             }}
-            className="flex flex-col items-center hover:bg-blue-gray-100 m-1 p-1 rounded-md"
+            className={`${selectedSidebar == 'chat' && isSidebarOpen ? 'bg-gray-300 text-gray-700' : 'text-gray-400'} flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3`}
           >
-            <IoChatbubblesSharp className="text-4xl text-gray-400" />
+            <IoChatbubblesSharp className="text-2x" />
             <p className="font-semibold text-sm">채팅</p>
           </div>
         </div>
