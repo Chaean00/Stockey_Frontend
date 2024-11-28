@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import keywordApi from '../services/keywordApi';
+import stockApi from '../services/stockApi';
 
 export default function SidebarKeyword(props) {
   const [keywordInfo, setKeywordInfo] = useState({});
@@ -18,9 +19,9 @@ export default function SidebarKeyword(props) {
         setKeywordInfo({...keywordInfo, keyword: response.data.keyword}) 
         setStockRank(response.data.stock_rankings)
       } else {
-        const response = await keywordApi.getKeywordRank();
-        setKeywordRank(response.data);
-        
+        const response = await stockApi.getStcokRankByUserLike();
+        setStockRank(response.data)
+        console.log(response.data)
       }
     } catch (err) {
       console.error('기업 랭킹 조회 실패:', err.response?.data?.message || err.message);
@@ -29,34 +30,45 @@ export default function SidebarKeyword(props) {
   }
 
   return (
-    <div className="p-5">
+    <div className="p-3">
       {/** header */}
-      <div className="lg:text-2xl sm:text-lg mb-5 font-extrabold w-full border-b border-gray-300 py-3">
+      <div className="lg:text-lg mb-3 font-extrabold w-full border-b border-gray-300 py-3">
         {keywordInfo?.keyword_id ? (
           <h2>
-            <span className="text-blue-200 text-3xl font-bold">[ </span>
+            <span className="text-blue-200 text-xl font-bold">[ </span>
             {keywordInfo.keyword}
-            <span className="text-blue-200 text-3xl font-bold"> ]</span> 에서 가장 많이 언급된
+            <span className="text-blue-200 text-xl font-bold"> ]</span> 에서 가장 많이 언급된
           </h2>
         ) : (
           <h2>
-            <span className="text-blue-200 text-3xl font-bold">[</span>
-            오늘
-            <span className="text-blue-200 text-3xl font-bold">]</span> 가장 많이 언급된
+            오늘 가장 많이 언급된
           </h2>
         )}
       </div>
       {/** list */}
-      <ul className="flex flex-col gap-1">
+      {keywordInfo?.keyword_id ? (
+              <ul className="flex flex-col gap-1">
+              {stockRank?.map((el, i) => {
+                return (
+                  <li key={i} className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between">
+                    <div className=" text-blue-200 w-1/3">{i + 1}</div>
+                    <div className='w-2/3'>{el.stock_name}</div>
+                  </li>
+                );
+              })}
+            </ul>
+      ) : (
+        <ul className="flex flex-col gap-1 p-2">
         {stockRank?.map((el, i) => {
           return (
-            <li key={i} className="text-xl font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl">
-              <div className="text-2xl text-blue-200 mr-16">{i + 1}</div>
-              <div>{el.stock_name}</div>
+            <li key={i} className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between">
+              <div className=" text-blue-200 w-1/3">{i + 1}</div>
+              <div className="w-2/3">{el.Stock.stock_name}</div>
             </li>
           );
         })}
       </ul>
+      )}
     </div>
   );
 }
