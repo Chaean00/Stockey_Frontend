@@ -18,8 +18,9 @@ export default function SidebarStock(props) {
         setStockInfo({ ...stockInfo, stock_name: response.data.stock_name });
         setKeywordRank(response.data.keyword_rankings);
       } else {
-        const response = await keywordApi.getKeywordRank();
-        setKeywordRank(response.data);
+        const response = await keywordApi.getKeywordLikeRank();
+        console.log(response.data);
+        setKeywordRank(response.data.rankings);
       }
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
@@ -38,7 +39,7 @@ export default function SidebarStock(props) {
             <span className="text-blue-200 text-xl font-bold"> ]</span> 에서 가장 많이 언급된
           </h2>
         ) : (
-          <h2>오늘 가장 많이 언급된</h2>
+          <h2>가장 많이 즐겨찾기된</h2>
         )}
       </div>
       {/** list */}
@@ -47,7 +48,7 @@ export default function SidebarStock(props) {
           return (
             <li
               key={i}
-              className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+              className="text-md font-semibold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
             >
               <div className=" text-blue-200 w-1/3">{i + 1}</div>
               <div className="w-2/3">{el.keyword}</div>
