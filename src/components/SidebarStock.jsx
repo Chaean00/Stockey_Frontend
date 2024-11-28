@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import keywordApi from '../services/keywordApi';
+import { useNavigate } from 'react-router-dom';
 
 export default function SidebarStock(props) {
   const [stockInfo, setStockInfo] = useState({});
   const [keywordRank, setKeywordRank] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     stockInfo.stock_id = props.stock_id;
@@ -19,12 +21,22 @@ export default function SidebarStock(props) {
         setKeywordRank(response.data.keyword_rankings);
       } else {
         const response = await keywordApi.getKeywordLikeRank();
-        console.log(response.data);
         setKeywordRank(response.data.rankings);
       }
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
       alert('키워드 랭킹 조회에 실패했습니다...');
+    }
+  };
+
+  const moveToKeywordPage = async (keyword) => {
+    try {
+      const response = await keywordApi.searchKeywordByWord(keyword);
+      const keyword_id = response.data[0].id;
+      navigate(`/keyword/${keyword_id}`);
+    } catch (error) {
+      console.error('키워드 검색 실패:', error.response?.data?.message || error.message);
+      alert('키워드 검색에 실패했습니다...');
     }
   };
 
@@ -49,6 +61,9 @@ export default function SidebarStock(props) {
             <li
               key={i}
               className="text-md font-semibold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+              onClick={() => {
+                moveToKeywordPage(el.keyword);
+              }}
             >
               <div className=" text-blue-200 w-1/3">{i + 1}</div>
               <div className="w-2/3">{el.keyword}</div>

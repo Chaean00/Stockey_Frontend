@@ -8,6 +8,7 @@ import keywordApi from '../../services/keywordApi';
 import ResizeObserver from 'resize-observer-polyfill';
 import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
+import { useNavigate } from 'react-router-dom';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
@@ -25,6 +26,8 @@ export default function StockBox() {
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
   const [chartSize, setChartSize] = useState({ width: 600, height: 400 }); // 초기값 설정
+
+  const navigate = useNavigate();
 
   // 부모 <div> 크기 변화 감지 및 업데이트
   useEffect(() => {
@@ -113,7 +116,12 @@ export default function StockBox() {
       {/** Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-3">
-          <div className="font-extrabold text-2xl">
+          <div
+            className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
+            onClick={() => {
+              navigate(`stock/${stockInfo.stock_id}`);
+            }}
+          >
             <span className="text-3xl font-bold text-blue-200">[ </span>
             {stockInfo.stock_name}
             <span className="text-3xl font-bold text-blue-200"> ]</span>
