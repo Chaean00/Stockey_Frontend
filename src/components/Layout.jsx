@@ -49,13 +49,13 @@ export default function Layout() {
       if (selectedSidebar === clicked) {
         setIsSidebarOpen(!isSidebarOpen);
       } else {
-        setSelectedSidebar(clicked)
+        setSelectedSidebar(clicked);
       }
     } else {
-      setSelectedSidebar(clicked)
+      setSelectedSidebar(clicked);
       setIsSidebarOpen(!isSidebarOpen);
     }
-  }
+  };
 
   return (
     <div className="font-sans flex text-black_default overflow-x-hidden min-h-screen items-stretch h-auto">
