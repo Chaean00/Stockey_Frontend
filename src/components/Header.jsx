@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import userApi from '../services/userApi';
 import { useAuth } from '../utils/authContext';
 import { FaBell } from 'react-icons/fa6';
+import Alarm from './Alarm/Alarm';
 
 export default function Header() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { nickname } = useAuth();
   const navigate = useNavigate();
+  const [showAlarmModal, setShowAlarmModal] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -17,6 +19,14 @@ export default function Header() {
     } catch (err) {
       console.error('로그아웃 실패:', err);
     }
+  };
+
+  const handleBellClick = () => {
+    setShowAlarmModal(true); // 벨 아이콘 클릭 시 모달 열기
+  };
+
+  const handleCloseModal = () => {
+    setShowAlarmModal(false);
   };
 
   return (
@@ -32,7 +42,7 @@ export default function Header() {
       {isLoggedIn ? (
         // 로그인된 상태
         <div className="flex gap-3">
-          <button>
+          <button onClick={handleBellClick}>
             <FaBell className="text-blue-200 hover:text-blue-100 text-2xl" />
           </button>
           <button
@@ -59,6 +69,9 @@ export default function Header() {
           </button>
         </div>
       )}
+
+      {/* Alarm 모달을 showAlarmModal 상태에 따라 렌더링 */}
+      {showAlarmModal && <Alarm show={showAlarmModal} handleClose={handleCloseModal} />}
     </div>
   );
 }

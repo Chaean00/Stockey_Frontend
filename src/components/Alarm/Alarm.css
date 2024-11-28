@@ -1,0 +1,38 @@
+#custom-switch {
+    width: 60px;
+    height: 30px;
+    margin-top: -7px;
+    margin-left: -35px;
+}
+
+#custom-switch:hover {
+    cursor: pointer;
+}
+
+.keywords {
+    display: inline-block;
+    background-color: #F2F4F6;
+    padding: 4px 8px;
+    margin: 3px 3px;
+    border-radius: 8px;
+    transition: background-color;
+}
+
+.keywords:hover {
+    background-color: #E0E8F0;
+    cursor: pointer;
+}
+
+.stocks {
+    display: inline-block;
+    background-color: #F2F4F6;
+    padding: 4px 8px;
+    margin: 3px 3px;
+    border-radius: 8px;
+    transition: background-color;
+}
+
+.stocks:hover {
+    background-color: #E0E8F0;
+    cursor: pointer;
+}
