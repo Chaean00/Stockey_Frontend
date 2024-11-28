@@ -69,7 +69,7 @@ export default function ChartBox({
 
   return (
     <div ref={containerRef}>
-      <div className={`flex ${isCompact ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start`}>
+      <div className={`flex ${isCompact ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start font-semibold`}>
         {/** chart box */}
         <div
           ref={chartContainerRef} // CandleChart 상위 div 참조
