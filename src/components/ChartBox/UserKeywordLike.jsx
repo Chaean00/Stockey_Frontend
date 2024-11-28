@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function UserKeywordLike({keywordLikeList}) {
+export default function UserKeywordLike({ keywordLikeList }) {
   const navigate = useNavigate();
   const moveToStock = (keyword_id) => {
     navigate(`/keyword/${keyword_id}`);
   };
 
   return (
-    <div className="border w-full h-full border-gray-300 mb-3 pl-10 py-3 rounded-xl">
+    <div className="border w-full h-full  mb-3 pl-10 py-3 rounded-xl">
       <div className="mb-2">키워드 즐겨찾기</div>
 
       {keywordLikeList?.userKeywords?.map((el, index) => {

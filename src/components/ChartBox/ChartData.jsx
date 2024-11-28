@@ -19,14 +19,15 @@ export default function ChartData(props) {
   };
 
   // Object.entries로 속성(key-value) 쌍을 배열로 변환
-  const stockInfoEntries = Object.entries(stockInfo).flatMap(([key, value]) => {
-    if (key === 'elderRay') {
-      // elderRay 내부 값 분해
-      return Object.entries(value).map(([subKey, subValue]) => [subKey, subValue]);
-    }
-    return [[key, value]]; // 나머지 값은 그대로 반환
-  })
-  .filter(([key, value]) => value !== undefined && value !== null);
+  const stockInfoEntries = Object.entries(stockInfo)
+    .flatMap(([key, value]) => {
+      if (key === 'elderRay') {
+        // elderRay 내부 값 분해
+        return Object.entries(value).map(([subKey, subValue]) => [subKey, subValue]);
+      }
+      return [[key, value]]; // 나머지 값은 그대로 반환
+    })
+    .filter(([key, value]) => value !== undefined && value !== null);
 
   const formatNumber = (key, value) => {
     if (['open', 'high', 'low', 'close', 'volume', 'ema12', 'ema26'].includes(key)) {
@@ -46,7 +47,7 @@ export default function ChartData(props) {
         const tableEntries = stockInfoEntries.slice(tableIndex * 5, tableIndex * 5 + 5);
 
         return (
-          <div key={tableIndex} className="border w-full border-gray-300 mb-3 pl-10 py-3 rounded-xl">
+          <div key={tableIndex} className="border-2 w-full mb-3 pl-10 py-3 rounded-xl">
             <table>
               <tbody>
                 {tableEntries.map(([key, value], index) => {
