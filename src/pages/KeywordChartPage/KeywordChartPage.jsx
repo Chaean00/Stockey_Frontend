@@ -21,9 +21,7 @@ import KeywordChartBox from '../../components/ChartBox/KeywordChartBox';
     // 키워드 데이터 가져오기
     useEffect(() => {
       setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo)
-      // console.log("KeywordData => ", keywordData)
-      // console.log("StockINFO => ", stockInfo)
-      console.log("12132312 =>",keywordLikeList)
+      console.log(stockInfo)
     }, [keyword_id])
 
     useEffect(() => {
@@ -67,6 +65,7 @@ import KeywordChartBox from '../../components/ChartBox/KeywordChartBox';
             searchKeyword={handleSearch}
           />
           </div>
+          <div className="font-extrabold text-2xl">{stockInfo?.stock_name || '로딩 중...'}</div>
           <div>
             <KeywordChartBox
               chartData={chartData} // 차트 데이터
