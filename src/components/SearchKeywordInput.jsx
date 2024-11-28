@@ -25,7 +25,7 @@ export default function SearchKeywordInput({ setSearch, searchResult, setSearchR
         <input
           className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-black_default"
           maxLength={16}
-          placeholder="원하는 종목을 검색하세요"
+          placeholder="원하는 키워드를 검색하세요"
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {

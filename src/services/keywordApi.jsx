@@ -13,7 +13,9 @@ const keywordApi = {
 
   getKeywordRank: () => axiosInstance.get(`/keywords/total-rankings`),
 
-  searchKeywordByWord: (word) => axiosInstance.get(`/keywords/${word}`)
+  searchKeywordByWord: (word) => axiosInstance.get(`/keywords/${word}`),
+
+  getTopKeywrod: () => axiosInstance.get(`/keywords/top-keyword`)
 };
 
 export default keywordApi;
