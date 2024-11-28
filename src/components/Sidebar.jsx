@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+
+import ChattingMain from "./ChattingMain";
 
 export default function Sidebar() {
   return (
@@ -23,6 +25,7 @@ export default function Sidebar() {
       <div>
         <div>
           <h2>실시간 채팅방</h2>
+          <ChattingMain />
           <button>+더보기</button>
         </div>
         <div>{/** 채티방 list */}</div>

@@ -16,9 +16,9 @@ export default function UserKeywordLike({ keywordLikeList }) {
           <p
             key={index}
             className="inline-block bg-gray-100 p-2 rounded-lg text-sm mr-2 hover:bg-blue-100 mb-2"
-            // onClick={() => {
-            //   moveToStock(el.id);
-            // }}
+            onClick={() => {
+              moveToStock(el.keyword_id);
+            }}
           >
             {el.keyword}
           </p>
