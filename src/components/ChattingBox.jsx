@@ -1,26 +1,30 @@
-import React, { useRef, useEffect } from 'react';
-import MessageInput from './ChattingInput';
-import { ChevronDown, Heart } from 'lucide-react'
+import React, { useRef, useEffect } from "react";
+import MessageInput from "./ChattingInput";
+import { ChevronDown, Heart } from "lucide-react";
 
-import { socket } from '../pages/ChattingPage/ChattingPage';
-import chatApi from '../services/chatApi';
+import { socket } from "../pages/ChattingPage/ChattingPage";
+import chatApi from "../services/chatApi";
 
-
-export default function ChattingBox({ messages, setMessages, username, roomId }) {
+export default function ChattingBox({
+  messages,
+  setMessages,
+  username,
+  roomId,
+}) {
   const messageContainerRef = useRef(null);
 
   // 좋아요 핸들러
   const handleLike = async (e, comment) => {
     e.preventDefault();
-  
+
     try {
       // 좋아요가 눌린 상태면
       if (comment.likedByUser) {
         // 좋아요 취소 API 호출
         await chatApi.unlikeMessage(comment.id);
-  
+
         // 좋아요 취소 소켓 이벤트 전송
-        socket.emit('unlikeMessage', {
+        socket.emit("unlikeMessage", {
           messageId: comment.id,
           roomId: roomId,
         });
@@ -28,15 +32,16 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
         // 좋아요 표시 본인 로컬에만 반영
         setMessages((prevMessages) =>
           prevMessages.map((msg) =>
-            msg.id === comment.id ? { ...msg, likedByUser: false } : msg
-          )
+            msg.id === comment.id ? { ...msg, likedByUser: false } : msg,
+          ),
         );
-      } else { // 좋아요가 눌리지 않은 상태면
+      } else {
+        // 좋아요가 눌리지 않은 상태면
         // 좋아요 추가 API 호출
         await chatApi.likeMessage(comment.id);
-  
+
         // 좋아요 추가 소켓 이벤트 전송
-        socket.emit('likeMessage', {
+        socket.emit("likeMessage", {
           messageId: comment.id,
           roomId: roomId,
         });
@@ -44,14 +49,14 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
         // 좋아요 표시 본인 로컬에만 반영
         setMessages((prevMessages) =>
           prevMessages.map((msg) =>
-            msg.id === comment.id ? { ...msg, likedByUser: true } : msg
-          )
+            msg.id === comment.id ? { ...msg, likedByUser: true } : msg,
+          ),
         );
       }
     } catch (error) {
-      console.error('좋아요 처리 실패:', error);
+      console.error("좋아요 처리 실패:", error);
       if (error.response.data.message === "Authorization Null") {
-        alert("로그인 후 사용해 주세요.")
+        alert("로그인 후 사용해 주세요.");
       }
     }
   };
@@ -59,7 +64,8 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
   // 스크롤 자동 이동 함수
   const scrollToBottom = () => {
     if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
     }
   };
 
@@ -68,7 +74,7 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
     scrollToBottom();
   }, [messages.length]);
 
-  //시간 format 수정
+  // 시간 format 수정
   function formatDate(dateString) {
     const now = new Date();
     const past = new Date(dateString);
@@ -81,11 +87,33 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
     } else if (diff < 86400) {
       return `${Math.floor(diff / 3600)}시간 전`;
     } else {
-      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-      return past.toLocaleDateString('ko-KR', options);
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      return past.toLocaleDateString("ko-KR", options);
     }
   }
-  
+
+  // 아이콘 색상 설정
+  function stringToPastelColor(nickname) {
+    // 해시 함수: 간단한 해시 값을 계산
+    function hashString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash = hash & hash; // 32비트 정수로 변환
+      }
+      return Math.abs(hash);
+    }
+
+    const hash = hashString(nickname);
+
+    // Hue는 0~360 범위, Saturation과 Lightness는 고정 (파스텔톤)
+    const hue = hash % 360; // 360도 범위에서 색상 결정
+    const saturation = 70; // 파스텔톤을 위한 적당한 포화도
+    const lightness = 80; // 파스텔톤을 위한 밝기
+
+    // HSL 색상을 CSS 형식으로 반환
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  }
 
   return (
     <div className="w-full mx-auto bg-white rounded-lg border border-black-500">
@@ -106,39 +134,57 @@ export default function ChattingBox({ messages, setMessages, username, roomId })
         >
           {/* 채팅 메시지 목록 */}
           {messages.map((comment) => (
-            <div key={comment.id} className="flex gap-4 border-b border-black-500 pb-[36px]">
+            <div
+              key={comment.id}
+              className="flex gap-4 border-b border-black-500 pb-[36px]"
+            >
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-1">
-
                   {/* 원 아이콘 */}
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 bg-gray-200 rounded-full">
+                    <div
+                      className="w-10 h-10 rounded-full"
+                      style={{
+                        backgroundColor: stringToPastelColor(comment.nickname),
+                      }}
+                    >
                       {/* {comment.nickname} */}
                     </div>
                   </div>
 
                   {/* 닉네임 */}
-                  <span className="font-sans font-medium text-[20px]">{comment.nickname}</span>
+                  <span className="font-sans font-medium text-[20px]">
+                    {comment.nickname}
+                  </span>
 
                   {/* 메시지 시간 */}
-                  <span className="text-sm text-gray-500 font-medium pl-3">{formatDate(comment.created_at)}</span>
+                  <span className="text-sm text-gray-500 font-medium pl-3">
+                    {formatDate(comment.created_at)}
+                  </span>
 
                   {/* 좋아요 하트 및 개수 */}
                   <div className="flex items-center gap-1">
-                    <div className='cursor-pointer hover:text-red-500' onClick={(e) => {
-                      handleLike(e, comment);
-                    }}>
-                    {comment.likedByUser ? (
-                      <Heart className="w-4 h-4 text-red-500 fill-red-500 hover:scale-110 transition-transform" />
-                    ) : (
-                      <Heart className="w-4 h-4 text-gray-500 hover:text-red-500 hover:scale-110 transition-transform" />
-                    )}
+                    <div
+                      className="cursor-pointer hover:text-red-500"
+                      onClick={(e) => {
+                        handleLike(e, comment);
+                      }}
+                    >
+                      {comment.likedByUser ? (
+                        <Heart className="w-4 h-4 text-red-500 fill-red-500 hover:scale-110 transition-transform" />
+                      ) : (
+                        <Heart className="w-4 h-4 text-gray-500 hover:text-red-500 hover:scale-110 transition-transform" />
+                      )}
                     </div>
-                    <span className="text-sm text-gray-500 font-medium">{comment.totalLikes}</span>
+                    <span className="text-sm text-gray-500 font-medium">
+                      {comment.totalLikes}
+                    </span>
                   </div>
                 </div>
                 {/* 메시지 내용 */}
-                <p className="text-gray-700 font-medium mt-[30px]">{comment.message}</p>
+                <p className="text-gray-700 font-medium mt-[30px]">
+                  {comment.message}
+                </p>
               </div>
             </div>
           ))}
