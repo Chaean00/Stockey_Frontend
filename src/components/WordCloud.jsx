@@ -58,7 +58,7 @@ const SimpleWordCloud = ({ data, width, height }) => {
   }, [data, width, height]);
 
   return (
-    <div className="flex items-center justify-center w-full h-full bg-gray-100">
+    <div className="flex items-center justify-center w-full h-full border-2 border-gray-200 rounded-xl">
       <svg ref={svgRef} width={width} height={height} />
     </div>
   );

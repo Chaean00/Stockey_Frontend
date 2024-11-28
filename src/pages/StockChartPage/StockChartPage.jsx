@@ -93,8 +93,8 @@ export default function StockChartPage() {
           setPeriod={setPeriod}
         />
       </div>
-      <div>
-        <CustomWordCloud data={keywordRank} width={800} height={600} />
+      <div className="mt-3">
+        <CustomWordCloud data={keywordRank} width={800} height={400} />
       </div>
     </div>
   );
