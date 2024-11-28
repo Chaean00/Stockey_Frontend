@@ -54,7 +54,7 @@ export default function LoginPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, account_id: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
             {errors.account_id && <p className="text-red-100 text-xs mt-2">{errors.account_id}</p>}
@@ -71,7 +71,7 @@ export default function LoginPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, password: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
             {errors.password && <p className="text-red-100 text-xs mt-2">{errors.password}</p>}

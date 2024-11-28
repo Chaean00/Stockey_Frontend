@@ -1,5 +1,8 @@
 import { useChatContext } from "../utils/chatContext";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import chatApi from "../services/chatApi";
 
 // Trending keywords data
 const trendingKeywords = [
@@ -24,6 +27,8 @@ const trendingKeywords = [
 
 export default function SidebarChat() {
     const { chatRoomList, setRoomId } = useChatContext();
+    const [ weightRoomList, setWeightRoomList ] = useState([]);
+    const [ bookmarkRoomList, setbookmarkRoomList ] = useState([]);
     const navigate = useNavigate();
 
     // 사이드 바에 순위로 표시된 채팅방 클릭 시
@@ -31,6 +36,27 @@ export default function SidebarChat() {
         setRoomId(roomId);
         navigate("/chat");
     };
+
+    // 채팅방 룸 리스트 가져오기
+    useEffect(() => {
+        const fetchRoomList = async () => {
+            try {
+                // 가중치 랭킹
+                const weightResp = await chatApi.getWeightRankings();
+                setWeightRoomList(weightResp.data.results);
+                console.log(weightResp.data.results);
+    
+                // 즐겨찾기 랭킹
+                const bookmarkResp = await chatApi.getBookmarkRankings();
+                setbookmarkRoomList(bookmarkResp.data.results);
+                console.log(bookmarkResp.data);
+    
+            } catch (error) {
+                console.error('룸 리스트 로드 실패:', error);
+            }
+        }
+        fetchRoomList();
+    }, []);
 
     return (
         // <div className="p-4 text-defaultText">
@@ -64,7 +90,9 @@ export default function SidebarChat() {
         // </div>
         <div className="w-full p-6">
             {/* Title */}
-            <h2 className="text-lg font-semibold text-gray-900 mb-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-8" onClick={() => {
+                roomListHandler(1);
+            }}>
                 전체 커뮤니티
             </h2>
 
@@ -76,6 +104,21 @@ export default function SidebarChat() {
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                     지금 뜨는 키워드 커뮤니티
                 </h2>
+                <ul>
+                    {weightRoomList?.map((el, i) => {
+                    return (
+                        <li key={i} className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-200" onClick={() => {
+                            roomListHandler(el.room_id);
+                        }}>
+                        <div className="flex items-center font-medium">
+                            <div className="text-blue-200 w-12">{i + 1}</div>
+                            <div>{el.keyword}</div>
+                        </div>
+                        <span className="text-gray-400 font-medium">???</span>
+                        </li>
+                    );
+                    })}
+                </ul>
             </div>
 
             {/* Divider */}
@@ -87,16 +130,16 @@ export default function SidebarChat() {
                 국밥 키워드 커뮤니티
                 </h2>
                 <ul>
-                    {chatRoomList?.map((el, i) => {
+                    {bookmarkRoomList?.map((el, i) => {
                     return (
                         <li key={i} className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-200" onClick={() => {
-                            roomListHandler(el.id);
+                            roomListHandler(el.room_id);
                         }}>
                         <div className="flex items-center font-medium">
                             <div className="text-blue-200 w-12">{i + 1}</div>
-                            <div>{el.name}</div>
+                            <div>{el.keyword}</div>
                         </div>
-                        <span className="text-gray-400 font-medium">123</span>
+                        <span className="text-gray-400 font-medium">{el.count}</span>
                         </li>
                     );
                     })}

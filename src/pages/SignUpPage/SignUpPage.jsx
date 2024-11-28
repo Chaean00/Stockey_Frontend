@@ -58,7 +58,7 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, nickname: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 hover:ring-2 hover:ring-blue-100 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 hover:ring-2 hover:ring-blue-100 focus:outline-none"
               />
             </label>
             {errors.nickname && <p className="text-red-100 text-xs mt-2">{errors.nickname}</p>}
@@ -75,7 +75,7 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, account_id: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
             {errors.account_id && <p className="text-red-100 text-xs mt-2">{errors.account_id}</p>}
@@ -92,7 +92,7 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, password: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
             {errors.password && <p className="text-red-100 text-xs mt-2">{errors.password}</p>}
@@ -109,7 +109,7 @@ export default function SignUpPage() {
                 onChange={(e) => {
                   setUserInfo({ ...userInfo, confirmPassword: e.target.value });
                 }}
-                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100  border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
+                className="w-full mt-2 px-4 py-2 border hover:ring-2 hover:ring-blue-100 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none"
               />
             </label>
             {errors.confirmPassword && <p className="text-red-100 text-xs mt-2">{errors.confirmPassword}</p>}
