@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import MessageInput from "./ChattingInput";
 import { ChevronDown, Heart } from "lucide-react";
 
@@ -6,12 +6,46 @@ import { socket } from "../pages/ChattingPage/ChattingPage";
 import chatApi from "../services/chatApi";
 
 export default function ChattingBox({
-  messages,
+  // messages,
+  messages: initialMessages, // 초기 메시지를 전달받음
   setMessages,
   username,
   roomId,
 }) {
   const messageContainerRef = useRef(null);
+
+  // 드롭 다운 상태 관리
+  const [isOpen, setIsOpen] = useState(false); // 드롭다운 열림/닫힘 상태
+  const [selectedOption, setSelectedOption] = useState("최신순"); // 선택된 옵션
+  const [sortedMessages, setSortedMessages] = useState(initialMessages); // 정렬된 메시지 상태 관리
+
+  // 옵션 목록
+  const options = ["최신순", "좋아요순"];
+
+  // 드롭다운 토글
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // 옵션 선택 핸들러
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false); // 선택 후 드롭다운 닫기
+  };
+
+  // messages와 selectedOption 상태를 기반으로 메시지 정렬
+  useEffect(() => {
+    const sorted = [...initialMessages].sort((a, b) => {
+      if (selectedOption === "최신순") {
+        return new Date(a.created_at) - new Date(b.created_at); // 최신순: 최근 시간 우선
+      } else if (selectedOption === "좋아요순") {
+        return a.totalLikes - b.totalLikes; // 좋아요순: 좋아요 개수 우선
+      }
+      return 0;
+    });
+
+    setSortedMessages(sorted);
+  }, [initialMessages, selectedOption]);
 
   // 좋아요 핸들러
   const handleLike = async (e, comment) => {
@@ -72,7 +106,7 @@ export default function ChattingBox({
   // scrollHeight가 변경될 때 스크롤 이동
   useEffect(() => {
     scrollToBottom();
-  }, [messages.length]);
+  }, [sortedMessages.length]);
 
   // 시간 format 수정
   function formatDate(dateString) {
@@ -120,10 +154,39 @@ export default function ChattingBox({
       <div className="p-1">
         <div className="flex justify-end mb-2 p-3">
           <div className="relative">
-            <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            {/* <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
               최신순
               <ChevronDown className="w-4 h-4" />
+            </button> */}
+
+            {/* 버튼 */}
+            <button
+              onClick={toggleDropdown}
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              {selectedOption}
+              <ChevronDown className="w-4 h-4" />
             </button>
+
+            {/* 드롭다운 목록 */}
+            {isOpen && (
+              <div className="absolute right-0 z-10 mt-2 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <ul className="py-1">
+                  {options.map((option, index) => (
+                    <li key={index}>
+                      <button
+                        onClick={() => handleOptionSelect(option)}
+                        className={`block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${
+                          selectedOption === option ? "font-bold" : ""
+                        }`}
+                      >
+                        {option}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
 
@@ -133,7 +196,7 @@ export default function ChattingBox({
           // className="flex-grow overflow-y-auto p-3 space-y-4 md:max-h-[calc(100vh-20rem)] max-h-[calc(100vh-10rem)] scrollbar-hide"
         >
           {/* 채팅 메시지 목록 */}
-          {messages.map((comment) => (
+          {sortedMessages.map((comment) => (
             <div
               key={comment.id}
               className="flex gap-4 border-b border-black-500 pb-[36px]"
@@ -153,7 +216,7 @@ export default function ChattingBox({
                   </div>
 
                   {/* 닉네임 */}
-                  <span className="font-sans font-medium text-[20px]">
+                  <span className="font-sans font-medium text-[16px]">
                     {comment.nickname}
                   </span>
 
