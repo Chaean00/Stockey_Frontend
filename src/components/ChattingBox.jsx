@@ -106,7 +106,7 @@ export default function ChattingBox({
   // scrollHeight가 변경될 때 스크롤 이동
   useEffect(() => {
     scrollToBottom();
-  }, [sortedMessages.length]);
+  }, [sortedMessages.length, sortedMessages]);
 
   // 시간 format 수정
   function formatDate(dateString) {
@@ -175,7 +175,9 @@ export default function ChattingBox({
                   {options.map((option, index) => (
                     <li key={index}>
                       <button
-                        onClick={() => handleOptionSelect(option)}
+                        onClick={() => {
+                          handleOptionSelect(option);
+                        }}
                         className={`block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${
                           selectedOption === option ? "font-bold" : ""
                         }`}
