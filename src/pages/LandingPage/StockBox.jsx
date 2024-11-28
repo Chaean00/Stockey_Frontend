@@ -145,7 +145,7 @@ export default function StockBox() {
         {/** 차트 (3/4 차지) */}
         <div ref={chartContainerRef} className="col-span-4 lg:p-4">
           {/** chart */}
-          <div>
+          <div className="font-semibold">
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
               <Tab eventKey="D" title="일봉">
                 {chartDataLoaded ? (

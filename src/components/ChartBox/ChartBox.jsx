@@ -69,11 +69,11 @@ export default function ChartBox({
 
   return (
     <div ref={containerRef}>
-      <div className={`flex ${isCompact ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start`}>
+      <div className={`flex ${isCompact ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start font-semibold`}>
         {/** chart box */}
         <div
           ref={chartContainerRef} // CandleChart 상위 div 참조
-          className={`border rounded-xl p-4 ${isCompact ? 'w-full' : 'w-3/4'}`}
+          className={`border-2 rounded-xl p-4 ${isCompact ? 'w-full' : 'w-3/4'}`}
         >
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">

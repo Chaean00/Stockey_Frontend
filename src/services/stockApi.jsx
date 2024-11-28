@@ -14,6 +14,8 @@ const stockApi = {
 
   //아이디로 주식 조회
   getStockById: (stock_id) => axiosInstance.get(`/stocks/id/${stock_id}`),
+
+  getStcokRankByUserLike: () => axiosInstance.get(`/users/stocks/rankings/userLike`),
 };
 
 export default stockApi;

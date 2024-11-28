@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "/api",
+  baseURL: '/api',
   withCredentials: true, // 필요 시 인증 정보를 포함
 });
 
@@ -13,7 +13,11 @@ const keywordApi = {
 
   getKeywordRank: () => axiosInstance.get(`/keywords/total-rankings`),
 
-  searchKeywordByWord: (word) => axiosInstance.get(`/keywords/${word}`)
+  searchKeywordByWord: (word) => axiosInstance.get(`/keywords/${word}`),
+
+  getTopKeywrod: () => axiosInstance.get(`/keywords/top-keyword`),
+
+  getKeywordLikeRank: () => axiosInstance.get(`/users/keywords/rankings`),
 };
 
 export default keywordApi;

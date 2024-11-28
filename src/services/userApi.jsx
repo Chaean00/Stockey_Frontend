@@ -8,7 +8,12 @@ const axiosInstance = axios.create({
 
 const userApi = {
   // 현재 사용자 정보 가져오기
-  getCurrentUser: () => axiosInstance.get('/users/me'),
+  getCurrentUser: () => axiosInstance.get('/users/info'),
+
+  // 사용자 알림 상태 업데이트
+  updateSlackId: (slackId) => {
+    console.log(slackId)
+    axiosInstance.put('/users/alarm', slackId)},
 
   // 로그아웃 처리
   logout: () => axiosInstance.post('/users/logout'),
@@ -25,6 +30,9 @@ const userApi = {
   //종목 즐겨찾기 추가
   addStockLike: (stockData) => axiosInstance.post('/users/stocks', stockData),
 
+  //종목 즐겨찾기 업데이트
+  updateStockLike: (stockData) => axiosInstance.put('/users/stocks', stockData),
+
   //종목 즐겨찾기 삭제
   removeStockLike: (stockData) => {
     axiosInstance.delete(`/users/stocks?stock_id=${stockData.stock_id}`);
@@ -32,6 +40,9 @@ const userApi = {
 
   // 키워드 즐겨찾기 추가
   addKeywordLike: (keywordData) => axiosInstance.post('/users/keywords', keywordData),
+
+  // 키워드 즐겨찾기 업데이트
+  updateKeywordLike: (keywordData) => axiosInstance.put('/users/keywords', keywordData),
 
   // 키워드 즐겨찾기 삭제
   removeKeywordLike: (keywordData) => axiosInstance.delete(`/users/keywords?keyword=${keywordData.keyword}`),

@@ -7,13 +7,19 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css,scss}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,json,css,scss}\""
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@material-tailwind/react": "^2.1.10",
+    "@types/d3": "^7.4.3",
+    "@types/d3-cloud": "^1.2.9",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "d3": "^7.9.0",
+    "d3-cloud": "^1.2.7",
     "d3-format": "^3.1.0",
     "d3-time-format": "^4.1.0",
     "lucide-react": "^0.460.0",

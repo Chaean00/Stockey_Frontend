@@ -24,6 +24,13 @@ const chatApi = {
 
     // 로그인한 유저에 대한 메시지 상태 가져오기
     messageStatus: (messageId) => axiosInstance.get(`/chat/messages/${messageId}/like-status`),
+
+    // 가중치 순위 채팅방 목록 가져오기
+    getWeightRankings: () => axiosInstance.get('/chat/weight/rankings'),
+
+    // 즐겨찾기 순위 채팅방 목록 가져오기
+    getBookmarkRankings: () => axiosInstance.get('/chat/bookmark/rankings'),
+    
 };
 
 export default chatApi;
