@@ -168,7 +168,7 @@ function Alarm({ show, handleClose }) {
               )}
               </div>
               <div className='text-lg font-semibold'>
-                알림을 받을 종목을 선택해주세요.
+                알림을 받을 종목을 선택해주세요
               </div>
               <div>
                 {stockList?.length > 0 ? (
