@@ -67,7 +67,10 @@ export default function ChattingPage() {
     });
 
     return () => {
-      socket.off('receiveTotalMessage');
+      if (roomId !== 1) {
+        // 전체 채팅방인 경우 소켓 끊지 않고 Layout 단에서 현재 사이드바가 메인이 아니고, 채팅 페이지에 있지만 채팅 페이지면 룸 아이디가 1이 아닐 때 연결 끊기
+        socket.off('receiveTotalMessage');
+      }
     };
   }, [roomId]);
 
@@ -81,7 +84,10 @@ export default function ChattingPage() {
     });
 
     return () => {
-      socket.off('updateMessageLike');
+      if (roomId !== 1) {
+        // 전체 채팅방인 경우 소켓 끊지 않고 Layout 단에서 현재 사이드바가 메인이 아니고, 채팅 페이지에 있지만 채팅 페이지면 룸 아이디가 1이 아닐 때 연결 끊기
+        socket.off('updateMessageLike');
+      }
     };
   }, [setMessages]);
 
