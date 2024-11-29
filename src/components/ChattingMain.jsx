@@ -10,7 +10,7 @@ import { socket } from '../pages/ChattingPage/ChattingPage';
 
 export default function ChattingMain() {
   const roomId = 1; // 전체 채팅방 id
-  const { totalChatRoomMessages } = useChatContext();
+  const { messages } = useChatContext();
   const [username] = useState(localStorage.getItem('username'));
 
   // 방 입장
@@ -104,7 +104,7 @@ export default function ChattingMain() {
     <div
       className="overflow-y-auto py-0 h-auto max-h-[calc(100vh-35rem)] md:max-h-[calc(100vh-35rem)] scrollbar-hide bg-white rounded-md" // 최대 높이 설정
     >
-      {totalChatRoomMessages.map((comment, index) => (
+      {messages.map((comment, index) => (
         <div key={index} className="p-3">
           <div key={comment.id} className="flex gap-2 border-b border-black-500 pb-3">
             <div className="flex-1">
