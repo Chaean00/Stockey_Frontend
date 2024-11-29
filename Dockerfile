@@ -13,6 +13,10 @@ RUN npm install
 # 소스 코드 복사
 COPY . .
 
+# 환경변수 설정 (VITE_SERVER_HOST와 같은 변수 전달)
+ARG VITE_SERVER_HOST
+ENV VITE_SERVER_HOST=${VITE_SERVER_HOST}
+
 # 빌드 실행
 RUN npm run build
 
