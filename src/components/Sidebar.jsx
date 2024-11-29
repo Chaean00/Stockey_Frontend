@@ -9,45 +9,6 @@ import ChattingMain from './ChattingMain';
 import userApi from '../services/userApi';
 import keywordApi from '../services/keywordApi';
 
-const categories = [
-  '로봇',
-  '인공지능',
-  'AI',
-  '영업이익',
-  '초전도체',
-  '트럼프',
-  '일론 마스크',
-  '자동차',
-  '전기차',
-  '항공',
-  '대한항공',
-  '아시아나항공',
-  '제주항공',
-];
-
-const rankings = [
-  { name: '로봇', change: 2, trend: 'up' },
-  { name: 'AI', change: 0, trend: 'none' },
-  { name: '초전도체', change: 2, trend: 'down' },
-  { name: '공매도', change: 3, trend: 'up' },
-  { name: '전쟁', change: 1, trend: 'up' },
-];
-
-const chatMessages = [
-  {
-    user: 'User 2',
-    time: '0분 전',
-    message:
-      '맞아요. 금리가 오르면 예금 금리도 함께 올라서 현금을 예금으로 이동시키는 경우가 늘 수 있죠. 개인적으로는 금융주를 주가로 매수할지 고민 중인데, 과도한 금리 인상이 경기 침체로 이어질 가능성도 있어서 조심스럽습니다. 최근의 금리 인상 흐름이 얼마나 지속될지 예측하기가 어렵네요.',
-  },
-  {
-    user: 'User 3',
-    time: '0분 전',
-    message:
-      '금리 인상이 계속 이어진다면, 결국 개인 소비가 위축되면서 기업들의 매출도 감소할 가능성이 높아질 것 같아요. 이로 인해 소비재 기업들이 타격을 받을 수 있는데, 반대로 저축 성향이 강해지면서 금융권의 수익성이 올라갈 수도 있겠죠. 다들 이런 시기에 어떤 업종에 주목하고 계신가요?',
-  },
-];
-
 export default function Sidebar() {
   const [userBookmarkList, setUserBookmarkList] = useState([]);
   const [keywordRankingList, setKeywordRankingList] = useState([]);
@@ -137,27 +98,14 @@ export default function Sidebar() {
       </div>
 
       {/* Chat Section */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         <h2 className="text-lg font-medium text-gray-900">실시간 채팅방</h2>
-        <div className="space-y-4 overflow-y-auto max-h-60">
-          {chatMessages.map((msg, idx) => (
-            <div key={idx} className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gray-200" />
-                  <span className="font-medium text-gray-900">{msg.user}</span>
-                  <span className="text-sm text-gray-500">{msg.time}</span>
-                </div>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <HeartIcon className="h-4 w-4" />
-                </button>
-              </div>
-              <p className="text-sm text-gray-600 leading-relaxed">{msg.message}</p>
-            </div>
-          ))}
-        </div>
-        <button className="w-full py-3 text-sm text-gray-600 hover:text-gray-900 bg-gray-50 rounded-lg">
-          채팅에 참여하시면 의견을 남길 수 있어요
+        <ChattingMain />
+        <button
+          className="w-full py-2 text-sm bg-blue-200 text-white rounded-lg hover:text-gray-900"
+          onClick={() => navigate('/chat')}
+        >
+          참여하기
         </button>
       </div>
     </div>
