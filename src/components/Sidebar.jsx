@@ -9,19 +9,23 @@ import ChattingMain from './ChattingMain';
 import userApi from '../services/userApi';
 import keywordApi from '../services/keywordApi';
 
+import { useLikeContext } from '../utils/likeContext';
+
 export default function Sidebar() {
-  const [userBookmarkList, setUserBookmarkList] = useState([]);
+  // const [userBookmarkList, setUserBookmarkList] = useState([]);
   const [keywordRankingList, setKeywordRankingList] = useState([]);
+
+  const { keywordLikeList: userBookmarkList } = useLikeContext();
 
   const navigate = useNavigate();
 
   // 즐겨찾기, 실시간 키워드 랭킹 불러오기
   useEffect(() => {
-    const fetchUserBookmarkList = async () => {
-      const res = await userApi.getKeywordLike();
-      console.log('유저 북마크 리스트: ', res.data.userKeywords);
-      setUserBookmarkList(res.data.userKeywords);
-    };
+    // const fetchUserBookmarkList = async () => {
+    //   const res = await userApi.getKeywordLike();
+    //   console.log('유저 북마크 리스트: ', res.data.userKeywords);
+    //   setUserBookmarkList(res.data.userKeywords);
+    // };
 
     const fetchKeywordRankingList = async () => {
       const res = await keywordApi.getKeywordRank();
@@ -29,7 +33,7 @@ export default function Sidebar() {
       setKeywordRankingList(res.data.slice(0, 5));
     };
 
-    fetchUserBookmarkList();
+    // fetchUserBookmarkList();
     fetchKeywordRankingList();
   }, []);
 
@@ -51,7 +55,7 @@ export default function Sidebar() {
         <div className="flex flex-wrap gap-2">
           {' '}
           {/* 수정된 부분: flex-wrap 추가 */}
-          {userBookmarkList.map((elm) => (
+          {userBookmarkList.userKeywords.map((elm) => (
             <button
               key={elm.id}
               className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
