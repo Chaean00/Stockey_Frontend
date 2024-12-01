@@ -31,7 +31,7 @@ jobs:
       # Docker 이미지 빌드
       - name: Build Docker image for frontend
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest .
+          docker build --build-arg VITE_SERVER_HOST=${{ secrets.VITE_SERVER_HOST }} -t ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest .
 
       # Docker Hub에 푸시
       - name: Push Docker image to Docker Hub
@@ -56,4 +56,4 @@ jobs:
             docker rm stockey-react || true
 
             # 새로운 컨테이너 실행 (Nginx와 연결)
-            docker run -d --name stockey-react --network app-network -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest
+            docker run -d --name stockey-react --network app-network -e VITE_SERVER_HOST=${{ secrets.EXPRESS_CONTAINER }} -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest

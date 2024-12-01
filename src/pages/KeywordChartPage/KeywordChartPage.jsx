@@ -15,11 +15,11 @@ export default function KeywordChartPage() {
   const [searchResult, setSearchResult] = useState();
   const [period, setPeriod] = useState('D');
 
-  // 사이드바 즐겨찾기 동기화를 위해 likeContext.jsx로 상태 관리
-  // const [keywordLikeList, setKeywordLikeList] = useState([]);
-  // const [isLiked, setIsLiked] = useState(false); // 초기 좋아요 상태
-  // const [keywordData, setKeywordData] = useState('');
-  // const [stockInfo, setStockInfo] = useState({});
+  // 키워드 데이터 가져오기
+  useEffect(() => {
+    setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
+    console.log(stockInfo);
+  }, [keyword_id]);
 
   const {
     keywordLikeList,
@@ -33,12 +33,12 @@ export default function KeywordChartPage() {
   } = useLikeContext();
 
   // 키워드 데이터 가져오기
-  useEffect(() => {
-    setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
-    // console.log("KeywordData => ", keywordData)
-    // console.log("StockINFO => ", stockInfo)
-    console.log('12132312 =>', keywordLikeList);
-  }, [keyword_id]);
+  // useEffect(() => {
+  //   setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
+  //   // console.log("KeywordData => ", keywordData)
+  //   // console.log("StockINFO => ", stockInfo)
+  //   console.log('12132312 =>', keywordLikeList);
+  // }, [keyword_id]);
 
   useEffect(() => {
     if (stockInfo.stock_code) {
@@ -82,6 +82,7 @@ export default function KeywordChartPage() {
           searchKeyword={handleSearch}
         />
       </div>
+      <div className="font-extrabold text-2xl">{stockInfo?.stock_name || '로딩 중...'}</div>
       <div>
         <KeywordChartBox
           chartData={chartData} // 차트 데이터

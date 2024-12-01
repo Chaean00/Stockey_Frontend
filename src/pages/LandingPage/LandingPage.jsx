@@ -6,7 +6,7 @@ export default function LandingPage() {
   return (
     <div className="w-full">
       {/**키워드에 대한 랭킹 및 차트 */}
-      <div className="mb-20">
+      <div className="w-full">
         <KeywordBox />
       </div>
 

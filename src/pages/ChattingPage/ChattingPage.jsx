@@ -8,7 +8,7 @@ import { TbMapPin2 } from 'react-icons/tb';
 import { useChatContext } from '../../utils/chatContext';
 
 // 소켓 백엔드와 연결
-export const socket = io('http://localhost:3000/', {
+export const socket = io(`${import.meta.env.VITE_SERVER_HOST}`, {
   transports: ['websocket'],
 });
 

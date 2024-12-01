@@ -35,6 +35,8 @@ export default function Sidebar() {
 
     // fetchUserBookmarkList();
     fetchKeywordRankingList();
+
+    console.log('북마크리스트: ', userBookmarkList);
   }, []);
 
   const goToIdKeyword = (id) => {
@@ -55,7 +57,7 @@ export default function Sidebar() {
         <div className="flex flex-wrap gap-2">
           {' '}
           {/* 수정된 부분: flex-wrap 추가 */}
-          {userBookmarkList.userKeywords.map((elm) => (
+          {userBookmarkList?.userKeywords?.map((elm) => (
             <button
               key={elm.id}
               className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
