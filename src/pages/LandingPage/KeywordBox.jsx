@@ -9,6 +9,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
+import { useNavigate } from 'react-router-dom';
 
 export default function KeywordBox() {
   const [search, setSearch] = useState(''); // 검색어
@@ -22,6 +23,7 @@ export default function KeywordBox() {
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
   const [chartSize, setChartSize] = useState({ width: 600, height: 400 }); // 초기값 설정
+  const navigate = useNavigate();
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -95,7 +97,13 @@ export default function KeywordBox() {
       {/** Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-3">
-          <div className="font-extrabold text-2xl">
+          <div
+            className="font-extrabold text-2xl cursor-pointer"
+            onClick={() => {
+              console.log(keywordData);
+              navigate(`keyword/${keywordData.keyword_id}`);
+            }}
+          >
             <span className="text-3xl font-bold text-blue-200">[ </span>
             {keywordData?.keyword || '로딩 중...'}
             <span className="text-3xl font-bold text-blue-200"> ]</span>
@@ -115,9 +123,15 @@ export default function KeywordBox() {
       <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
         <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
-          <div className="font-semibold text-lg mb-4"> [ {keywordData?.keyword} ] 에서 가장 많이 언급된</div>
+          <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div>
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
-            <div key={i} className="flex justify-between hover:bg-gray-100 rounded-xl pl-5">
+            <div
+              key={i}
+              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5"
+              onClick={() => {
+                navigate(`stock/${el.id}`);
+              }}
+            >
               <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>
               <div className="py-1 w-2/3 font-semibold">{el.stock_name}</div>
             </div>
@@ -136,7 +150,7 @@ export default function KeywordBox() {
                 <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="M" title="월봉">
-                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
+                <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
             </Tabs>
           </div>
