@@ -99,7 +99,6 @@ export default function KeywordBox() {
           <div
             className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
             onClick={() => {
-              console.log(keywordData);
               navigate(`keyword/${keywordData.keyword_id}`);
             }}
           >
