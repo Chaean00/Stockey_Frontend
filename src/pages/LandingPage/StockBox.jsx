@@ -17,7 +17,7 @@ export default function StockBox() {
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [stockInfo, setStockInfo] = useState({
-    stock_id: 11,
+    stock_id: 311,
     stock_code: '055550',
     stock_name: '신한지주',
   });
@@ -58,7 +58,7 @@ export default function StockBox() {
       findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
       getKeywordRank();
     }
-  }, [stockInfo.stock_id]);
+  }, []);
 
   // 차트 데이터 Lazy Loading
   useEffect(() => {
@@ -99,8 +99,8 @@ export default function StockBox() {
   const getKeywordRank = async () => {
     try {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
-      setStockInfo({ ...stockInfo, stock_name: response.data.stock_name });
       setKeywordRank(response.data.keyword_rankings);
+      console.log(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
       alert('키워드 랭킹 조회에 실패했습니다.');

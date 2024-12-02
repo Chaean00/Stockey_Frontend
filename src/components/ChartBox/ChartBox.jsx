@@ -5,7 +5,6 @@ import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
 import { useOutletContext } from 'react-router-dom';
-
 export default function ChartBox({
   chartData,
   setChartData,
