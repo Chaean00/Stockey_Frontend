@@ -59,7 +59,6 @@ const findInitialLikeKeyword = async (keyword, updateState, updateKeywordLikeLis
   try {
     const response = await userApi.getKeywordLike();
     const isKewordLiked = response.data.userKeywords.some((like) => like.keyword === keyword)
-    console.log("IsLike??? ",isKewordLiked)
     updateKeywordLikeList(response.data)
     updateState(isKewordLiked)
   } catch (error) {

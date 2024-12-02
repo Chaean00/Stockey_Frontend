@@ -58,7 +58,6 @@ const CandleChart = (props) => {
 
   const calculatedData = elder(ema26(ema12(props.chartData || [])));
   const filteredData = calculatedData.filter(d => d.ema12 != null || d.ema26 != null);
-  console.log("filter",filteredData)
   // const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartData);
   const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(filteredData);
   const pricesDisplayFormat = format('.2f');
