@@ -14,7 +14,6 @@ export default function ChattingMain() {
   // 방 입장
   useEffect(() => {
     socket.emit('joinRoom', roomId);
-    console.log('SideBar 전체 채팅룸 입장');
 
     return () => {
       // 퇴장 조건 Layout에 따로 설정할 예정
@@ -30,7 +29,6 @@ export default function ChattingMain() {
       try {
         const response = await chatApi.getTotalComments(roomId);
         setMessages(response.data);
-        console.log('전체 댓글:', response.data);
       } catch (error) {
         console.error('전체 댓글 로드 실패:', error);
       }

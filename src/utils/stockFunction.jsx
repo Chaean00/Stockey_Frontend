@@ -1,5 +1,5 @@
 import stockApi from '../services/stockApi';
-
+import { toast } from 'react-toastify';
 const bringStockInfo = async (stock_id, updateStockInfo) => {
   try {
     const response = await stockApi.getStockById(stock_id);
@@ -10,7 +10,7 @@ const bringStockInfo = async (stock_id, updateStockInfo) => {
     });
   } catch (error) {
     console.error('종목 조회 실패:', error.response?.data?.message || error.message);
-    alert('종목 조회에 실패했습니다...');
+    toast.error('종목 조회에 실패했습니다...');
   }
 };
 
@@ -20,7 +20,7 @@ const searchStock = async (search, updateSearchResult) => {
     updateSearchResult(response.data);
   } catch (error) {
     console.error('종목 검색 실패:', error.response?.data?.message || error.message);
-    alert('종목 검색에 실패했습니다...');
+    toast.error('종목 검색에 실패했습니다...');
   }
 };
 
@@ -31,7 +31,7 @@ const bringStockChart = async (stock_code, updateChart, stock_period) => {
       updateChart(response.data);
     } catch (error) {
       console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-      alert('차트 조회에 실패했습니다...');
+      location.reload();
     }
   }
 };

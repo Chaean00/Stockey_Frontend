@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import keywordApi from '../services/keywordApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function SidebarStock(props) {
   const [stockInfo, setStockInfo] = useState({});
@@ -25,7 +26,7 @@ export default function SidebarStock(props) {
       }
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
-      alert('키워드 랭킹 조회에 실패했습니다...');
+      toast.error('키워드 랭킹 조회에 실패했습니다...');
     }
   };
 
@@ -36,7 +37,7 @@ export default function SidebarStock(props) {
       navigate(`/keyword/${keyword_id}`);
     } catch (error) {
       console.error('키워드 검색 실패:', error.response?.data?.message || error.message);
-      alert('키워드 검색에 실패했습니다...');
+      toast.error('키워드 검색에 실패했습니다...');
     }
   };
 

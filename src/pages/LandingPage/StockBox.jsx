@@ -9,6 +9,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
@@ -16,7 +17,7 @@ export default function StockBox() {
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [stockInfo, setStockInfo] = useState({
-    stock_id: 11,
+    stock_id: 311,
     stock_code: '055550',
     stock_name: '신한지주',
   });
@@ -56,7 +57,7 @@ export default function StockBox() {
       findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
       getKeywordRank();
     }
-  }, [stockInfo.stock_id]);
+  }, []);
 
   // 차트 데이터 Lazy Loading
   useEffect(() => {
@@ -97,11 +98,11 @@ export default function StockBox() {
   const getKeywordRank = async () => {
     try {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
-      setStockInfo({ ...stockInfo, stock_name: response.data.stock_name });
       setKeywordRank(response.data.keyword_rankings);
+      console.log(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
-      alert('키워드 랭킹 조회에 실패했습니다.');
+      toast.error('키워드 랭킹 조회에 실패했습니다.');
     }
   };
 
@@ -156,25 +157,13 @@ export default function StockBox() {
           <div className="font-semibold">
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
               <Tab eventKey="D" title="일봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="W" title="주봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="M" title="월봉">
-                {chartDataLoaded ? (
-                  <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
             </Tabs>
           </div>
