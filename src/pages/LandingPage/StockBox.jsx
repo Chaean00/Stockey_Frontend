@@ -9,6 +9,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
@@ -101,7 +102,7 @@ export default function StockBox() {
       console.log(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
-      alert('키워드 랭킹 조회에 실패했습니다.');
+      toast.error('키워드 랭킹 조회에 실패했습니다.');
     }
   };
 

@@ -8,6 +8,7 @@ import { bringStockChart, bringStockInfo, searchStock } from '../../utils/stockF
 import CustomWordCloud from '../../components/WordCloud';
 import keywordApi from '../../services/keywordApi';
 import { useLikeContext } from '../../utils/likeContext';
+import { toast } from 'react-toastify';
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
@@ -67,7 +68,7 @@ export default function StockChartPage() {
       setKeywordRank(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
-      alert('키워드 랭킹 조회에 실패했습니다...');
+      toast.error('키워드 랭킹 조회에 실패했습니다...');
     }
   };
 
