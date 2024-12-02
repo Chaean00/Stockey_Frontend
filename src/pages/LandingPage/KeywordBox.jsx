@@ -99,7 +99,7 @@ export default function KeywordBox() {
           <div
             className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
             onClick={() => {
-              navigate(`keyword/${keywordData.keyword_id}`);
+              navigate(`../keyword/${keywordData.keyword_id}`);
             }}
           >
             <span className="text-3xl font-bold text-blue-200">[ </span>
@@ -127,7 +127,7 @@ export default function KeywordBox() {
               key={i}
               className="flex justify-between hover:bg-gray-100 rounded-xl pl-5"
               onClick={() => {
-                navigate(`stock/${el.id}`);
+                navigate(`../stock/${el.id}`);
               }}
             >
               <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>

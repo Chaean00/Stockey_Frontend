@@ -30,7 +30,7 @@ export default function LoginPage() {
         login(response.data.nickname);
         console.log('로그인 성공:', response.data);
         toast.success('로그인에 성공했습니다!');
-        navigate('/');
+        navigate('/home');
       } catch (error) {
         console.error('로그인 실패:', error.response?.data?.message || error.message);
         toast.error('로그인에 실패했습니다...');
