@@ -7,13 +7,15 @@ import LoginPage from '../pages/LoginPage/LoginPage';
 import ChattingPage from '../pages/ChattingPage/ChattingPage';
 import StockChartPage from '../pages/StockChartPage/StockChartPage';
 import KeywordChartPage from '../pages/KeywordChartPage/KeywordChartPage';
+import IntroPage from '../pages/IntroPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
-      { path: '/', element: <LandingPage /> },
+      { path: '/', element: <IntroPage /> },
+      { path: 'home', element: <LandingPage /> },
       { path: 'signUp', element: <SignUpPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'chat', element: <ChattingPage /> },

@@ -1,5 +1,5 @@
 import keywordApi from '../services/keywordApi';
-
+import { toast } from 'react-toastify';
 // 키워드 검색 함수
 const searchKeyword = async (search, updateSearchResult) => {
   try {
@@ -7,7 +7,7 @@ const searchKeyword = async (search, updateSearchResult) => {
     updateSearchResult(response.data);
   } catch (error) {
     console.error('키워드 검색 실패:', error.response?.data?.message || error.message);
-    alert('키워드 검색에 실패했습니다...');
+    toast.error('키워드 검색에 실패했습니다...');
   }
 };
 

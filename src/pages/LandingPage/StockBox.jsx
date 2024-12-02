@@ -9,6 +9,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
@@ -56,7 +57,7 @@ export default function StockBox() {
       findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
       getKeywordRank();
     }
-  }, [stockInfo.stock_id]);
+  }, []);
 
   // 차트 데이터 Lazy Loading
   useEffect(() => {
@@ -97,11 +98,12 @@ export default function StockBox() {
   const getKeywordRank = async () => {
     try {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
-      setStockInfo({ ...stockInfo, stock_name: response.data.stock_name });
+      // console.log(response.data)
       setKeywordRank(response.data.keyword_rankings);
+      console.log(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
-      alert('키워드 랭킹 조회에 실패했습니다.');
+      toast.error('키워드 랭킹 조회에 실패했습니다.');
     }
   };
 
@@ -110,6 +112,7 @@ export default function StockBox() {
     setChartDataLoaded(false); // Lazy Loading 초기화
     setPeriod(chart_period);
   };
+  console.log(keywordRank);
 
   return (
     <div className="text-black_default flex flex-col bg-white">
@@ -119,7 +122,7 @@ export default function StockBox() {
           <div
             className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
             onClick={() => {
-              navigate(`stock/${stockInfo.stock_id}`);
+              navigate(`../stock/${stockInfo.stock_id}`);
             }}
           >
             <span className="text-3xl font-bold text-blue-200">[ </span>
@@ -143,7 +146,13 @@ export default function StockBox() {
         <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
           <div className="font-semibold text-lg mb-4">{stockInfo.stock_name}에서 가장 많이 언급된</div>
           {keywordRank?.slice(0, 10).map((el, i) => (
-            <div key={i} className="flex justify-between hover:bg-gray-100 rounded-xl pl-5">
+            <div
+              key={i}
+              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5"
+              onClick={() => {
+                navigate(`../keyword/${el.id}`);
+              }}
+            >
               <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>
               <div className="py-1 w-2/3 font-semibold">{el.keyword}</div>
             </div>
@@ -156,25 +165,13 @@ export default function StockBox() {
           <div className="font-semibold">
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
               <Tab eventKey="D" title="일봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="W" title="주봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="M" title="월봉">
-                {chartDataLoaded ? (
-                  <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
             </Tabs>
           </div>

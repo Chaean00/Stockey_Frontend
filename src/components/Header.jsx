@@ -34,7 +34,7 @@ export default function Header() {
       <div
         className="cursor-pointer"
         onClick={() => {
-          navigate('/');
+          navigate('/home');
         }}
       >
         <img src="/img/logo.jpg" alt="Logo" className="h-8 w-auto d-inline-block align-top" />

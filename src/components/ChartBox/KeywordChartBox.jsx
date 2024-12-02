@@ -3,8 +3,8 @@ import { Tabs, Tab } from 'react-bootstrap';
 import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
-import UserLike from './UserLike';
 import UserKeywordLike from './UserKeywordLike';
+import { useOutletContext } from 'react-router-dom';
 
 export default function KeywordChartBox({
   chartData,
@@ -74,7 +74,7 @@ export default function KeywordChartBox({
         {/** chart box */}
         <div
           ref={chartContainerRef} // CandleChart 상위 div 참조
-          className={`border rounded-xl p-4 ${isCompact ? 'w-full' : 'w-3/4'}`}
+          className={`font-semibold border-2 rounded-xl p-4 ${isCompact ? 'w-full' : 'w-3/4'}`}
         >
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">

@@ -1,9 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import axios from 'axios';
-import { BASE_URL } from '../../lib/api/api';
 import { toast } from 'react-toastify';
-// import { socket } from '../ChattingPage';
 import { socket } from '../pages/ChattingPage/ChattingPage';
 import chatApi from '../services/chatApi';
 
@@ -16,13 +13,6 @@ export default function MessageInput({ roomId }) {
     const currentDate = new Date();
 
     e.preventDefault();
-
-    // if (!username) {
-    //   // toast.error('로그인 후 사용해 주세요.');
-    //   alert("로그인 후 사용해 주세요.")
-    //   return;
-    // }
-
     if (message && roomId) {
       const newComment = {
         message: message,
@@ -46,8 +36,8 @@ export default function MessageInput({ roomId }) {
         setMessage('');
       } catch (error) {
         console.error('댓글 저장 실패:', error);
-        if (error.response.data.message === "Authorization Null") {
-          alert("로그인 후 사용해 주세요.")
+        if (error.response.data.message === 'Authorization Null') {
+          toast.error('로그인 후 사용해 주세요.');
         }
       }
     }
@@ -56,7 +46,7 @@ export default function MessageInput({ roomId }) {
   // 엔터 누를 때 바로 채팅이 보내지도록 handler 설정
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      console.log("Enter");
+      console.log('Enter');
       e.preventDefault();
       sendMessage(e);
     }
@@ -85,8 +75,8 @@ export default function MessageInput({ roomId }) {
     //         className="focus:outline-none bg-gray-100 font-medium"
     //       />
     //       <div className="flex justify-end mt-2 p-1">
-    //         <button 
-    //           type="submit" 
+    //         <button
+    //           type="submit"
     //           className="font-medium text-white bg-blue-200 hover:bg-blue-100 px-3 py-1 rounded-lg"
     //         >
     //           보내기
@@ -96,43 +86,40 @@ export default function MessageInput({ roomId }) {
     //   </form>
     // </div>
 
-  //   <div className="p-4">
-  //   <div className="flex gap-2">
-  //   <form onSubmit={sendMessage} className='w-full'>
-  //     <input
-  //       type="text"
-  //       value={message}
-  //       onChange={(e) => setMessage(e.target.value)}
-  //       placeholder="의견을 자유롭게 남겨주세요"
-  //       className="flex-1 px-4 py-2 rounded-lg border bg-gray-100 font-medium focus:outline-none focus:ring-2 focus:ring-blue-100"
-  //     />
-  //     <button
-  //       type="submit" 
-  //       className="px-4 py-2 bg-blue-200 text-white rounded-lg">
-  //       보내기
-  //     </button>
-  //     </form>
-  //   </div>
-  // </div>
+    //   <div className="p-4">
+    //   <div className="flex gap-2">
+    //   <form onSubmit={sendMessage} className='w-full'>
+    //     <input
+    //       type="text"
+    //       value={message}
+    //       onChange={(e) => setMessage(e.target.value)}
+    //       placeholder="의견을 자유롭게 남겨주세요"
+    //       className="flex-1 px-4 py-2 rounded-lg border bg-gray-100 font-medium focus:outline-none focus:ring-2 focus:ring-blue-100"
+    //     />
+    //     <button
+    //       type="submit"
+    //       className="px-4 py-2 bg-blue-200 text-white rounded-lg">
+    //       보내기
+    //     </button>
+    //     </form>
+    //   </div>
+    // </div>
 
-  <div className="p-4">
-  <div className="flex">
-    <form onSubmit={sendMessage} className="flex gap-x-2 w-full">
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="의견을 자유롭게 남겨주세요"
-        className="flex-1 px-4 py-2 rounded-lg border bg-gray-100 font-medium focus:outline-none focus:ring-2 focus:ring-blue-100"
-      />
-      <button
-        type="submit"
-        className="px-4 py-2 bg-blue-200 text-white rounded-lg flex-shrink-0">
-        보내기
-      </button>
-    </form>
-  </div>
-</div>
-    
+    <div className="p-4">
+      <div className="flex">
+        <form onSubmit={sendMessage} className="flex gap-x-2 w-full">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="의견을 자유롭게 남겨주세요"
+            className="flex-1 px-4 py-2 rounded-lg border bg-gray-100 font-medium focus:outline-none focus:ring-2 focus:ring-blue-100"
+          />
+          <button type="submit" className="px-4 py-2 bg-blue-200 text-white rounded-lg flex-shrink-0">
+            보내기
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import keywordApi from '../services/keywordApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function SidebarStock(props) {
   const [stockInfo, setStockInfo] = useState({});
@@ -25,7 +26,7 @@ export default function SidebarStock(props) {
       }
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
-      alert('키워드 랭킹 조회에 실패했습니다...');
+      toast.error('키워드 랭킹 조회에 실패했습니다...');
     }
   };
 
@@ -36,14 +37,14 @@ export default function SidebarStock(props) {
       navigate(`/keyword/${keyword_id}`);
     } catch (error) {
       console.error('키워드 검색 실패:', error.response?.data?.message || error.message);
-      alert('키워드 검색에 실패했습니다...');
+      toast.error('키워드 검색에 실패했습니다...');
     }
   };
 
   return (
     <div className="p-3">
       {/** header */}
-      <div className="lg:text-lg mb-3 font-extrabold w-full border-b border-gray-300 py-3">
+      <div className="lg:text-xl mb-3 font-extrabold w-full border-b border-gray-300 py-3">
         {stockInfo?.stock_id ? (
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
@@ -51,7 +52,7 @@ export default function SidebarStock(props) {
             <span className="text-blue-200 text-xl font-bold"> ]</span> 에서 가장 많이 언급된
           </h2>
         ) : (
-          <h2>가장 많이 즐겨찾기된</h2>
+          <h2>가장 많이 즐겨찾기된 키워드는?</h2>
         )}
       </div>
       {/** list */}
