@@ -44,12 +44,10 @@ export default function SidebarChat() {
                 // 가중치 랭킹
                 const weightResp = await chatApi.getWeightRankings();
                 setWeightRoomList(weightResp.data.results);
-                console.log(weightResp.data.results);
     
                 // 즐겨찾기 랭킹
                 const bookmarkResp = await chatApi.getBookmarkRankings();
                 setbookmarkRoomList(bookmarkResp.data.results);
-                console.log(bookmarkResp.data);
     
             } catch (error) {
                 console.error('룸 리스트 로드 실패:', error);

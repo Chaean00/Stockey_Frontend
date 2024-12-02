@@ -15,7 +15,6 @@ export const ChatProvider = ({ children }) => {
       try {
         const response = await chatApi.getChatList();
         setChatRoomList(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('채팅방 목록 로드 실패:', error);
       }
@@ -30,7 +29,6 @@ export const ChatProvider = ({ children }) => {
       try {
         const response = await chatApi.getTotalComments(roomId);
         setMessages(response.data);
-        console.log('전체 댓글:', response.data);
       } catch (error) {
         console.error('전체 댓글 로드 실패:', error);
       }

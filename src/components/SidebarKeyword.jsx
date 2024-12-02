@@ -22,8 +22,7 @@ export default function SidebarKeyword(props) {
         setStockRank(response.data.stock_rankings);
       } else {
         const response = await stockApi.getStcokRankByUserLike();
-        setStockRank(response.data);
-        console.log(response.data);
+        setStockRank(response.data)
       }
     } catch (err) {
       console.error('기업 랭킹 조회 실패:', err.response?.data?.message || err.message);

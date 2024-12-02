@@ -7,6 +7,7 @@ import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { bringStockChart } from '../../utils/stockFunction';
 import KeywordChartBox from '../../components/ChartBox/KeywordChartBox';
 import { useLikeContext } from '../../utils/likeContext';
+import StockWordCloud from '../../components/StockWordCloud';
 
 export default function KeywordChartPage() {
   const { keyword_id } = useParams();
@@ -18,7 +19,6 @@ export default function KeywordChartPage() {
   // 키워드 데이터 가져오기
   useEffect(() => {
     setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
-    console.log(stockInfo);
   }, [keyword_id]);
 
   const {
@@ -31,7 +31,7 @@ export default function KeywordChartPage() {
     stockInfo,
     setStockInfo,
   } = useLikeContext();
-
+  
   // 키워드 데이터 가져오기
   // useEffect(() => {
   //   setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
@@ -93,6 +93,9 @@ export default function KeywordChartPage() {
           period={period} // 일봉, 주봉, 월봉 (default : 일봉)
           setPeriod={setPeriod}
         />
+      </div>
+      <div className="mt-3">
+        <StockWordCloud data={keywordData.stock_rankings} width={800} height={400} />
       </div>
     </div>
   );
