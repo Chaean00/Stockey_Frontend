@@ -130,14 +130,24 @@ function Alarm({ show, handleClose }) {
               </Form>
             </div>
           </div>
-          <div className='text-lg'>
+          <div className="text-lg">
             이 설정을 켜면 <span className='font-semibold'>즐겨찾기한 키워드</span>와 <span className='font-semibold'>종목</span>에 대한 <span className='font-semibold'>순위 알림</span>을 받을 수 있어요
           </div>
 
           {/* isSwitchOn이 true일 때만 아래 내용 표시 */}
           {isSwitchOn && (
             <>
-              <div className="mt-[15px]">
+              <div className="text-lg font-semibold mt-[15px]">
+                <a
+                    href="https://join.slack.com/t/team-stockey/shared_invite/zt-2uj3dnj2u-JwP4~_dzpDr1yT~MAS59_A"
+                    target="_blank" // 새 탭에서 링크 열기
+                    rel="noopener noreferrer" // 보안상 권장되는 속성
+                    className="text-blue-500 hover:underline"
+                  >
+                    링크 열기
+                </a>를 클릭하여 stockey 슬랙에 참여한 후, 참여한 슬랙 계정을 입력해주세요
+              </div>
+              <div className="mt-[7px]">
                 <Form>
                   <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Control
