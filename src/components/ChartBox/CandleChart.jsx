@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
+import { Spinner } from 'react-bootstrap';
 import {
   elderRay,
   ema,
@@ -98,6 +99,15 @@ const CandleChart = (props) => {
   const openCloseColor = (data) => {
     return data.close > data.open ? '#3182F6' : '#FF626F';
   };
+
+  if (ema12 === null || ema12 === undefined) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <h2>데이터를 불러오는 중입니다...</h2>
+        <Spinner animation="border" variant="primary" />
+      </div>
+    )
+  }
 
   return (
     <ChartCanvas
