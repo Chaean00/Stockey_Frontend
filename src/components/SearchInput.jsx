@@ -52,7 +52,7 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
                 className="cursor-pointer px-4 py-2 hover:bg-blue-50 border-b last:border-none flex justify-between"
                 key={i}
                 onClick={() => {
-                  navigate(`/stock/${el.id}`);
+                  navigate(`../stock/${el.id}`);
                   setSearchResult([]); // searchResult 초기화
                 }}
               >
