@@ -98,6 +98,7 @@ export default function StockBox() {
   const getKeywordRank = async () => {
     try {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
+      // console.log(response.data)
       setKeywordRank(response.data.keyword_rankings);
       console.log(response.data.keyword_rankings);
     } catch (error) {
@@ -111,6 +112,7 @@ export default function StockBox() {
     setChartDataLoaded(false); // Lazy Loading 초기화
     setPeriod(chart_period);
   };
+  console.log(keywordRank);
 
   return (
     <div className="text-black_default flex flex-col bg-white">
@@ -144,7 +146,10 @@ export default function StockBox() {
         <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
           <div className="font-semibold text-lg mb-4">{stockInfo.stock_name}에서 가장 많이 언급된</div>
           {keywordRank?.slice(0, 10).map((el, i) => (
-            <div key={i} className="flex justify-between hover:bg-gray-100 rounded-xl pl-5">
+            <div key={i} className="flex justify-between hover:bg-gray-100 rounded-xl pl-5" 
+            onClick={() => {
+              navigate(`keyword/${el.id}`);
+            }}>
               <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>
               <div className="py-1 w-2/3 font-semibold">{el.keyword}</div>
             </div>

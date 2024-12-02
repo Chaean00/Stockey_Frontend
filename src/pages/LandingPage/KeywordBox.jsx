@@ -97,7 +97,7 @@ export default function KeywordBox() {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-3">
           <div
-            className="font-extrabold text-2xl cursor-pointer"
+            className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
             onClick={() => {
               console.log(keywordData);
               navigate(`keyword/${keywordData.keyword_id}`);
