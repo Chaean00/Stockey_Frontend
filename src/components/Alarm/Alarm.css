@@ -1,10 +1,8 @@
 #custom-switch {
-    width: 60px;
-    height: 27px;
-    margin-top: 4px;
-    margin-right: 100px;
+  width: 60px;
+  height: 27px;
 }
 
 #custom-switch:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
