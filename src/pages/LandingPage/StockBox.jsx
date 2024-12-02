@@ -9,7 +9,6 @@ import ResizeObserver from 'resize-observer-polyfill';
 import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import { useNavigate } from 'react-router-dom';
-import { useOutletContext } from 'react-router-dom';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
@@ -27,7 +26,6 @@ export default function StockBox() {
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
   const [chartSize, setChartSize] = useState({ width: 600, height: 400 }); // 초기값 설정
-  const { isSidebarOpen } = useOutletContext(); // isSidebarOpen 상태 가져오기
 
   const navigate = useNavigate();
 
@@ -50,7 +48,7 @@ export default function StockBox() {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [isSidebarOpen]);
+  }, []);
 
   // 즐겨찾기 및 키워드 랭킹 초기화
   useEffect(() => {

@@ -19,7 +19,6 @@ export default function KeywordChartBox({
   const chartContainerRef = useRef(null); // CandleChart 상위 div 참조
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
-  const { isSidebarOpen } = useOutletContext(); // isSidebarOpen 상태 가져오기
 
   useEffect(() => {
     bringStockChart(stockInfo.stock_code, setChartData, period);
@@ -43,7 +42,7 @@ export default function KeywordChartBox({
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [isSidebarOpen]);
+  }, []);
 
   // CandleChart 상위 div 크기 측정
   useEffect(() => {
@@ -59,7 +58,7 @@ export default function KeywordChartBox({
 
     if (chartContainerRef.current) observer.observe(chartContainerRef.current);
     return () => observer.disconnect();
-  }, [isSidebarOpen]);
+  }, []);
 
   const currData = chartData[chartData.length - 1];
 

@@ -9,7 +9,6 @@ import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { useNavigate } from 'react-router-dom';
-import { useOutletContext } from 'react-router-dom';
 
 export default function KeywordBox() {
   const [search, setSearch] = useState(''); // 검색어
@@ -23,7 +22,6 @@ export default function KeywordBox() {
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
   const [chartSize, setChartSize] = useState({ width: 600, height: 40 }); // 초기값 설정
-  const { isSidebarOpen } = useOutletContext(); // isSidebarOpen 상태 가져오기
   const navigate = useNavigate();
 
   // 사이드바 열림/닫힘 상태에 따라 차트 크기 업데이트
@@ -45,7 +43,7 @@ export default function KeywordBox() {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [isSidebarOpen]);
+  }, []);
 
   useEffect(() => {
     const excute = async () => {

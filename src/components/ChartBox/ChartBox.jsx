@@ -18,7 +18,6 @@ export default function ChartBox({
   const chartContainerRef = useRef(null); // CandleChart 상위 div 참조
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
-  const { isSidebarOpen } = useOutletContext(); // isSidebarOpen 상태 가져오기
 
   useEffect(() => {
     bringStockChart(stockInfo.stock_code, setChartData, period);
@@ -42,7 +41,7 @@ export default function ChartBox({
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [isSidebarOpen]);
+  }, []);
 
   // CandleChart 상위 div 크기 측정
   useEffect(() => {
@@ -58,17 +57,17 @@ export default function ChartBox({
 
     if (chartContainerRef.current) observer.observe(chartContainerRef.current);
     return () => observer.disconnect();
-  }, [isSidebarOpen]);
+  }, []);
 
   const currData = chartData[chartData.length - 1];
 
   return (
     <div ref={containerRef}>
-      <div className={`flex ${isSidebarOpen ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start font-semibold`}>
+      <div className={`flex flex-row space-x-4 items-start font-semibold`}>
         {/** chart box */}
         <div
           ref={chartContainerRef} // CandleChart 상위 div 참조
-          className={`border-2 rounded-xl p-4 ${isSidebarOpen ? 'w-full' : 'w-3/4'}`}
+          className={`border-2 rounded-xl p-4 w-3/4`}
         >
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">
@@ -108,7 +107,7 @@ export default function ChartBox({
         </div>
 
         {/** data box */}
-        <div className={`${isSidebarOpen ? 'w-full' : 'w-1/4'}`}>
+        <div className="w-1/4">
           <ChartData stockInfo={currData} />
           <UserLike stockLikeList={stockLikeList} />
         </div>
