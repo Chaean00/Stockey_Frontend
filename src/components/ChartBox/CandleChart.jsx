@@ -62,7 +62,10 @@ const CandleChart = (props) => {
   const elder = elderRay();
 
   const calculatedData = elder(ema26(ema12(props.chartData || [])));
-  const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartData);
+  const filteredData = calculatedData.filter(d => d.ema12 != null || d.ema26 != null);
+  console.log("filter",filteredData)
+  // const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(props.chartData);
+  const { data, xScale, xAccessor, displayXAccessor } = ScaleProvider(filteredData);
   const pricesDisplayFormat = format('.2f');
   const max = xAccessor(data[data.length - 1]);
   const min = xAccessor(data[Math.max(0, data.length - 100)]);
@@ -105,15 +108,6 @@ const CandleChart = (props) => {
     return data.close > data.open ? '#3182F6' : '#FF626F';
   };
 
-  if (ema12 === null || ema12 === undefined) {
-    return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <h2>데이터를 불러오는 중입니다...</h2>
-        <Spinner animation="border" variant="primary" />
-      </div>
-    )
-  }
-
   return (
     <ChartCanvas
       height={height}
@@ -140,14 +134,18 @@ const CandleChart = (props) => {
           fill={(d) => (d.close > d.open ? '#3182F6' : '#FF626F')} // 양봉: 초록, 음봉: 빨강
           wickStroke={(d) => (d.close > d.open ? '#3182F6' : '#FF626F')} // 위아래 꼬리선 색상
         />
-        <LineSeries yAccessor={(d) => (d.ema26 !== null ? ema26.accessor()(d) : null)} strokeStyle={ema26.stroke()} />
+        {/* <LineSeries yAccessor={(d) => (d.ema26 !== null ? ema26.accessor()(d) : null)} strokeStyle={ema26.stroke()} /> */}
+        <LineSeries yAccessor={(d) => (d.ema26 != null ? ema26.accessor()(d) : undefined)} strokeStyle={ema26.stroke()} />
         <CurrentCoordinate
-          yAccessor={(d) => (d.ema26 !== null ? ema26.accessor()(d) : null)}
+          // yAccessor={(d) => (d.ema26 !== null ? ema26.accessor()(d) : null)}
+          yAccessor={(d) => d && d.ema26 != null ? d.ema26 : undefined}
           fillStyle={ema26.stroke()}
         />
-        <LineSeries yAccessor={(d) => (d.ema12 !== null ? ema12.accessor()(d) : null)} strokeStyle={ema12.stroke()} />
+        {/* <LineSeries yAccessor={(d) => (d.ema12 !== null ? ema12.accessor()(d) : null)} strokeStyle={ema12.stroke()} /> */}
+        <LineSeries yAccessor={(d) => (d.ema12 != null ? ema12.accessor()(d) : undefined)} strokeStyle={ema12.stroke()} />
         <CurrentCoordinate
-          yAccessor={(d) => (d.ema12 !== null ? ema12.accessor()(d) : null)}
+          // yAccessor={(d) => (d.ema12 !== null ? ema12.accessor()(d) : null)}
+          yAccessor={(d) => d && d.ema12 != null ? d.ema12 : undefined}
           fillStyle={ema12.stroke()}
         />
         <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
