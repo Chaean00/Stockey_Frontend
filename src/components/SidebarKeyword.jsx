@@ -12,6 +12,8 @@ export default function SidebarKeyword(props) {
     getStockInfo();
   }, [props.keyword_id])
 
+  console.log("StockRank", stockRank)
+  console.log("KeywordInfo", keywordInfo)
   const getStockInfo = async () => {
     try {
       if (keywordInfo?.keyword_id) {

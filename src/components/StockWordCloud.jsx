@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import cloud from 'd3-cloud';
 
-const SimpleWordCloud = ({ data, width, height }) => {
+const StockWordCloud = ({ data, width, height }) => {
   const svgRef = useRef(null);
   console.log("data", data)
   console.log("width", width)
@@ -35,7 +35,7 @@ const SimpleWordCloud = ({ data, width, height }) => {
 
     const layout = cloud()
       .size([width, height])
-      .words(data.map((d) => ({ text: d.keyword, size: fontSizeScale(d.weight) })))
+      .words(data.map((d) => ({ text: d.stock_name, size: fontSizeScale(d.weight) })))
       .padding(5)
       .rotate(() => 0) // Set rotation to 0 for better readability of Korean text
       .font('Noto Sans KR')
@@ -67,4 +67,4 @@ const SimpleWordCloud = ({ data, width, height }) => {
   );
 };
 
-export default SimpleWordCloud;
+export default StockWordCloud;
