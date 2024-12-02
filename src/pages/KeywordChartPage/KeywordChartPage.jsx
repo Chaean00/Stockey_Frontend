@@ -31,9 +31,7 @@ export default function KeywordChartPage() {
     stockInfo,
     setStockInfo,
   } = useLikeContext();
-
-
-  console.log(keywordData.stock_rankings)
+  
   // 키워드 데이터 가져오기
   // useEffect(() => {
   //   setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);

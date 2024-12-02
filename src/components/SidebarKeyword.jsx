@@ -12,8 +12,6 @@ export default function SidebarKeyword(props) {
     getStockInfo();
   }, [props.keyword_id])
 
-  console.log("StockRank", stockRank)
-  console.log("KeywordInfo", keywordInfo)
   const getStockInfo = async () => {
     try {
       if (keywordInfo?.keyword_id) {
@@ -23,7 +21,6 @@ export default function SidebarKeyword(props) {
       } else {
         const response = await stockApi.getStcokRankByUserLike();
         setStockRank(response.data)
-        console.log(response.data)
       }
     } catch (err) {
       console.error('기업 랭킹 조회 실패:', err.response?.data?.message || err.message);

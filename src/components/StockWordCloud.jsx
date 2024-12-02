@@ -4,9 +4,6 @@ import cloud from 'd3-cloud';
 
 const StockWordCloud = ({ data, width, height }) => {
   const svgRef = useRef(null);
-  console.log("data", data)
-  console.log("width", width)
-  console.log("height", height)
 
   useEffect(() => {
     if (!data || data.length === 0) return;
