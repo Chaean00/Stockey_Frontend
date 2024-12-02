@@ -5,6 +5,7 @@ const ChatContext = createContext();
 
 // Context Provider
 export const ChatProvider = ({ children }) => {
+  const [messages, setMessages] = useState([]);
   const [chatRoomList, setChatRoomList] = useState([]);
   const [roomId, setRoomId] = useState(1);
 
@@ -22,8 +23,23 @@ export const ChatProvider = ({ children }) => {
     fetchChatList();
   }, []);
 
+  // 초기 전체 댓글 로드
+  useEffect(() => {
+    // 전체 댓글 요청
+    const fetchTotalComments = async () => {
+      try {
+        const response = await chatApi.getTotalComments(roomId);
+        setMessages(response.data);
+        console.log('전체 댓글:', response.data);
+      } catch (error) {
+        console.error('전체 댓글 로드 실패:', error);
+      }
+    };
+    fetchTotalComments();
+  }, [roomId]);
+
   return (
-    <ChatContext.Provider value={{ chatRoomList, setChatRoomList, roomId, setRoomId }}>
+    <ChatContext.Provider value={{ chatRoomList, setChatRoomList, roomId, setRoomId, messages, setMessages }}>
       {children}
     </ChatContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { RiKey2Fill } from 'react-icons/ri';
 import { GoHomeFill } from 'react-icons/go';
 import { FaChartLine } from 'react-icons/fa6';
 import { IoChatbubblesSharp } from 'react-icons/io5';
+import { socket } from '../pages/ChattingPage/ChattingPage';
 
 export default function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,6 +28,15 @@ export default function Layout() {
       return <SidebarChat />;
     } else return <Sidebar />;
   };
+
+  // 사이드바가 닫혀있고, 채팅 페이지에 접속해있지 않으면 전체 채팅방 나가기
+  useEffect(() => {
+    if (!isSidebarOpen && !location.pathname.startsWith('/chat')) {
+      socket.emit('leaveRoom', 1);
+      socket.off('receiveTotalMessage');
+      socket.off('updateMessageLike');
+    }
+  }, [isSidebarOpen, location.pathname]);
 
   // 경로에 따른 사이드바 선택
   useState(() => {
@@ -60,7 +70,7 @@ export default function Layout() {
   return (
     <div className="font-sans flex text-black_default overflow-x-hidden min-h-screen items-stretch h-auto">
       {/* Main Content */}
-      <div className="flex flex-col flex-grow w-4/5">
+      <div className="flex flex-col flex-grow w-3/4">
         {/* Header/Navbar */}
         <Header className="fixed top-0 left-0 right-0 z-10" />
 
@@ -79,7 +89,7 @@ export default function Layout() {
       {/* Sidebar */}
       <div
         className={`${
-          isSidebarOpen ? 'w-1/5' : 'w-20'
+          isSidebarOpen ? 'w-1/4' : 'w-20'
         } transition-all duration-300 bg-gray-100 shadow-md flex justify-center text-gray-400`}
       >
         {isSidebarOpen ? (
