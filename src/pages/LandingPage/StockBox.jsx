@@ -17,7 +17,7 @@ export default function StockBox() {
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [stockInfo, setStockInfo] = useState({
-    stock_id: 311,
+    stock_id: 11,
     stock_code: '055550',
     stock_name: '신한지주',
   });
