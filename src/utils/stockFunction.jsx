@@ -31,7 +31,7 @@ const bringStockChart = async (stock_code, updateChart, stock_period) => {
       updateChart(response.data);
     } catch (error) {
       console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-      toast.error('차트 조회에 실패했습니다...');
+      location.reload();
     }
   }
 };
