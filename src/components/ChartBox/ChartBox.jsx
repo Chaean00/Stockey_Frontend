@@ -4,6 +4,7 @@ import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
+import { useOutletContext } from 'react-router-dom';
 
 export default function ChartBox({
   chartData,
@@ -18,6 +19,7 @@ export default function ChartBox({
   const chartContainerRef = useRef(null); // CandleChart 상위 div 참조
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
+  const { isSidebarOpen } = useOutletContext(); // isSidebarOpen 상태 가져오기
 
   useEffect(() => {
     bringStockChart(stockInfo.stock_code, setChartData, period);
@@ -41,7 +43,7 @@ export default function ChartBox({
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isSidebarOpen]);
 
   // CandleChart 상위 div 크기 측정
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function ChartBox({
       if (entries.length > 0) {
         const entry = entries[0];
         setChartDimensions({
-          width: entry.contentRect.width,
+          width: entry.contentRect.width * 0.9,
           height: entry.contentRect.height,
         });
       }
@@ -57,20 +59,17 @@ export default function ChartBox({
 
     if (chartContainerRef.current) observer.observe(chartContainerRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [isSidebarOpen]);
 
   const currData = chartData[chartData.length - 1];
 
-  // 정렬을 변경하는 임계값
-  const isCompact = containerDimensions.width / containerDimensions.height <= 5 / 6;
-
   return (
     <div ref={containerRef}>
-      <div className={`flex ${isCompact ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start font-semibold`}>
+      <div className={`flex ${isSidebarOpen ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start font-semibold`}>
         {/** chart box */}
         <div
           ref={chartContainerRef} // CandleChart 상위 div 참조
-          className={`border-2 rounded-xl p-4 ${isCompact ? 'w-full' : 'w-3/4'}`}
+          className={`border-2 rounded-xl p-4 ${isSidebarOpen ? 'w-full' : 'w-3/4'}`}
         >
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">
@@ -110,7 +109,7 @@ export default function ChartBox({
         </div>
 
         {/** data box */}
-        <div className={`${isCompact ? 'w-full' : 'w-1/4'}`}>
+        <div className={`${isSidebarOpen ? 'w-full' : 'w-1/4'}`}>
           <ChartData stockInfo={currData} />
           <UserLike stockLikeList={stockLikeList} />
         </div>

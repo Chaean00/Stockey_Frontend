@@ -4,13 +4,12 @@ import { bringStockChart } from '../../utils/stockFunction';
 import { findInitialLikeKeyword, keywordAddLike, keywordRemoveLike } from '../../utils/likeFunction';
 import keywordApi from '../../services/keywordApi';
 import LikeButton from '../../components/LikeButton';
-import SearchInput from '../../components/SearchInput';
 import { Tab, Tabs } from 'react-bootstrap';
 import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { useNavigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 
 export default function KeywordBox() {
   const [search, setSearch] = useState(''); // 검색어
@@ -23,10 +22,11 @@ export default function KeywordBox() {
   const [period, setPeriod] = useState('D'); // 일봉 주봉 월봉
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
-  const [chartSize, setChartSize] = useState({ width: 600, height: 400 }); // 초기값 설정
-  const navigate = useNavigate();
+  const [chartSize, setChartSize] = useState({ width: 600, height: 40 }); // 초기값 설정
+  const { isSidebarOpen } = useOutletContext(); // isSidebarOpen 상태 가져오기
   const navigate = useNavigate();
 
+  // 사이드바 열림/닫힘 상태에 따라 차트 크기 업데이트
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
@@ -45,14 +45,13 @@ export default function KeywordBox() {
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [isSidebarOpen]);
 
   useEffect(() => {
     const excute = async () => {
       try {
         const response = await keywordApi.getTopKeywrod();
         const topKeywordData = response.data[0];
-
         await setUpKeywordDataAndStockInfo(topKeywordData.keyword_id, setKeywordData, setStockInfo);
       } catch (error) {
         console.log('데이터 로딩 실패');
@@ -141,18 +140,18 @@ export default function KeywordBox() {
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div ref={chartContainerRef} className="col-span-4 lg:p-4">
+        <div className="col-span-4 lg:p-4">
           {/** chart */}
-          <div>
+          <div ref={chartContainerRef}>
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
               <Tab eventKey="D" title="일봉">
                 <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="W" title="주봉">
-                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
+                <CandleChart chartData={chartData} width={chartSize.width} height={450} />
               </Tab>
               <Tab eventKey="M" title="월봉">
-                <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
+                <CandleChartSimple chartData={chartData} width={chartSize.width} height={450} />
               </Tab>
             </Tabs>
           </div>
