@@ -14,8 +14,8 @@ import { useLikeContext } from '../utils/likeContext';
 export default function Sidebar() {
   // const [userBookmarkList, setUserBookmarkList] = useState([]);
   const [keywordRankingList, setKeywordRankingList] = useState([]);
-
-  const { keywordLikeList: userBookmarkList, setKeywordLikeList } = useLikeContext();
+  const { keywordLikeList, setKeywordLikeList } = useLikeContext();
+  const { stockLikeList, setStockLikeList } = useLikeContext();
 
   const navigate = useNavigate();
 
@@ -41,16 +41,26 @@ export default function Sidebar() {
       try {
         const res = await userApi.getKeywordLike();
         setKeywordLikeList(res.data);
+        // console.log('키워드 즐겨찾기 리스트 가져오가: ', res.data);
       } catch (err) {
         console.error('키워드 즐겨찾기 리스트 가져오기 실패:', err);
+      }
+    };
+
+    const fetchStockBookmarkList = async () => {
+      try {
+        const res = await userApi.getStockLike();
+        setStockLikeList(res.data.userStocks);
+        // console.log('종목 즐겨찾기 리스트 가져오가: ', res.data);
+      } catch (err) {
+        console.error('종목 즐겨찾기 리스트 가져오기 실패:', err);
       }
     };
 
     // fetchUserBookmarkList();
     fetchKeywordRankingList();
     fetchKeywordBookmarkList();
-
-    console.log('북마크리스트: ', userBookmarkList);
+    fetchStockBookmarkList();
   }, []);
 
   const goToIdKeyword = (id) => {
@@ -75,7 +85,7 @@ export default function Sidebar() {
         <div className="flex flex-wrap gap-2">
           {' '}
           {/* 수정된 부분: flex-wrap 추가 */}
-          {userBookmarkList?.userKeywords?.map((elm) => (
+          {keywordLikeList?.userKeywords?.map((elm) => (
             <button
               key={elm.id}
               className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
@@ -101,7 +111,7 @@ export default function Sidebar() {
         <div className="flex flex-wrap gap-2">
           {' '}
           {/* 수정된 부분: flex-wrap 추가 */}
-          {userBookmarkList?.userKeywords?.map((elm) => (
+          {stockLikeList?.map((elm) => (
             <button
               key={elm.id}
               className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
@@ -109,7 +119,7 @@ export default function Sidebar() {
                 goToIdStock(elm.stock_id);
               }}
             >
-              {elm.keyword}
+              {elm.stock_name}
             </button>
           ))}
         </div>

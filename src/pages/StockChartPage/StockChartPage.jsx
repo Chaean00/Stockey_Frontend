@@ -7,17 +7,20 @@ import { removeLike, addLike, findInitialLikeStock } from '../../utils/likeFunct
 import { bringStockChart, bringStockInfo, searchStock } from '../../utils/stockFunction'; //주식 정보 조회 관련 함수
 import CustomWordCloud from '../../components/WordCloud';
 import keywordApi from '../../services/keywordApi';
+import { useLikeContext } from '../../utils/likeContext';
 
 export default function StockChartPage() {
   const [search, setSearch] = useState('');
   const [isLiked, setIsLiked] = useState(false);
-  const [stockLikeList, setStockLikeList] = useState([]);
+  // const [stockLikeList, setStockLikeList] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [stockInfo, setStockInfo] = useState({});
   const [keywordRank, setKeywordRank] = useState([]);
   const { stock_id } = useParams(); //useParams를 통해 경로에서 주식 id 가져옴
   const [period, setPeriod] = useState('D');
+
+  const { stockLikeList, setStockLikeList } = useLikeContext();
 
   //1. 주식 id 변경 시, 주식 id로 나머지 주식 정보 조회(stock_code, stock_name 등)
   useEffect(() => {

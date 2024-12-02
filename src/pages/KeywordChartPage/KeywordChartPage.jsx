@@ -9,14 +9,11 @@ import KeywordChartBox from '../../components/ChartBox/KeywordChartBox';
 import { useLikeContext } from '../../utils/likeContext';
 
 export default function KeywordChartPage() {
-  // 키워드 즐겨찾기
   const { keyword_id } = useParams();
   const [chartData, setChartData] = useState([]);
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [period, setPeriod] = useState('D');
-
-  // 종목 즐겨찾기
 
   // 키워드 데이터 가져오기
   useEffect(() => {
