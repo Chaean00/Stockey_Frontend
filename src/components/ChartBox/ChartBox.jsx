@@ -4,7 +4,7 @@ import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
-
+import { useOutletContext } from 'react-router-dom';
 export default function ChartBox({
   chartData,
   setChartData,
@@ -49,7 +49,7 @@ export default function ChartBox({
       if (entries.length > 0) {
         const entry = entries[0];
         setChartDimensions({
-          width: entry.contentRect.width,
+          width: entry.contentRect.width * 0.9,
           height: entry.contentRect.height,
         });
       }
@@ -61,47 +61,53 @@ export default function ChartBox({
 
   const currData = chartData[chartData.length - 1];
 
-  // 정렬을 변경하는 임계값
-  const isCompact = containerDimensions.width / containerDimensions.height <= 5 / 6;
-
-  // CandleChart에 고정된 비율로 높이 조정
-  const chartHeight = 600; // 예: 60% 비율로 고정
-
   return (
     <div ref={containerRef}>
-      <div className={`flex ${isCompact ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start font-semibold`}>
+      <div className={`flex flex-row space-x-4 items-start font-semibold`}>
         {/** chart box */}
         <div
           ref={chartContainerRef} // CandleChart 상위 div 참조
-          className={`border-2 rounded-xl p-4 ${isCompact ? 'w-full' : 'w-3/4'}`}
+          className={`border-2 rounded-xl p-4 w-3/4`}
         >
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">
-              <CandleChart
-                chartData={chartData}
-                width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                height={chartHeight || 0} // 고정 비율로 높이 전달
-              />
+              {chartData ? (
+                <CandleChart
+                  chartData={chartData}
+                  width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                  height={600} // 고정 비율로 높이 전달
+                />
+              ) : (
+                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+              )}
             </Tab>
             <Tab eventKey="W" title="주봉">
-              <CandleChart
-                chartData={chartData}
-                width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                height={chartHeight || 0} // 고정 비율로 높이 전달
-              />
+              {chartData ? (
+                <CandleChart
+                  chartData={chartData}
+                  width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                  height={600} // 고정 비율로 높이 전달
+                />
+              ) : (
+                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+              )}
             </Tab>
             <Tab eventKey="M" title="월봉">
-              <CandleChartSimple
-                chartData={chartData}
-                width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                height={chartHeight || 0} // 고정 비율로 높이 전달
-              />
+              {chartData ? (
+                <CandleChartSimple
+                  chartData={chartData}
+                  width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                  height={600} // 고정 비율로 높이 전달
+                />
+              ) : (
+                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+              )}
             </Tab>
           </Tabs>
         </div>
 
         {/** data box */}
-        <div className={`${isCompact ? 'w-full' : 'w-1/4'}`}>
+        <div className="w-1/4">
           <ChartData stockInfo={currData} />
           <UserLike stockLikeList={stockLikeList} />
         </div>
