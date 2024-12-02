@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import MessageInput from './ChattingInput';
 import { ChevronDown, Heart } from 'lucide-react';
-
+import { toast } from 'react-toastify';
 import { socket } from '../pages/ChattingPage/ChattingPage';
 import chatApi from '../services/chatApi';
 
@@ -86,7 +86,7 @@ export default function ChattingBox({
     } catch (error) {
       console.error('좋아요 처리 실패:', error);
       if (error.response.data.message === 'Authorization Null') {
-        alert('로그인 후 사용해 주세요.');
+        toast.error('로그인 후 사용해 주세요.');
       }
     }
   };

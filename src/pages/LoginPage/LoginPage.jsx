@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userApi from '../../services/userApi';
 import { useAuth } from '../../utils/authContext';
+import { toast } from 'react-toastify';
 
 export default function LoginPage() {
   const [userInfo, setUserInfo] = useState({
@@ -28,11 +29,11 @@ export default function LoginPage() {
         const response = await userApi.login(userInfo);
         login(response.data.nickname);
         console.log('로그인 성공:', response.data);
-        alert('로그인에 성공했습니다!');
+        toast.success('로그인에 성공했습니다!');
         navigate('/');
       } catch (error) {
         console.error('로그인 실패:', error.response?.data?.message || error.message);
-        alert('로그인에 실패했습니다...');
+        toast.error('로그인에 실패했습니다...');
       }
     }
   };

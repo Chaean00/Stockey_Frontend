@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userApi from '../../services/userApi';
+import { toast } from 'react-toastify';
 
 export default function SignUpPage() {
   const [isAlarmOn, setIsAlarmOn] = useState(false);
@@ -32,11 +33,11 @@ export default function SignUpPage() {
       try {
         const response = await userApi.register(userInfo);
         console.log('회원가입 성공:', response.data);
-        alert('회원가입에 성공했습니다!');
+        toast.success('회원가입에 성공했습니다!');
         navigate('/login');
       } catch (error) {
         console.error('회원가입 실패:', error.response?.data?.message || error.message);
-        alert('회원가입에 실패했습니다...');
+        toast.error('회원가입에 실패했습니다...');
       }
     }
   };

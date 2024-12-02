@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import keywordApi from '../services/keywordApi';
 import stockApi from '../services/stockApi';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function SidebarKeyword(props) {
   const [keywordInfo, setKeywordInfo] = useState({});
@@ -26,7 +27,7 @@ export default function SidebarKeyword(props) {
       }
     } catch (err) {
       console.error('기업 랭킹 조회 실패:', err.response?.data?.message || err.message);
-      alert('기업 랭킹 조회에 실패했습니다...');
+      toast.error('기업 랭킹 조회에 실패했습니다...');
     }
   };
 
