@@ -64,9 +64,6 @@ export default function ChartBox({
   // 정렬을 변경하는 임계값
   const isCompact = containerDimensions.width / containerDimensions.height <= 5 / 6;
 
-  // CandleChart에 고정된 비율로 높이 조정
-  const chartHeight = 600; // 예: 60% 비율로 고정
-
   return (
     <div ref={containerRef}>
       <div className={`flex ${isCompact ? 'flex-col space-y-4' : 'flex-row space-x-4'} items-start font-semibold`}>
@@ -77,25 +74,37 @@ export default function ChartBox({
         >
           <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
             <Tab eventKey="D" title="일봉">
-              <CandleChart
-                chartData={chartData}
-                width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                height={chartHeight || 0} // 고정 비율로 높이 전달
-              />
+              {chartData ? (
+                <CandleChart
+                  chartData={chartData}
+                  width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                  height={600} // 고정 비율로 높이 전달
+                />
+              ) : (
+                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+              )}
             </Tab>
             <Tab eventKey="W" title="주봉">
-              <CandleChart
-                chartData={chartData}
-                width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                height={chartHeight || 0} // 고정 비율로 높이 전달
-              />
+              {chartData ? (
+                <CandleChart
+                  chartData={chartData}
+                  width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                  height={600} // 고정 비율로 높이 전달
+                />
+              ) : (
+                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+              )}
             </Tab>
             <Tab eventKey="M" title="월봉">
-              <CandleChartSimple
-                chartData={chartData}
-                width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                height={chartHeight || 0} // 고정 비율로 높이 전달
-              />
+              {chartData ? (
+                <CandleChartSimple
+                  chartData={chartData}
+                  width={chartDimensions.width || 0} // 상위 div의 너비 전달
+                  height={600} // 고정 비율로 높이 전달
+                />
+              ) : (
+                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+              )}
             </Tab>
           </Tabs>
         </div>

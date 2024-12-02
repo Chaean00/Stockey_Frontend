@@ -156,25 +156,13 @@ export default function StockBox() {
           <div className="font-semibold">
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
               <Tab eventKey="D" title="일봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="W" title="주봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="M" title="월봉">
-                {chartDataLoaded ? (
-                  <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
             </Tabs>
           </div>

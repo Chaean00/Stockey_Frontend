@@ -42,32 +42,32 @@ export default function KeywordBox() {
       resizeObserver.disconnect();
     };
   }, []);
-  
+
   useEffect(() => {
     const excute = async () => {
       try {
         const response = await keywordApi.getTopKeywrod();
-        const topKeywordData = response.data[0]
+        const topKeywordData = response.data[0];
 
-        await setUpKeywordDataAndStockInfo(topKeywordData.keyword_id, setKeywordData, setStockInfo)
+        await setUpKeywordDataAndStockInfo(topKeywordData.keyword_id, setKeywordData, setStockInfo);
       } catch (error) {
-        console.log("데이터 로딩 실패");
+        console.log('데이터 로딩 실패');
       }
-    }
-    
+    };
+
     excute();
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (stockInfo.stock_code) {
       bringStockChart(stockInfo.stock_code, setChartData, period); //주식 정보에서 stock_code, ChartData update useState, 초기 일봉('D')으로 조회
-      setChartDataLoaded(true)
+      setChartDataLoaded(true);
     }
     if (stockInfo.stock_id) {
       // keywordData.keyword
       findInitialLikeKeyword(keywordData.keyword, setIsLiked, setKeywordLikeList);
     }
-  }, [stockInfo, period])
+  }, [stockInfo, period]);
 
   const moveToStock = (chart_period) => {
     setChartDataLoaded(false); // Lazy Loading 초기화
@@ -75,20 +75,20 @@ export default function KeywordBox() {
   };
   // 즐겨찾기 추가 핸들링
   const handleAddLike = () => {
-    keywordAddLike(keywordData.keyword, setKeywordLikeList)
+    keywordAddLike(keywordData.keyword, setKeywordLikeList);
     setIsLiked(true);
-  }
+  };
 
   // 즐겨찾기 삭제 핸들링
   const handleRemoveLike = () => {
-    keywordRemoveLike(keywordData.keyword, setKeywordLikeList, keywordData)
+    keywordRemoveLike(keywordData.keyword, setKeywordLikeList, keywordData);
     setIsLiked(false);
-  }
+  };
 
   // 검색함수 핸들링
   const handleSearch = () => {
-    searchKeyword(search, setSearchResult)
-  }
+    searchKeyword(search, setSearchResult);
+  };
 
   return (
     <div className="text-black_default flex flex-col bg-white">
@@ -97,11 +97,11 @@ export default function KeywordBox() {
         <div className="flex items-center gap-3">
           <div className="font-extrabold text-2xl">
             <span className="text-3xl font-bold text-blue-200">[ </span>
-            {keywordData?.keyword|| '로딩 중...'}
+            {keywordData?.keyword || '로딩 중...'}
             <span className="text-3xl font-bold text-blue-200"> ]</span>
             <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
           </div>
-          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike}/>
+          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
         <SearchKeywordInput
           setSearch={setSearch}
@@ -130,25 +130,13 @@ export default function KeywordBox() {
           <div>
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
               <Tab eventKey="D" title="일봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="W" title="주봉">
-                {chartDataLoaded ? (
-                  <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
               <Tab eventKey="M" title="월봉">
-                {chartDataLoaded ? (
-                  <CandleChartSimple chartData={chartData} width={chartSize.width * 0.98} height={450} />
-                ) : (
-                  <div>차트 데이터를 로드 중입니다...</div>
-                )}
+                <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
             </Tabs>
           </div>
@@ -157,7 +145,7 @@ export default function KeywordBox() {
           <div className="mt-4 bg-gray-100 p-4 rounded-lg">
             {chartData.length > 0 ? (
               <div>
-                <ul className="flex flex-wrap items-center justify-between text-sm font-semibold">
+                <ul className="flex flex-wrap items-center justify-between text-sm font-semibold animate-skeleton">
                   <li className="flex items-center gap-5 border-l-2 border-gray-300 pl-4">
                     <span className="text-gray-500">날짜</span>
                     <span>{chartData[chartData.length - 1]?.date || 'N/A'}</span>
