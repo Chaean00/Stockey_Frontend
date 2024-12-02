@@ -44,7 +44,7 @@ export default function SidebarStock(props) {
   return (
     <div className="p-3">
       {/** header */}
-      <div className="lg:text-lg mb-3 font-extrabold w-full border-b border-gray-300 py-3">
+      <div className="lg:text-xl mb-3 font-extrabold w-full border-b border-gray-300 py-3">
         {stockInfo?.stock_id ? (
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
@@ -52,7 +52,7 @@ export default function SidebarStock(props) {
             <span className="text-blue-200 text-xl font-bold"> ]</span> 에서 가장 많이 언급된
           </h2>
         ) : (
-          <h2>가장 많이 즐겨찾기된</h2>
+          <h2>가장 많이 즐겨찾기된 키워드는?</h2>
         )}
       </div>
       {/** list */}

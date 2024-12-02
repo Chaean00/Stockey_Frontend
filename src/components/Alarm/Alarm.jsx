@@ -209,7 +209,7 @@ function Alarm({ show, handleClose }) {
               onClick={() => {
                 saveAlarm();
               }}
-              className="hover:bg-blue-100 bg-blue-200 hover:border-none"
+              className="hover:bg-blue-100 bg-blue-200 hover:border-blue-100 font-sans font-md"
             >
               저장
             </Button>

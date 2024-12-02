@@ -23,7 +23,7 @@ export default function SidebarKeyword(props) {
         setStockRank(response.data.stock_rankings);
       } else {
         const response = await stockApi.getStcokRankByUserLike();
-        setStockRank(response.data)
+        setStockRank(response.data);
       }
     } catch (err) {
       console.error('기업 랭킹 조회 실패:', err.response?.data?.message || err.message);
@@ -34,15 +34,15 @@ export default function SidebarKeyword(props) {
   return (
     <div className="p-3">
       {/** header */}
-      <div className="lg:text-lg mb-3 font-extrabold w-full border-b border-gray-300 py-3">
+      <div className="lg:text-xl mb-3 font-extrabold w-full border-b border-gray-300 py-3">
         {keywordInfo?.keyword_id ? (
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
             {keywordInfo.keyword}
-            <span className="text-blue-200 text-xl font-bold"> ]</span> 에서 가장 많이 언급된
+            <span className="text-blue-200 text-xl font-bold"> ]</span> 을 가장 많이 언급한
           </h2>
         ) : (
-          <h2>오늘 가장 많이 언급된</h2>
+          <h2>가장 많이 즐겨찾기된 주식 종목은?</h2>
         )}
       </div>
       {/** list */}

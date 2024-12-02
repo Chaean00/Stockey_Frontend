@@ -88,7 +88,7 @@ export default function SidebarChat() {
     <div className="w-full p-6">
       {/* Title */}
       <h2
-        className="text-lg font-extrabold text-gray-900 mb-8"
+        className="text-xl font-extrabold text-gray-900 mb-8"
         onClick={() => {
           roomListHandler(1);
         }}
@@ -101,7 +101,7 @@ export default function SidebarChat() {
 
       {/* Trending Keywords Section */}
       <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">지금 뜨는 키워드 커뮤니티</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">지금 뜨는 키워드 커뮤니티</h2>
         <ul>
           {weightRoomList?.map((el, i) => {
             return (
@@ -128,7 +128,7 @@ export default function SidebarChat() {
 
       {/* National Keywords Section */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-2">국밥 키워드 커뮤니티</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">국밥 키워드 커뮤니티</h2>
         <ul>
           {bookmarkRoomList?.map((el, i) => {
             return (
