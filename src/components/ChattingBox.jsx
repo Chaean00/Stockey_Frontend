@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
-import MessageInput from "./ChattingInput";
-import { ChevronDown, Heart } from "lucide-react";
+import React, { useRef, useEffect, useState } from 'react';
+import MessageInput from './ChattingInput';
+import { ChevronDown, Heart } from 'lucide-react';
 
-import { socket } from "../pages/ChattingPage/ChattingPage";
-import chatApi from "../services/chatApi";
+import { socket } from '../pages/ChattingPage/ChattingPage';
+import chatApi from '../services/chatApi';
 
 export default function ChattingBox({
   // messages,
@@ -16,11 +16,11 @@ export default function ChattingBox({
 
   // 드롭 다운 상태 관리
   const [isOpen, setIsOpen] = useState(false); // 드롭다운 열림/닫힘 상태
-  const [selectedOption, setSelectedOption] = useState("최신순"); // 선택된 옵션
+  const [selectedOption, setSelectedOption] = useState('최신순'); // 선택된 옵션
   const [sortedMessages, setSortedMessages] = useState(initialMessages); // 정렬된 메시지 상태 관리
 
   // 옵션 목록
-  const options = ["최신순", "좋아요순"];
+  const options = ['최신순', '좋아요순'];
 
   // 드롭다운 토글
   const toggleDropdown = () => {
@@ -36,9 +36,9 @@ export default function ChattingBox({
   // messages와 selectedOption 상태를 기반으로 메시지 정렬
   useEffect(() => {
     const sorted = [...initialMessages].sort((a, b) => {
-      if (selectedOption === "최신순") {
+      if (selectedOption === '최신순') {
         return new Date(a.created_at) - new Date(b.created_at); // 최신순: 최근 시간 우선
-      } else if (selectedOption === "좋아요순") {
+      } else if (selectedOption === '좋아요순') {
         return a.totalLikes - b.totalLikes; // 좋아요순: 좋아요 개수 우선
       }
       return 0;
@@ -58,16 +58,14 @@ export default function ChattingBox({
         await chatApi.unlikeMessage(comment.id);
 
         // 좋아요 취소 소켓 이벤트 전송
-        socket.emit("unlikeMessage", {
+        socket.emit('unlikeMessage', {
           messageId: comment.id,
           roomId: roomId,
         });
 
         // 좋아요 표시 본인 로컬에만 반영
         setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.id === comment.id ? { ...msg, likedByUser: false } : msg,
-          ),
+          prevMessages.map((msg) => (msg.id === comment.id ? { ...msg, likedByUser: false } : msg)),
         );
       } else {
         // 좋아요가 눌리지 않은 상태면
@@ -75,22 +73,20 @@ export default function ChattingBox({
         await chatApi.likeMessage(comment.id);
 
         // 좋아요 추가 소켓 이벤트 전송
-        socket.emit("likeMessage", {
+        socket.emit('likeMessage', {
           messageId: comment.id,
           roomId: roomId,
         });
 
         // 좋아요 표시 본인 로컬에만 반영
         setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.id === comment.id ? { ...msg, likedByUser: true } : msg,
-          ),
+          prevMessages.map((msg) => (msg.id === comment.id ? { ...msg, likedByUser: true } : msg)),
         );
       }
     } catch (error) {
-      console.error("좋아요 처리 실패:", error);
-      if (error.response.data.message === "Authorization Null") {
-        alert("로그인 후 사용해 주세요.");
+      console.error('좋아요 처리 실패:', error);
+      if (error.response.data.message === 'Authorization Null') {
+        alert('로그인 후 사용해 주세요.');
       }
     }
   };
@@ -98,8 +94,7 @@ export default function ChattingBox({
   // 스크롤 자동 이동 함수
   const scrollToBottom = () => {
     if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop =
-        messageContainerRef.current.scrollHeight;
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
     }
   };
 
@@ -121,8 +116,8 @@ export default function ChattingBox({
     } else if (diff < 86400) {
       return `${Math.floor(diff / 3600)}시간 전`;
     } else {
-      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-      return past.toLocaleDateString("ko-KR", options);
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      return past.toLocaleDateString('ko-KR', options);
     }
   }
 
@@ -179,7 +174,7 @@ export default function ChattingBox({
                           handleOptionSelect(option);
                         }}
                         className={`block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${
-                          selectedOption === option ? "font-bold" : ""
+                          selectedOption === option ? 'font-bold' : ''
                         }`}
                       >
                         {option}
@@ -199,10 +194,7 @@ export default function ChattingBox({
         >
           {/* 채팅 메시지 목록 */}
           {sortedMessages.map((comment) => (
-            <div
-              key={comment.id}
-              className="flex gap-4 border-b border-black-500 pb-[36px]"
-            >
+            <div key={comment.id} className="flex gap-4 border-b border-black-500 pb-[36px]">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-1">
                   {/* 원 아이콘 */}
@@ -218,14 +210,10 @@ export default function ChattingBox({
                   </div>
 
                   {/* 닉네임 */}
-                  <span className="font-sans font-medium text-[16px]">
-                    {comment.nickname}
-                  </span>
+                  <span className="font-sans font-medium text-[16px]">{comment.nickname}</span>
 
                   {/* 메시지 시간 */}
-                  <span className="text-sm text-gray-500 font-medium pl-3">
-                    {formatDate(comment.created_at)}
-                  </span>
+                  <span className="text-sm text-gray-500 font-medium pl-3">{formatDate(comment.created_at)}</span>
 
                   {/* 좋아요 하트 및 개수 */}
                   <div className="flex items-center gap-1">
@@ -241,15 +229,11 @@ export default function ChattingBox({
                         <Heart className="w-4 h-4 text-gray-500 hover:text-red-500 hover:scale-110 transition-transform" />
                       )}
                     </div>
-                    <span className="text-sm text-gray-500 font-medium">
-                      {comment.totalLikes}
-                    </span>
+                    <span className="text-sm text-gray-500 font-medium">{comment.totalLikes}</span>
                   </div>
                 </div>
                 {/* 메시지 내용 */}
-                <p className="text-gray-700 font-medium mt-[30px]">
-                  {comment.message}
-                </p>
+                <p className="text-gray-700 font-medium mt-[30px]">{comment.message}</p>
               </div>
             </div>
           ))}

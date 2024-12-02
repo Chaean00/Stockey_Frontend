@@ -1,34 +1,172 @@
-import React from "react";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import ChattingMain from "./ChattingMain";
+import { ArrowUpIcon, ArrowDownIcon, PlusIcon, HeartIcon } from 'lucide-react';
+
+import ChattingMain from './ChattingMain';
+
+import userApi from '../services/userApi';
+import keywordApi from '../services/keywordApi';
+
+import { useLikeContext } from '../utils/likeContext';
 
 export default function Sidebar() {
+  // const [userBookmarkList, setUserBookmarkList] = useState([]);
+  const [keywordRankingList, setKeywordRankingList] = useState([]);
+  const { keywordLikeList, setKeywordLikeList } = useLikeContext();
+  const { stockLikeList, setStockLikeList } = useLikeContext();
+
+  const navigate = useNavigate();
+
+  // 즐겨찾기, 실시간 키워드 랭킹 불러오기
+  useEffect(() => {
+    // const fetchUserBookmarkList = async () => {
+    //   const res = await userApi.getKeywordLike();
+    //   console.log('유저 북마크 리스트: ', res.data.userKeywords);
+    //   setUserBookmarkList(res.data.userKeywords);
+    // };
+
+    const fetchKeywordRankingList = async () => {
+      try {
+        const res = await keywordApi.getKeywordRank();
+        console.log('키워드 랭킹 리스트:', res.data.slice(0, 5));
+        setKeywordRankingList(res.data.slice(0, 5));
+      } catch (err) {
+        console.error('키워드 랭킹 리스트 가져오기 실패:', err);
+      }
+    };
+
+    const fetchKeywordBookmarkList = async () => {
+      try {
+        const res = await userApi.getKeywordLike();
+        setKeywordLikeList(res.data);
+        // console.log('키워드 즐겨찾기 리스트 가져오가: ', res.data);
+      } catch (err) {
+        console.error('키워드 즐겨찾기 리스트 가져오기 실패:', err);
+      }
+    };
+
+    const fetchStockBookmarkList = async () => {
+      try {
+        const res = await userApi.getStockLike();
+        setStockLikeList(res.data.userStocks);
+        // console.log('종목 즐겨찾기 리스트 가져오가: ', res.data);
+      } catch (err) {
+        console.error('종목 즐겨찾기 리스트 가져오기 실패:', err);
+      }
+    };
+
+    // fetchUserBookmarkList();
+    fetchKeywordRankingList();
+    fetchKeywordBookmarkList();
+    fetchStockBookmarkList();
+  }, []);
+
+  const goToIdKeyword = (id) => {
+    navigate(`/keyword/${id}`);
+  };
+
+  const goToIdStock = (id) => {
+    navigate(`/stock/${id}`);
+  };
+
   return (
-    <div>
-      {/** 즐겨찾기 */}
-      <div>
-        <div>
-          <h2>즐겨찾기</h2>
-          <button>+추가</button>
+    <div className="w-full h-full bg-gray-100 p-4 flex flex-col gap-8">
+      {/* Keyword Bookmark Section */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-medium text-gray-900">키워드 즐겨찾기</h2>
+          <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
+            <PlusIcon className="h-4 w-4" />
+            <span className="text-sm">추가</span>
+          </button>
         </div>
-        <div>{/** 즐겨찾기 list */}</div>
+        <div className="flex flex-wrap gap-2">
+          {' '}
+          {/* 수정된 부분: flex-wrap 추가 */}
+          {keywordLikeList?.userKeywords?.map((elm) => (
+            <button
+              key={elm.id}
+              className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
+              onClick={() => {
+                goToIdKeyword(elm.keyword_id);
+              }}
+            >
+              {elm.keyword}
+            </button>
+          ))}
+        </div>
       </div>
-      {/** 실시간 키워드 랭킹 */}
-      <div>
-        <div>
-          <h2>실시간 키워드 랭킹</h2>
-          <button>+더보기</button>
+
+      {/* Stock Bookmark Section */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-medium text-gray-900">종목 즐겨찾기</h2>
+          <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
+            <PlusIcon className="h-4 w-4" />
+            <span className="text-sm">추가</span>
+          </button>
         </div>
-        <div>{/** 키워드 랭킹 list */}</div>
+        <div className="flex flex-wrap gap-2">
+          {' '}
+          {/* 수정된 부분: flex-wrap 추가 */}
+          {stockLikeList?.map((elm) => (
+            <button
+              key={elm.id}
+              className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
+              onClick={() => {
+                goToIdStock(elm.stock_id);
+              }}
+            >
+              {elm.stock_name}
+            </button>
+          ))}
+        </div>
       </div>
-      {/** 실시간 채팅방 */}
-      <div>
-        <div>
-          <h2>실시간 채팅방</h2>
-          <ChattingMain />
-          <button>+더보기</button>
+
+      {/* Rankings Section */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-medium text-gray-900">실시간 키워드 랭킹</h2>
+          <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
+            <PlusIcon className="h-4 w-4" />
+            <span className="text-sm">더보기</span>
+          </button>
         </div>
-        <div>{/** 채티방 list */}</div>
+        <div className="space-y-2">
+          <ul>
+            {keywordRankingList?.map((el, i) => {
+              return (
+                <li
+                  key={i}
+                  className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-200"
+                  onClick={() => {
+                    goToIdKeyword(el.keyword_id);
+                  }}
+                >
+                  <div className="flex items-center font-medium">
+                    <div className="text-blue-200 w-12">{i + 1}</div>
+                    <div>{el.keyword}</div>
+                  </div>
+                  {/* <span className="text-gray-400 font-medium">{el.count}</span> */}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+
+      {/* Chat Section */}
+      <div className="space-y-2">
+        <h2 className="text-lg font-medium text-gray-900">실시간 채팅방</h2>
+        <ChattingMain />
+        <button
+          className="w-full py-2 text-sm bg-blue-200 text-white rounded-lg hover:text-gray-900"
+          onClick={() => navigate('/chat')}
+        >
+          참여하기
+        </button>
       </div>
     </div>
   );

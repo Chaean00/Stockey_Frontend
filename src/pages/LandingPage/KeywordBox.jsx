@@ -10,6 +10,7 @@ import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function KeywordBox() {
   const [search, setSearch] = useState(''); // 검색어
@@ -23,6 +24,7 @@ export default function KeywordBox() {
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
   const [chartSize, setChartSize] = useState({ width: 600, height: 400 }); // 초기값 설정
+  const navigate = useNavigate();
   const navigate = useNavigate();
 
   useEffect(() => {
