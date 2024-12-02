@@ -4,9 +4,9 @@ import StockBox from './StockBox';
 
 export default function LandingPage() {
   return (
-    <div className="w-full">
+    <div className="w-full animate-fadeIn">
       {/**키워드에 대한 랭킹 및 차트 */}
-      <div className="w-full">
+      <div className="w-full mb-20">
         <KeywordBox />
       </div>
 

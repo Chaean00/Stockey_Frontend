@@ -19,7 +19,7 @@ export default withMT({
         100: '#88AAFD',
         200: '#0046FF',
       },
-      defaultText: '#4C526B'
+      defaultText: '#4C526B',
     },
     extend: {
       fontFamily: {
@@ -42,10 +42,15 @@ export default withMT({
           '0%': { transform: 'translateY(100%)', opacity: 0 },
           '100%': { transform: 'translateY(0)', opacity: 1 },
         },
+        skeleton: {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
       },
       animation: {
         fadeIn: 'fadeIn 1s ease-out',
         slideUp: 'slideUp 0.8s ease-out',
+        skeleton: 'skeleton 1.5s ease-in-out infinite',
       },
     },
   },

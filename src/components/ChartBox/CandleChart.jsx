@@ -29,19 +29,14 @@ import {
 } from 'react-financial-charts';
 
 const CandleChart = (props) => {
-  if (!props.chartData || props.chartData.length === 0) {
-    return <div>데이터를 불러오는 중입니다...</div>;
-  }
-
-  //const { width, height } = props;
-  if (!props.chartData || props.chartData.length === 0) {
-    return <div>데이터를 불러오는 중입니다...</div>;
-  }
-
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
   const height = props.height;
   const width = props.width;
   const margin = { left: 0, right: 48, top: 0, bottom: 24 };
+
+  if (!props.chartData || props.chartData.length === 0) {
+    return <div className={`animate-skeleton h-[${height}px] bg-gray-200`}></div>;
+  }
 
   const ema12 = ema()
     .id(1)
@@ -109,6 +104,7 @@ const CandleChart = (props) => {
 
   return (
     <ChartCanvas
+      className="animate-fadeIn"
       height={height}
       ratio={3}
       width={width}

@@ -3,8 +3,8 @@ import { Tabs, Tab } from 'react-bootstrap';
 import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
-import UserLike from './UserLike';
 import UserKeywordLike from './UserKeywordLike';
+import { useOutletContext } from 'react-router-dom';
 
 export default function KeywordChartBox({
   chartData,
