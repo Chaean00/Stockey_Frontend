@@ -15,7 +15,7 @@ export default function Sidebar() {
   // const [userBookmarkList, setUserBookmarkList] = useState([]);
   const [keywordRankingList, setKeywordRankingList] = useState([]);
 
-  const { keywordLikeList: userBookmarkList } = useLikeContext();
+  const { keywordLikeList: userBookmarkList, setKeywordLikeList } = useLikeContext();
 
   const navigate = useNavigate();
 
@@ -28,13 +28,27 @@ export default function Sidebar() {
     // };
 
     const fetchKeywordRankingList = async () => {
-      const res = await keywordApi.getKeywordRank();
-      console.log('키워드 랭킹 리스트:', res.data.slice(0, 5));
-      setKeywordRankingList(res.data.slice(0, 5));
+      try {
+        const res = await keywordApi.getKeywordRank();
+        console.log('키워드 랭킹 리스트:', res.data.slice(0, 5));
+        setKeywordRankingList(res.data.slice(0, 5));
+      } catch (err) {
+        console.error('키워드 랭킹 리스트 가져오기 실패:', err);
+      }
+    };
+
+    const fetchKeywordBookmarkList = async () => {
+      try {
+        const res = await userApi.getKeywordLike();
+        setKeywordLikeList(res.data);
+      } catch (err) {
+        console.error('키워드 즐겨찾기 리스트 가져오기 실패:', err);
+      }
     };
 
     // fetchUserBookmarkList();
     fetchKeywordRankingList();
+    fetchKeywordBookmarkList();
 
     console.log('북마크리스트: ', userBookmarkList);
   }, []);
@@ -43,12 +57,16 @@ export default function Sidebar() {
     navigate(`/keyword/${id}`);
   };
 
+  const goToIdStock = (id) => {
+    navigate(`/stock/${id}`);
+  };
+
   return (
     <div className="w-full h-full bg-gray-100 p-4 flex flex-col gap-8">
-      {/* Bookmark Section */}
+      {/* Keyword Bookmark Section */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-900">즐겨찾기</h2>
+          <h2 className="text-lg font-medium text-gray-900">키워드 즐겨찾기</h2>
           <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
             <PlusIcon className="h-4 w-4" />
             <span className="text-sm">추가</span>
@@ -63,6 +81,32 @@ export default function Sidebar() {
               className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
               onClick={() => {
                 goToIdKeyword(elm.keyword_id);
+              }}
+            >
+              {elm.keyword}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Stock Bookmark Section */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-medium text-gray-900">종목 즐겨찾기</h2>
+          <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
+            <PlusIcon className="h-4 w-4" />
+            <span className="text-sm">추가</span>
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {' '}
+          {/* 수정된 부분: flex-wrap 추가 */}
+          {userBookmarkList?.userKeywords?.map((elm) => (
+            <button
+              key={elm.id}
+              className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
+              onClick={() => {
+                goToIdStock(elm.stock_id);
               }}
             >
               {elm.keyword}
