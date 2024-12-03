@@ -12,6 +12,7 @@ export default withMT({
         200: '#E0E8F0', //sidebar selected
         300: '#DDDDDD', //stroke
         400: '#A1A4AF', //sidebar gray text
+        500: '#4E5968',
       },
       black_default: '#313544',
       red: { 100: '#FF7A73', 200: '#F04452' },
@@ -20,6 +21,9 @@ export default withMT({
         200: '#0046FF',
       },
       defaultText: '#4C526B',
+      yellow: {
+        200: '#FFCD4A'
+      }
     },
     extend: {
       fontFamily: {

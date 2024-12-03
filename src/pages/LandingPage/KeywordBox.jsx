@@ -94,34 +94,42 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
   return (
     <div className="text-black_default flex flex-col bg-white">
       {/** Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
-            onClick={() => {
-              navigate(`../keyword/${keywordData.keyword_id}`);
-            }}
-          >
-            <span className="text-3xl font-bold text-blue-200">[ </span>
-            {keywordData?.keyword || '로딩 중...'}
-            <span className="text-3xl font-bold text-blue-200"> ]</span>
-            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+      <div>
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-3">
+            <div
+              className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
+              onClick={() => {
+                navigate(`../keyword/${keywordData.keyword_id}`);
+              }}
+            >
+              <span className="text-3xl font-bold text-blue-200">[ </span>
+              {keywordData?.keyword || '로딩 중...'}
+              <span className="text-3xl font-bold text-blue-200"> ]</span>
+              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹</span>
+            </div>
+            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
-          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+          <SearchKeywordInput
+            setSearch={setSearch}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult}
+            searchKeyword={handleSearch}
+          />
         </div>
-        <SearchKeywordInput
-          setSearch={setSearch}
-          searchResult={searchResult}
-          setSearchResult={setSearchResult}
-          searchKeyword={handleSearch}
-        />
+        <div className=" mb-3 flex items-center">
+          <div className="font-semibold text-gray-500">
+            키워드 "{keywordData?.keyword}" 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
+          </div>
+          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
+        </div>
       </div>
 
       {/** 그리드 레이아웃 */}
       <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
         <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
-          <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div>
+          {/* <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div> */}
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
             <div
               key={i}
@@ -147,7 +155,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div className="col-span-4 lg:p-4">
+        <div className="col-span-4 lg:p-4 relative">
           {/** chart */}
           <div ref={chartContainerRef}>
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
@@ -162,6 +170,9 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               </Tab>
             </Tabs>
           </div>
+
+          {/** Stock Name */}
+          <div className="absolute top-5 right-10 font-bold text-2xl">{stockInfo.stock_name}</div>
 
           {/** chart data */}
           <div className="mt-4 bg-gray-100 p-4 rounded-lg">

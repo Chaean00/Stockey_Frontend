@@ -32,7 +32,7 @@ export default function NewsBox({ keywordData }) {
             <span className="text-3xl font-bold text-blue-200">[ </span>
             {keywordData?.keyword || '로딩 중...'}
             <span className="text-3xl font-bold text-blue-200"> ]</span>
-            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 관련 뉴스</span>
+            <span className="text-xl hidden lg:inline-block">에 대한 관련 뉴스</span>
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@ export default function NewsBox({ keywordData }) {
                     className="w-6 h-6 rounded-full mr-2"
                     draggable={false} // Disable logo dragging
                   />
-                  <h5 className="text-sm text-gray-700 m-0 font-medium">{elem.newsCompany}</h5>
+                  <h5 className="text-sm text-gray-500 m-0 font-medium">{elem.newsCompany}</h5>
                 </div>
                 <p className="text-base font-bold text-gray-900">{elem.title}</p>
               </div>

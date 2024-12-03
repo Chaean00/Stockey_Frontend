@@ -112,7 +112,6 @@ export default function StockBox() {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
       // console.log(response.data)
       setKeywordRank(response.data.keyword_rankings);
-      console.log(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
       toast.error('키워드 랭킹 조회에 실패했습니다.');
@@ -124,12 +123,12 @@ export default function StockBox() {
     setChartDataLoaded(false); // Lazy Loading 초기화
     setPeriod(chart_period);
   };
-  console.log(keywordRank);
 
   return (
     <div className="text-black_default flex flex-col bg-white">
       {/** Header */}
-      <div className="flex justify-between items-center mb-4">
+
+      <div className="flex justify-between items-center mb-2">
         <div className="flex items-center gap-3">
           <div className="flex flex-row">
             {/* 종목 로고 이미지 */}
@@ -151,24 +150,30 @@ export default function StockBox() {
               <span className="text-3xl font-bold text-blue-200">[ </span>
               {stockInfo.stock_name}
               <span className="text-3xl font-bold text-blue-200"> ]</span>
-              <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+              <span className="text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
             </div>
+            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
-          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+          <SearchInput
+            setSearch={setSearch}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult}
+            searchStock={handleSearch}
+          />
         </div>
-        <SearchInput
-          setSearch={setSearch}
-          searchResult={searchResult}
-          setSearchResult={setSearchResult}
-          searchStock={handleSearch}
-        />
+        <div className=" mb-3 flex items-center">
+          <div className="font-semibold text-gray-500">
+            "{stockInfo.stock_name}" 관련 뉴스에서 가장 많이 언급된 키워드를 확인하세요.
+          </div>
+          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
+        </div>
       </div>
 
       {/** 그리드 레이아웃 */}
       <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
         <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
-          <div className="font-semibold text-lg mb-4">{stockInfo.stock_name}에서 가장 많이 언급된</div>
+          {/* <div className="font-semibold text-lg mb-4">{stockInfo.stock_name}에서 가장 많이 언급된</div> */}
           {keywordRank?.slice(0, 10).map((el, i) => (
             <div
               key={i}

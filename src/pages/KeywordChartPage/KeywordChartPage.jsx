@@ -82,7 +82,10 @@ export default function KeywordChartPage() {
           searchKeyword={handleSearch}
         />
       </div>
-      <div className="font-extrabold text-2xl">{stockInfo?.stock_name || '로딩 중...'}</div>
+      <div className="font-extrabold text-2xl">
+        {stockInfo?.stock_name || '로딩 중...'} -
+        <span className='text-gray-400'> {stockInfo.stock_code}</span>
+        </div>
       <div>
         <KeywordChartBox
           chartData={chartData} // 차트 데이터
