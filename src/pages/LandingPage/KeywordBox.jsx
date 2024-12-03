@@ -119,7 +119,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
         <div className=" mb-3 flex items-center">
           <div className="font-semibold text-gray-500">
-            키워드 "{keywordData?.keyword}" 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
+            키워드 [{keywordData?.keyword}] 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
           </div>
           <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
         </div>

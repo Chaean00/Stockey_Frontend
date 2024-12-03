@@ -70,21 +70,35 @@ export default function KeywordChartPage() {
 
   return (
     <div className="text-black_default flex-grow bg-white">
-      <div className="flex justify-between items-center mb-3">
-        <div className="flex items-center gap-3">
-          <div className="font-extrabold text-4xl">{keywordData?.keyword || '로딩 중...'}</div>
-          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+      {/** header */}
+      <div>
+        <div className="flex justify-between items-center mb-3">
+          <div className="flex items-center gap-3">
+            <div className="font-extrabold text-4xl">{keywordData?.keyword || '로딩 중...'}</div>
+            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+          </div>
+          <SearchKeywordInput
+            setSearch={setSearch}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult}
+            searchKeyword={handleSearch}
+          />
         </div>
-        <SearchKeywordInput
-          setSearch={setSearch}
-          searchResult={searchResult}
-          setSearchResult={setSearchResult}
-          searchKeyword={handleSearch}
-        />
+        {/** 종목명 및 종목 코드 */}
+        <div className=" gap-5 items-center mb-2">
+          <div className="font-bold text-2xl">
+            {stockInfo?.stock_name || '로딩 중...'} <span className="text-gray-400"> {stockInfo.stock_code}</span>
+          </div>
+          <div className=" flex items-center">
+            <div className="font-semibold text-gray-500">
+              키워드 [{keywordData?.keyword || '로딩 중...'}] 관련 뉴스에서 종목 [
+              {stockInfo?.stock_name || '로딩 중...'}]이/가 가장 많이 언급되었어요
+            </div>
+            <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
+          </div>
+        </div>
       </div>
-      <div className="font-bold text-2xl">
-        {stockInfo?.stock_name || '로딩 중...'} <span className="text-gray-400"> {stockInfo.stock_code}</span>
-      </div>
+
       <div>
         <KeywordChartBox
           chartData={chartData} // 차트 데이터
@@ -96,7 +110,12 @@ export default function KeywordChartPage() {
           setPeriod={setPeriod}
         />
       </div>
-      <div className="mt-3">
+      <div className="mt-5">
+        <div className="font-bold text-xl my-3">
+          <span className="text-blue-200 text-2xl">[ </span>
+          {keywordData?.keyword || '로딩 중...'}
+          <span className="text-blue-200 text-2xl"> ]</span> 관련 뉴스에서 주목받은 종목 한눈에 보기
+        </div>
         <StockWordCloud data={keywordData.stock_rankings} width={800} height={400} />
       </div>
     </div>
