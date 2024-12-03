@@ -125,7 +125,7 @@ export default function KeywordBox() {
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
             <div
               key={i}
-              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5"
+              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5 cursor-pointer"
               onClick={() => {
                 navigate(`../stock/${el.id}`);
               }}

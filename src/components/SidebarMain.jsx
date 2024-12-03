@@ -84,7 +84,7 @@ export default function SidebarMain() {
           {keywordLikeList?.userKeywords?.map((elm) => (
             <button
               key={elm.id}
-              className="font-semibold px-3 py-1.5 hover:text-blue-200 bg-white rounded-lg text-sm"
+              className="font-semibold px-3 py-1.5 hover:text-blue-200 bg-white rounded-lg text-sm cursor-pointer"
               onClick={() => {
                 goToIdKeyword(elm.keyword_id);
               }}
@@ -106,7 +106,7 @@ export default function SidebarMain() {
           {stockLikeList?.map((elm) => (
             <button
               key={elm.id}
-              className="font-semibold px-3 py-1.5 hover:text-blue-200 bg-white rounded-lg text-sm"
+              className="font-semibold px-3 py-1.5 hover:text-blue-200 bg-white rounded-lg text-sm cursor-pointer"
               onClick={() => {
                 goToIdStock(elm.stock_id);
               }}
@@ -128,7 +128,7 @@ export default function SidebarMain() {
               return (
                 <li
                   key={i}
-                  className="flex items-center justify-between p-2 rounded-xl font-semibold hover:bg-gray-200"
+                  className="flex items-center justify-between p-2 rounded-xl font-semibold hover:bg-gray-200 cursor-pointer"
                   onClick={() => {
                     goToIdKeyword(el.keyword_id);
                   }}

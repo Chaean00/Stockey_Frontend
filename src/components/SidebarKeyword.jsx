@@ -39,7 +39,7 @@ export default function SidebarKeyword(props) {
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
             {keywordInfo.keyword}
-            <span className="text-blue-200 text-xl font-bold"> ]</span> 을 가장 많이 언급한
+            <span className="text-blue-200 text-xl font-bold"> ]</span> 을 가장 많이 언급한 종목은?
           </h2>
         ) : (
           <h2>가장 많이 즐겨찾기된 주식 종목은?</h2>
@@ -53,7 +53,7 @@ export default function SidebarKeyword(props) {
             return (
               <li
                 key={i}
-                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between cursor-pointer"
                 onClick={() => {
                   navigate(`stock/${el.id}`);
                 }}
@@ -71,7 +71,7 @@ export default function SidebarKeyword(props) {
             return (
               <li
                 key={i}
-                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between cursor-pointer"
                 onClick={() => {
                   navigate(`stock/${el.stock_id}`);
                 }}
