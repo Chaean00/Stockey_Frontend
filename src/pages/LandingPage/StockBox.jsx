@@ -108,7 +108,6 @@ export default function StockBox() {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
       // console.log(response.data)
       setKeywordRank(response.data.keyword_rankings);
-      console.log(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
       toast.error('키워드 랭킹 조회에 실패했습니다.');
@@ -120,7 +119,6 @@ export default function StockBox() {
     setChartDataLoaded(false); // Lazy Loading 초기화
     setPeriod(chart_period);
   };
-  console.log(keywordRank);
 
   return (
     <div className="text-black_default flex flex-col bg-white">
