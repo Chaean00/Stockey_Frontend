@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import newsApi from '../../services/newsApi';
-import Card from 'react-bootstrap/Card';
 import { ScrollContainer } from 'react-indiana-drag-scroll';
 import 'react-indiana-drag-scroll/dist/style.css';
+import { useNavigate } from 'react-router-dom';
 
-export default function NewsBox() {
+export default function NewsBox({ keywordData }) {
   const [newsList, setNewsList] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch news data
   useEffect(() => {
@@ -18,44 +19,60 @@ export default function NewsBox() {
   }, []);
 
   return (
-    <div className="mt-4">
-      <ScrollContainer className="flex flex-row gap-4 overflow-x-scroll" style={{ padding: '1rem', width: '100%' }}>
+    <div>
+      {/* 제목 */}
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center gap-3">
+          <div
+            className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
+            onClick={() => {
+              navigate(`../keyword/${keywordData.keyword_id}`);
+            }}
+          >
+            <span className="text-3xl font-bold text-blue-200">[ </span>
+            {keywordData?.keyword || '로딩 중...'}
+            <span className="text-3xl font-bold text-blue-200"> ]</span>
+            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 관련 뉴스</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 뉴스 */}
+      <ScrollContainer className="flex flex-row gap-4 overflow-x-scroll w-full">
         {newsList.map((elem, index) => (
           <a
             key={index}
             href={elem.newsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="no-underline"
+            className="no-underline group" // 그룹 클래스를 추가 (애니메이션 적용)
             draggable={false}
           >
-            <Card
-              key={index}
-              className="border-2 rounded-xl border-gray-200"
-              style={{ width: '16rem', height: '19rem', flex: '0 0 auto' }}
-            >
-              <Card.Img
-                variant="top"
-                src={elem.newsThumbUrl}
-                className="p-2"
-                style={{ height: '12rem', objectFit: 'cover', pointerEvents: 'none' }}
-                draggable={false} // 이미지 드래그 비활성화
-              />
-              <Card.Body className="pt-1 px-2.5">
-                <div className="flex flex-row items-center mb-1">
+            <div className="border-none w-72 h-64 flex-shrink-0 overflow-hidden">
+              {/* 썸네일 이미지 */}
+              <div className="relative overflow-hidden rounded-lg">
+                <img
+                  src={elem.newsThumbUrl}
+                  alt="News Thumbnail"
+                  className="h-36 w-full object-cover pointer-events-none rounded-lg transform transition-transform duration-300 ease-in-out group-hover:scale-110"
+                  draggable={false} // Disable image dragging
+                />
+              </div>
+
+              {/* 언론사 이름 및 내용 */}
+              <div className="p-0">
+                <div className="flex flex-row items-center mb-1 pt-2">
                   <img
                     src={elem.newsCompanyThumbUrl}
-                    style={{ width: '1rem', height: '1rem' }}
-                    className="mr-1"
-                    draggable={false} // 로고 드래그 비활성화
+                    alt="Logo"
+                    className="w-6 h-6 rounded-full mr-2"
+                    draggable={false} // Disable logo dragging
                   />
-                  <Card.Title style={{ marginBottom: '0px' }} className="text-xs text-gray-600">
-                    {elem.newsCompany}
-                  </Card.Title>
+                  <h5 className="text-sm text-gray-700 m-0 font-medium">{elem.newsCompany}</h5>
                 </div>
-                <Card.Text className="font-bold text-gray-700">{elem.title}</Card.Text>
-              </Card.Body>
-            </Card>
+                <p className="text-base font-bold text-gray-900">{elem.title}</p>
+              </div>
+            </div>
           </a>
         ))}
       </ScrollContainer>
