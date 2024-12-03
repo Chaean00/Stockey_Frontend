@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { socket } from '../pages/ChattingPage/ChattingPage';
 import { RiKey2Fill } from 'react-icons/ri';
@@ -10,66 +10,57 @@ import SidebarStock from './SidebarStock';
 import SidebarKeyword from './SidebarKeyword';
 import SidebarChat from './SidebarChat';
 
-export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
-  const [selectedSidebar, setSelectedSidebar] = useState('main');
+const SidebarStockMemo = memo(SidebarStock);
+const SidebarKeywordMemo = memo(SidebarKeyword);
+const SidebarChatMemo = memo(SidebarChat);
+
+export default function Sidebar({ isSidebarOpen }) {
+  const [selectedSidebar, setSelectedSidebar] = useState('');
   const location = useLocation();
   const { stock_id, keyword_id } = useParams();
 
   const renderSidebar = () => {
     switch (selectedSidebar) {
       case 'stock':
-        return <SidebarStock stock_id={stock_id} />;
+        return <SidebarStockMemo stock_id={stock_id} />;
       case 'keyword':
-        return <SidebarKeyword keyword_id={keyword_id} />;
+        return <SidebarKeywordMemo keyword_id={keyword_id} />;
       case 'chat':
-        return <SidebarChat />;
+        return <SidebarChatMemo />;
       default:
         return <SidebarMain />;
     }
   };
 
   useEffect(() => {
-    if (!isSidebarOpen && !location.pathname.startsWith('/chat')) {
+    const newSidebar = location.pathname.startsWith('/stock')
+      ? 'stock'
+      : location.pathname.startsWith('/keyword')
+        ? 'keyword'
+        : location.pathname.startsWith('/chat')
+          ? 'chat'
+          : 'main';
+
+    if (newSidebar !== selectedSidebar) {
+      setSelectedSidebar(newSidebar);
+    }
+
+    if (!location.pathname.startsWith('/chat')) {
       socket.emit('leaveRoom', 1);
       socket.off('receiveTotalMessage');
       socket.off('updateMessageLike');
     }
-  }, [isSidebarOpen, location.pathname]);
-
-  useEffect(() => {
-    if (location.pathname.startsWith('/stock')) {
-      setSelectedSidebar('stock');
-    } else if (location.pathname.startsWith('/keyword')) {
-      setSelectedSidebar('keyword');
-    } else if (location.pathname.startsWith('/chat')) {
-      setSelectedSidebar('chat');
-    } else {
-      setSelectedSidebar('main');
-    }
   }, [location.pathname]);
 
   const sidebarHandler = (clicked) => {
-    if (isSidebarOpen) {
-      if (selectedSidebar === clicked) {
-        setIsSidebarOpen(false);
-      } else {
-        setSelectedSidebar(clicked);
-      }
-    } else {
-      setSelectedSidebar(clicked);
-      setIsSidebarOpen(true);
-    }
+    setSelectedSidebar(clicked);
   };
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full bg-gray-100 shadow-md flex justify-center text-gray-400 transition-all duration-400 z-50 ${
-        isSidebarOpen ? 'w-1/4' : 'w-20'
-      }`}
+      className={`fixed top-0 right-0 h-full bg-gray-100 shadow-md flex justify-center text-gray-400 transition-all duration-400 z-50 w-1/4`}
     >
-      {isSidebarOpen && (
-        <div className="flex-grow scrollbar-hide overflow-y-auto text-black_default">{renderSidebar()}</div>
-      )}
+      <div className="flex-grow scrollbar-hide overflow-y-auto text-black_default">{renderSidebar()}</div>
       <div className="min-w-20">
         <SidebarButton
           icon={<GoHomeFill className="text-2xl" />}
@@ -108,9 +99,7 @@ function SidebarButton({ icon, label, isSelected, onClick }) {
   return (
     <div
       onClick={onClick}
-      className={`flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3 ${
-        isSelected ? 'bg-gray-300 text-gray-500' : 'text-gray-400'
-      }`}
+      className={`flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3 ${isSelected ? 'bg-gray-300 text-gray-500' : 'text-gray-400'}`}
     >
       {icon}
       <p className="font-semibold text-sm">{label}</p>
