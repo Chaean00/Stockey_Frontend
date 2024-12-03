@@ -53,7 +53,6 @@ export default function ChattingMain() {
     socket.on('receiveTotalMessage', (data) => {
       // 전체 채팅방 메시지인 경우에만 받기
       if (data.roomId === '1') {
-        console.log('!@#!#!#');
         setMessages((prevMessages) => [
           ...prevMessages,
           {
