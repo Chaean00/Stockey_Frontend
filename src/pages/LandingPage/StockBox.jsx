@@ -169,7 +169,7 @@ export default function StockBox() {
                 navigate(`../keyword/${el.id}`);
               }}
             >
-              <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>
+              <div className="text-yellow-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>
               <div className="py-1 w-2/3 font-semibold">{el.keyword}</div>
             </div>
           ))}

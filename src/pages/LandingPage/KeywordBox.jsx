@@ -24,6 +24,8 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
   const [chartSize, setChartSize] = useState({ width: 600, height: 40 }); // 초기값 설정
   const navigate = useNavigate();
 
+  console.log('K =', keywordData);
+
   // 사이드바 열림/닫힘 상태에 따라 차트 크기 업데이트
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -149,6 +151,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
           {/** chart */}
           <div ref={chartContainerRef}>
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
+              {/* <Tab title={stockInfo.stock_name} className="float-right" disabled></Tab> */}
               <Tab eventKey="D" title="일봉">
                 <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
@@ -159,6 +162,18 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
                 <CandleChartSimple chartData={chartData} width={chartSize.width} height={450} />
               </Tab>
             </Tabs>
+          </div>
+          {/** Stock Name */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 165,
+              right: 160,
+              fontWeight: 'bold',
+              fontSize: '20px',
+            }}
+          >
+            {stockInfo.stock_name}
           </div>
 
           {/** chart data */}
