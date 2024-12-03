@@ -111,10 +111,10 @@ export default function KeywordChartPage() {
         />
       </div>
       <div className="mt-5">
-        <div className="font-bold text-xl my-3">
-          <span className="text-blue-200 text-2xl">[ </span>
+        <div className="font-bold text-2xl my-3">
+          <span className="text-blue-200 text-3xl">[ </span>
           {keywordData?.keyword || '로딩 중...'}
-          <span className="text-blue-200 text-2xl"> ]</span> 관련 뉴스에서 주목받은 종목 한눈에 보기
+          <span className="text-blue-200 text-3xl"> ]</span> 관련 뉴스에서 주목받은 종목 한눈에 보기
         </div>
         <StockWordCloud data={keywordData.stock_rankings} width={800} height={400} />
       </div>
