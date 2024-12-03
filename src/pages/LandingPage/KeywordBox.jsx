@@ -125,12 +125,22 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
             <div
               key={i}
-              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5 cursor-pointer"
+              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5 cursor-pointer items-center"
               onClick={() => {
                 navigate(`../stock/${el.id}`);
               }}
             >
-              <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>
+              {/* <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div> */}
+              {/* 종목 로고 이미지 */}
+              <img
+                src={`/company_logo/${el.code}.png`}
+                alt={`Stock Logo ${el.code}`}
+                onError={(e) => {
+                  // 이미지 로드 실패 시 대체 이미지 처리
+                  e.target.src = '/company_logo/default.png';
+                }}
+                className="w-8 h-8 rounded-full mr-1"
+              />
               <div className="py-1 w-2/3 font-semibold">{el.stock_name}</div>
             </div>
           ))}
