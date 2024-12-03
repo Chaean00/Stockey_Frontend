@@ -179,7 +179,9 @@ function Alarm({ show, handleClose }) {
                   </div>
                 )}
               </div>
-              <div className="text-md font-semibold mt-4">알림을 받을 <span className="text-blue-200">종목</span>을 선택해주세요</div>
+              <div className="text-md font-semibold mt-4">
+                알림을 받을 <span className="text-blue-200">종목</span>을 선택해주세요
+              </div>
               <div>
                 {stockList?.length > 0 ? (
                   stockList?.map((item, index) => (

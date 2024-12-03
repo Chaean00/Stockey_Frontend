@@ -10,13 +10,13 @@ import CandleChartSimple from '../../components/CandleChartSimple';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { useNavigate } from 'react-router-dom';
 
-export default function KeywordBox() {
+export default function KeywordBox({ keywordData, setKeywordData }) {
   const [search, setSearch] = useState(''); // 검색어
   const [isLiked, setIsLiked] = useState(false); // 즐겨찾기 여부
   const [searchResult, setSearchResult] = useState([]); // 검색어 결과
   const [chartData, setChartData] = useState([]); // 차트 그릴 데이터
   const [stockInfo, setStockInfo] = useState({});
-  const [keywordData, setKeywordData] = useState(''); // 키워드 정보
+  // const [keywordData, setKeywordData] = useState(''); // 키워드 정보
   const [keywordLikeList, setKeywordLikeList] = useState([]); // 키워드 즐겨찾기 목록
   const [period, setPeriod] = useState('D'); // 일봉 주봉 월봉
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
