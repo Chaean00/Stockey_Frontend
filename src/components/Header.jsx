@@ -4,12 +4,15 @@ import userApi from '../services/userApi';
 import { useAuth } from '../utils/authContext';
 import { FaBell } from 'react-icons/fa6';
 import Alarm from './Alarm/Alarm';
+import StockSearchModal from './StockSearchModal';
 
 export default function Header() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { nickname } = useAuth();
   const navigate = useNavigate();
   const [showAlarmModal, setShowAlarmModal] = useState(false);
+  const [showStockModal, setShowStockModal] = useState(false);
+  const [showKeywordModal, setShowKeywordModal] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -25,8 +28,11 @@ export default function Header() {
     setShowAlarmModal(true); // 벨 아이콘 클릭 시 모달 열기
   };
 
-  const handleCloseModal = () => {
+  const handleCloseAlarm = () => {
     setShowAlarmModal(false);
+  };
+  const handleCloseStock = () => {
+    setShowStockModal(false);
   };
 
   return (
@@ -44,7 +50,14 @@ export default function Header() {
       {/** 검색 버튼 */}
       <div className="flex gap-5 font-semibold">
         <div className="cursor-pointer hover:text-blue-200">키워드 찾아보기</div>
-        <div className="cursor-pointer hover:text-blue-200">종목 찾아보기</div>
+        <div
+          className="cursor-pointer hover:text-blue-200"
+          onClick={() => {
+            setShowStockModal(true);
+          }}
+        >
+          종목 찾아보기
+        </div>
       </div>
 
       {/** 로그인/로그아웃/알림 버튼 */}
@@ -80,7 +93,8 @@ export default function Header() {
       )}
 
       {/* Alarm 모달을 showAlarmModal 상태에 따라 렌더링 */}
-      {showAlarmModal && <Alarm show={showAlarmModal} handleClose={handleCloseModal} />}
+      {showAlarmModal && <Alarm show={showAlarmModal} handleClose={handleCloseAlarm} />}
+      {showStockModal && <StockSearchModal show={showStockModal} handleClose={handleCloseStock} />}
     </div>
   );
 }
