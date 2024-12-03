@@ -31,7 +31,7 @@ export default function KeywordChartPage() {
     stockInfo,
     setStockInfo,
   } = useLikeContext();
-  
+
   // 키워드 데이터 가져오기
   // useEffect(() => {
   //   setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
@@ -83,9 +83,8 @@ export default function KeywordChartPage() {
         />
       </div>
       <div className="font-extrabold text-2xl">
-        {stockInfo?.stock_name || '로딩 중...'} -
-        <span className='text-gray-400'> {stockInfo.stock_code}</span>
-        </div>
+        {stockInfo?.stock_name || '로딩 중...'} -<span className="text-gray-400"> {stockInfo.stock_code}</span>
+      </div>
       <div>
         <KeywordChartBox
           chartData={chartData} // 차트 데이터

@@ -4,7 +4,6 @@ import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
-import { useOutletContext } from 'react-router-dom';
 export default function ChartBox({
   chartData,
   setChartData,
@@ -49,7 +48,7 @@ export default function ChartBox({
       if (entries.length > 0) {
         const entry = entries[0];
         setChartDimensions({
-          width: entry.contentRect.width * 0.9,
+          width: entry.contentRect.width * 0.98 || 600,
           height: entry.contentRect.height,
         });
       }

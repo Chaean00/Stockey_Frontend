@@ -106,7 +106,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               <span className="text-3xl font-bold text-blue-200">[ </span>
               {keywordData?.keyword || '로딩 중...'}
               <span className="text-3xl font-bold text-blue-200"> ]</span>
-              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹</span>
+              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹 Top 10</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
@@ -145,10 +145,10 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div className="col-span-4 lg:p-4 relative">
+        <div className="col-span-4 lg:p-4 relative font-semibold">
           {/** chart */}
           <div ref={chartContainerRef}>
-            <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
+            <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
               <Tab eventKey="D" title="일봉">
                 <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
