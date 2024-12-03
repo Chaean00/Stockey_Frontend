@@ -106,7 +106,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               <span className="text-3xl font-bold text-blue-200">[ </span>
               {keywordData?.keyword || '로딩 중...'}
               <span className="text-3xl font-bold text-blue-200"> ]</span>
-              <span className=" text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>

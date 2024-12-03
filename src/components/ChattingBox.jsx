@@ -149,7 +149,7 @@ export default function ChattingBox({
       <div className="p-1">
         <div className="flex justify-end mb-2 p-3">
           <div className="relative">
-            {/* <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            {/* <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
               최신순
               <ChevronDown className="w-4 h-4" />
             </button> */}
@@ -157,7 +157,7 @@ export default function ChattingBox({
             {/* 버튼 */}
             <button
               onClick={toggleDropdown}
-              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               {selectedOption}
               <ChevronDown className="w-4 h-4" />
@@ -173,7 +173,7 @@ export default function ChattingBox({
                         onClick={() => {
                           handleOptionSelect(option);
                         }}
-                        className={`block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${
+                        className={`block w-full px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 ${
                           selectedOption === option ? 'font-bold' : ''
                         }`}
                       >
@@ -233,7 +233,7 @@ export default function ChattingBox({
                   </div>
                 </div>
                 {/* 메시지 내용 */}
-                <p className="text-gray-700 font-medium mt-[30px]">{comment.message}</p>
+                <p className="text-gray-500 font-medium mt-[30px]">{comment.message}</p>
               </div>
             </div>
           ))}
