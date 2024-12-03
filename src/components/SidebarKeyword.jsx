@@ -39,7 +39,10 @@ export default function SidebarKeyword(props) {
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
             {keywordInfo.keyword}
-            <span className="text-blue-200 text-xl font-bold"> ]</span> 을 가장 많이 언급한 종목은?
+            <span className="text-blue-200 text-xl font-bold">
+              {' '}
+              ]
+            </span> 을 가장 많이 언급한 종목은?
           </h2>
         ) : (
           <h2>가장 많이 즐겨찾기된 주식 종목은?</h2>
@@ -58,7 +61,17 @@ export default function SidebarKeyword(props) {
                   navigate(`stock/${el.id}`);
                 }}
               >
-                <div className=" text-blue-200 w-1/3">{i + 1}</div>
+                {/* <div className=" text-blue-200 w-1/3">{i + 1}</div> */}
+                {/* 종목 로고 이미지 */}
+                <img
+                  src={`/company_logo/${el.code}.png`}
+                  alt={`Stock Logo ${el.code}`}
+                  onError={(e) => {
+                    // 이미지 로드 실패 시 대체 이미지 처리
+                    e.target.src = '/company_logo/default.png';
+                  }}
+                  className="w-8 h-8 rounded-full mr-3"
+                />
                 <div className="w-2/3">{el.stock_name}</div>
               </li>
             );
@@ -76,7 +89,17 @@ export default function SidebarKeyword(props) {
                   navigate(`stock/${el.stock_id}`);
                 }}
               >
-                <div className=" text-blue-200 w-1/3">{i + 1}</div>
+                {/* <div className=" text-blue-200 w-1/3">{i + 1}</div> */}
+                {/* 종목 로고 이미지 */}
+                <img
+                  src={`/company_logo/${el.Stock.code}.png`}
+                  alt={`Stock Logo ${el.Stock.code}`}
+                  onError={(e) => {
+                    // 이미지 로드 실패 시 대체 이미지 처리
+                    e.target.src = '/company_logo/default.png';
+                  }}
+                  className="w-8 h-8 rounded-full mr-3"
+                />
                 <div className="w-2/3">{el.Stock.stock_name}</div>
               </li>
             );

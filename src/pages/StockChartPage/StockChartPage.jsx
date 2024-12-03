@@ -23,6 +23,9 @@ export default function StockChartPage() {
 
   const { stockLikeList, setStockLikeList } = useLikeContext();
 
+  // 종목 로고 Path
+  const imagePath = `/company_logo/${stockInfo.stock_code}.png`;
+
   //1. 주식 id 변경 시, 주식 id로 나머지 주식 정보 조회(stock_code, stock_name 등)
   useEffect(() => {
     if (stock_id) {
@@ -76,7 +79,19 @@ export default function StockChartPage() {
     <div className="text-black_default flex-grow bg-white">
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-3">
-          <div className="font-extrabold text-4xl">{stockInfo.stock_name}</div>
+          <div className="flex flex-row">
+            {/* 종목 로고 이미지 */}
+            <img
+              src={imagePath}
+              alt={`Stock Logo ${stockInfo.stock_code}`}
+              onError={(e) => {
+                // 이미지 로드 실패 시 대체 이미지 처리
+                e.target.src = '/company_logo/default.png';
+              }}
+              className="w-10 h-10 rounded-xl mr-2"
+            />
+            <div className="font-extrabold text-4xl">{stockInfo.stock_name}</div>
+          </div>
           <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
         <SearchInput
