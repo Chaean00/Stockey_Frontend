@@ -119,7 +119,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
         <div className=" mb-3 flex items-center">
           <div className="font-semibold text-gray-500">
-            당신의 키워드로, 뉴스에서 가장 많이 언급된 종목을 확인하세요
+            키워드 "{keywordData?.keyword}" 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
           </div>
           <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
         </div>
@@ -129,7 +129,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
       <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
         <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
-          <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div>
+          {/* <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div> */}
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
             <div
               key={i}
