@@ -116,7 +116,6 @@ export default function SidebarChat() {
                   <div className="text-blue-200 w-12">{i + 1}</div>
                   <div>{el.keyword}</div>
                 </div>
-                <span className="text-gray-400">???</span>
               </li>
             );
           })}
