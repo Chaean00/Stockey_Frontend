@@ -14,6 +14,10 @@ export default function Layout() {
     setCurrentPath(location.pathname);
   }, [location.pathname]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  console.log(currentPath, location.pathname);
   return (
     <div className="font-sans flex text-black_default overflow-x-hidden min-h-screen">
       <ToastContainer
@@ -30,7 +34,7 @@ export default function Layout() {
         transition:Bounce
       />
       {/* Main Content */}
-      <div className={`flex flex-col flex-grow ${currentPath == '/' ? '' : 'w-3/4'}`}>
+      <div className={`flex flex-col flex-grow ${['/', '/login', '/signUp'].includes(currentPath) ? '' : 'w-3/4'}`}>
         {/* Header */}
         <Header className="fixed top-0 left-0 right-20 z-10" />
 
@@ -44,7 +48,7 @@ export default function Layout() {
       </div>
 
       {/* Sidebar */}
-      <div className={` ${currentPath == '/' ? '' : 'w-1/4'}`}>
+      <div className={` ${['/', '/login', '/signUp'].includes(currentPath) ? '' : 'w-1/4'}`}>
         <Sidebar />
       </div>
     </div>

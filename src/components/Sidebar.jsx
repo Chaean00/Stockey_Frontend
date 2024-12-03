@@ -59,7 +59,7 @@ export default function Sidebar({ isSidebarOpen }) {
 
   return (
     <>
-      {currentPath !== '/' && (
+      {!['/', '/login', '/signUp'].includes(currentPath) && (
         <div
           className={`fixed top-0 right-0 h-full bg-gray-100 shadow-md flex justify-center text-gray-400 transition-all duration-400 z-50 w-1/4`}
         >
