@@ -32,7 +32,7 @@ export default function NewsBox({ keywordData }) {
             <span className="text-3xl font-bold text-blue-200">[ </span>
             {keywordData?.keyword || '로딩 중...'}
             <span className="text-3xl font-bold text-blue-200"> ]</span>
-            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 관련 뉴스</span>
+            <span className="text-xl hidden lg:inline-block">에 대한 관련 뉴스</span>
           </div>
         </div>
       </div>
