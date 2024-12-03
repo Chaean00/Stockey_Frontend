@@ -90,6 +90,7 @@ export default function ChattingPage() {
       }
     };
   }, [setMessages]);
+  const roomName = chatRoomList.find((chatRoom) => chatRoom.id === roomId)?.name;
 
   return (
     // <div className="flex flex-col h-screen">
@@ -98,9 +99,29 @@ export default function ChattingPage() {
     //     <ChattingBox messages={messages} setMessages={setMessages} username={username} roomId={roomId} />
     // </div>
     <div className="flex flex-col items-start  w-full min-h-screen px-4">
-      <p className="mb-2 font-sans font-bold text-[28px]">
-        {chatRoomList.find((chatRoom) => chatRoom.id === roomId)?.name}
+      <p className="mb-3 font-sans font-bold text-4xl">
+        {roomName === '전체' ? (
+          <div>전체 커뮤니티</div>
+        ) : (
+          <div>
+            {' '}
+            <span className="text-blue-200 text-5xl">[ </span>
+            {roomName}
+            <span className="text-blue-200 text-5xl"> ] </span> 커뮤니티
+          </div>
+        )}
       </p>
+      {roomName === '전체' ? (
+        <p className="mb-3 font-sans font-bold text-xl">
+          전체 커뮤니티에서 각종 주식 정보에 대해 활발히 이야기하고, 최신 정보를 공유하는 커뮤니티에 참여하세요
+        </p>
+      ) : (
+        <p className="mb-3 font-sans font-bold text-xl">
+          키워드 [{chatRoomList.find((chatRoom) => chatRoom.id === roomId)?.name}]에 대해 활발히 이야기하고, 최신 정보를
+          공유하는 커뮤니티에 참여하세요
+        </p>
+      )}
+
       <ChattingBox
         className="w-full"
         messages={messages}

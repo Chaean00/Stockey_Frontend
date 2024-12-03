@@ -9,20 +9,37 @@ import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { useNavigate } from 'react-router-dom';
+import { useLikeContext } from '../../utils/likeContext';
 
 export default function KeywordBox({ keywordData, setKeywordData }) {
   const [search, setSearch] = useState(''); // 검색어
-  const [isLiked, setIsLiked] = useState(false); // 즐겨찾기 여부
+  // const [isLiked, setIsLiked] = useState(false); // 즐겨찾기 여부
   const [searchResult, setSearchResult] = useState([]); // 검색어 결과
   const [chartData, setChartData] = useState([]); // 차트 그릴 데이터
   const [stockInfo, setStockInfo] = useState({});
   // const [keywordData, setKeywordData] = useState(''); // 키워드 정보
-  const [keywordLikeList, setKeywordLikeList] = useState([]); // 키워드 즐겨찾기 목록
+  // const [keywordLikeList, setKeywordLikeList] = useState([]); // 키워드 즐겨찾기 목록
   const [period, setPeriod] = useState('D'); // 일봉 주봉 월봉
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
   const [chartSize, setChartSize] = useState({ width: 600, height: 40 }); // 초기값 설정
+  const [imageLoaded, setImageLoaded] = useState({});
   const navigate = useNavigate();
+  const {
+    keywordLikeList,
+    setKeywordLikeList,
+    isLiked,
+    setIsLiked,
+  } = useLikeContext();
+
+  const handleImageLoad = (code) => {
+    setImageLoaded((prev) => ({ ...prev, [code]: true }));
+  };
+  
+  const handleImageError = (e, code) => {
+    e.target.src = '/company_logo/default.png';
+    setImageLoaded((prev) => ({ ...prev, [code]: true }));
+  };
 
   // 사이드바 열림/닫힘 상태에 따라 차트 크기 업데이트
   useEffect(() => {
@@ -106,7 +123,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               <span className="text-3xl font-bold text-blue-200">[ </span>
               {keywordData?.keyword || '로딩 중...'}
               <span className="text-3xl font-bold text-blue-200"> ]</span>
-              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹</span>
+              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹 Top 10</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
@@ -119,7 +136,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
         <div className=" mb-3 flex items-center">
           <div className="font-semibold text-gray-500">
-            키워드 "{keywordData?.keyword}" 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
+            키워드 [{keywordData?.keyword}] 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
           </div>
           <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
         </div>
@@ -140,25 +157,33 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
             >
               {/* <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div> */}
               {/* 종목 로고 이미지 */}
+
+              <div className="relative w-8 h-8 mr-3 rounded-full bg-gray-200">
+              {!imageLoaded[el.code] && (
+                <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs">
+                  로딩...
+                </div>
+              )}
               <img
                 src={`/company_logo/${el.code}.png`}
                 alt={`Stock Logo ${el.code}`}
-                onError={(e) => {
-                  // 이미지 로드 실패 시 대체 이미지 처리
-                  e.target.src = '/company_logo/default.png';
-                }}
-                className="w-8 h-8 rounded-full mr-3"
+                onLoad={() => handleImageLoad(el.code)}
+                onError={(e) => handleImageError(e, el.code)}
+                className={`w-full h-full rounded-full transition-opacity duration-500 ${
+                  imageLoaded[el.code] ? 'opacity-100' : 'opacity-0'
+                }`}
               />
+            </div>
               <div className="py-1 w-2/3 font-semibold">{el.stock_name}</div>
             </div>
           ))}
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div className="col-span-4 lg:p-4 relative">
+        <div className="col-span-4 lg:p-4 relative font-semibold">
           {/** chart */}
           <div ref={chartContainerRef}>
-            <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
+            <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
               <Tab eventKey="D" title="일봉">
                 <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
