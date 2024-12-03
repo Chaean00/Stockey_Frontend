@@ -4,13 +4,21 @@ import { toast } from 'react-toastify';
 import { socket } from '../pages/ChattingPage/ChattingPage';
 import chatApi from '../services/chatApi';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
 export default function MessageInput({ roomId }) {
   const [message, setMessage] = useState('');
   const [username, setUsername] = useState(localStorage.getItem('nickname'));
 
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
   //메시지 보내기
   const sendMessage = async (e) => {
-    const currentDate = new Date();
+    // 한국 시간으로 ISO 8601 형식 출력
+    const currentDate = dayjs().tz('Asia/Seoul').toISOString();
 
     e.preventDefault();
     if (message && roomId) {
