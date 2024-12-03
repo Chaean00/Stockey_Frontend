@@ -20,10 +20,10 @@ export default function SearchKeywordInput({ setSearch, searchResult, setSearchR
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative font-sans font-semibold">
       <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 shadow-sm">
         <input
-          className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-500 text-black_default"
+          className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-400 text-black_default"
           maxLength={16}
           placeholder="키워드를 검색하세요"
           onChange={(e) => setSearch(e.target.value)}
@@ -52,7 +52,7 @@ export default function SearchKeywordInput({ setSearch, searchResult, setSearchR
                 className="cursor-pointer px-4 py-2 hover:bg-blue-50 border-b last:border-none flex justify-between"
                 key={i}
                 onClick={() => {
-                  navigate(`/keyword/${el.id}`);
+                  navigate(`../keyword/${el.id}`);
                   setSearchResult([]); // searchResult 초기화
                 }}
               >

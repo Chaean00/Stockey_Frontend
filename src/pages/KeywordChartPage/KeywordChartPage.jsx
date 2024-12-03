@@ -31,7 +31,10 @@ export default function KeywordChartPage() {
     stockInfo,
     setStockInfo,
   } = useLikeContext();
-  
+
+  // 종목 로고 Path
+  const imagePath = `/company_logo/${stockInfo.stock_code}.png`;
+
   // 키워드 데이터 가져오기
   // useEffect(() => {
   //   setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
@@ -82,7 +85,21 @@ export default function KeywordChartPage() {
           searchKeyword={handleSearch}
         />
       </div>
-      <div className="font-extrabold text-2xl">{stockInfo?.stock_name || '로딩 중...'}</div>
+      <div className="flex flex-row items-center mb-2">
+        {/* 종목 로고 이미지 */}
+        <img
+          src={imagePath}
+          alt={`Stock Logo ${stockInfo.stock_code}`}
+          onError={(e) => {
+            // 이미지 로드 실패 시 대체 이미지 처리
+            e.target.src = '/company_logo/default.png';
+          }}
+          className="w-8 h-8 rounded-xl mr-2"
+        />
+        <div className="font-extrabold text-2xl">
+          {stockInfo?.stock_name || '로딩 중...'} -<span className="text-gray-400"> {stockInfo.stock_code}</span>
+        </div>
+      </div>
       <div>
         <KeywordChartBox
           chartData={chartData} // 차트 데이터

@@ -10,13 +10,13 @@ import CandleChartSimple from '../../components/CandleChartSimple';
 import SearchKeywordInput from '../../components/SearchKeywordInput';
 import { useNavigate } from 'react-router-dom';
 
-export default function KeywordBox() {
+export default function KeywordBox({ keywordData, setKeywordData }) {
   const [search, setSearch] = useState(''); // 검색어
   const [isLiked, setIsLiked] = useState(false); // 즐겨찾기 여부
   const [searchResult, setSearchResult] = useState([]); // 검색어 결과
   const [chartData, setChartData] = useState([]); // 차트 그릴 데이터
   const [stockInfo, setStockInfo] = useState({});
-  const [keywordData, setKeywordData] = useState(''); // 키워드 정보
+  // const [keywordData, setKeywordData] = useState(''); // 키워드 정보
   const [keywordLikeList, setKeywordLikeList] = useState([]); // 키워드 즐겨찾기 목록
   const [period, setPeriod] = useState('D'); // 일봉 주봉 월봉
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
@@ -94,51 +94,68 @@ export default function KeywordBox() {
   return (
     <div className="text-black_default flex flex-col bg-white">
       {/** Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="font-extrabold text-2xl cursor-pointer"
-            onClick={() => {
-              console.log(keywordData);
-              navigate(`keyword/${keywordData.keyword_id}`);
-            }}
-          >
-            <span className="text-3xl font-bold text-blue-200">[ </span>
-            {keywordData?.keyword || '로딩 중...'}
-            <span className="text-3xl font-bold text-blue-200"> ]</span>
-            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+      <div>
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-3">
+            <div
+              className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
+              onClick={() => {
+                navigate(`../keyword/${keywordData.keyword_id}`);
+              }}
+            >
+              <span className="text-3xl font-bold text-blue-200">[ </span>
+              {keywordData?.keyword || '로딩 중...'}
+              <span className="text-3xl font-bold text-blue-200"> ]</span>
+              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹</span>
+            </div>
+            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
-          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+          <SearchKeywordInput
+            setSearch={setSearch}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult}
+            searchKeyword={handleSearch}
+          />
         </div>
-        <SearchKeywordInput
-          setSearch={setSearch}
-          searchResult={searchResult}
-          setSearchResult={setSearchResult}
-          searchKeyword={handleSearch}
-        />
+        <div className=" mb-3 flex items-center">
+          <div className="font-semibold text-gray-500">
+            키워드 "{keywordData?.keyword}" 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
+          </div>
+          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
+        </div>
       </div>
 
       {/** 그리드 레이아웃 */}
       <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
         <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
-          <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div>
+          {/* <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div> */}
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
             <div
               key={i}
-              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5"
+              className="flex justify-between hover:bg-gray-100 rounded-xl pl-0 cursor-pointer items-center"
               onClick={() => {
-                navigate(`stock/${el.id}`);
+                navigate(`../stock/${el.id}`);
               }}
             >
-              <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div>
+              {/* <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div> */}
+              {/* 종목 로고 이미지 */}
+              <img
+                src={`/company_logo/${el.code}.png`}
+                alt={`Stock Logo ${el.code}`}
+                onError={(e) => {
+                  // 이미지 로드 실패 시 대체 이미지 처리
+                  e.target.src = '/company_logo/default.png';
+                }}
+                className="w-8 h-8 rounded-full mr-3"
+              />
               <div className="py-1 w-2/3 font-semibold">{el.stock_name}</div>
             </div>
           ))}
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div className="col-span-4 lg:p-4">
+        <div className="col-span-4 lg:p-4 relative">
           {/** chart */}
           <div ref={chartContainerRef}>
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
@@ -153,6 +170,9 @@ export default function KeywordBox() {
               </Tab>
             </Tabs>
           </div>
+
+          {/** Stock Name */}
+          <div className="absolute top-5 right-10 font-bold text-2xl">{stockInfo.stock_name}</div>
 
           {/** chart data */}
           <div className="mt-4 bg-gray-100 p-4 rounded-lg">

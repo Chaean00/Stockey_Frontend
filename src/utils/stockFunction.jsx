@@ -31,9 +31,18 @@ const bringStockChart = async (stock_code, updateChart, stock_period) => {
       updateChart(response.data);
     } catch (error) {
       console.error('차트 조회 실패:', error.response?.data?.message || error.message);
-      location.reload();
+      alert("차트 데이터 조회에 실패했습니다. 재시도해주세요")
     }
   }
 };
 
-export { bringStockChart, bringStockInfo, searchStock };
+const bringTopStockInfo = async (updateStockInfo) => {
+  try {
+    const response = await stockApi.getTopStock();
+    updateStockInfo(response.data[0]);
+  } catch (error) {
+    console.error('Top 종목 조회 실패:', error.response?.data?.message || error.message);
+  }
+};
+
+export { bringStockChart, bringStockInfo, searchStock, bringTopStockInfo };

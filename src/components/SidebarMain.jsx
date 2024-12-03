@@ -76,11 +76,7 @@ export default function SidebarMain() {
       {/* Keyword Bookmark Section */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-900">키워드 즐겨찾기</h2>
-          <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
-            <PlusIcon className="h-4 w-4" />
-            <span className="text-sm">추가</span>
-          </button>
+          <h2 className="text-xl font-extrabold text-gray-900">키워드 즐겨찾기</h2>
         </div>
         <div className="flex flex-wrap gap-2">
           {' '}
@@ -88,7 +84,7 @@ export default function SidebarMain() {
           {keywordLikeList?.userKeywords?.map((elm) => (
             <button
               key={elm.id}
-              className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
+              className="font-semibold px-3 py-1.5 hover:text-blue-200 bg-white rounded-lg text-sm cursor-pointer"
               onClick={() => {
                 goToIdKeyword(elm.keyword_id);
               }}
@@ -102,11 +98,7 @@ export default function SidebarMain() {
       {/* Stock Bookmark Section */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-900">종목 즐겨찾기</h2>
-          <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
-            <PlusIcon className="h-4 w-4" />
-            <span className="text-sm">추가</span>
-          </button>
+          <h2 className="text-xl font-extrabold text-gray-900">종목 즐겨찾기</h2>
         </div>
         <div className="flex flex-wrap gap-2">
           {' '}
@@ -114,7 +106,7 @@ export default function SidebarMain() {
           {stockLikeList?.map((elm) => (
             <button
               key={elm.id}
-              className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm hover:bg-red-200"
+              className="font-semibold px-3 py-1.5 hover:text-blue-200 bg-white rounded-lg text-sm cursor-pointer"
               onClick={() => {
                 goToIdStock(elm.stock_id);
               }}
@@ -128,11 +120,7 @@ export default function SidebarMain() {
       {/* Rankings Section */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-900">실시간 키워드 랭킹</h2>
-          <button className="flex flex-row items-center text-gray-500 hover:text-gray-700">
-            <PlusIcon className="h-4 w-4" />
-            <span className="text-sm">더보기</span>
-          </button>
+          <h2 className="text-xl font-extrabold text-gray-900">오늘의 키워드 랭킹</h2>
         </div>
         <div className="space-y-2">
           <ul>
@@ -140,16 +128,16 @@ export default function SidebarMain() {
               return (
                 <li
                   key={i}
-                  className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-200"
+                  className="flex items-center justify-between p-2 rounded-xl font-semibold hover:bg-gray-200 cursor-pointer"
                   onClick={() => {
                     goToIdKeyword(el.keyword_id);
                   }}
                 >
-                  <div className="flex items-center font-medium">
+                  <div className="flex items-center">
                     <div className="text-blue-200 w-12">{i + 1}</div>
                     <div>{el.keyword}</div>
                   </div>
-                  {/* <span className="text-gray-400 font-medium">{el.count}</span> */}
+                  {/* <span className="text-gray-400">{el.count}</span> */}
                 </li>
               );
             })}
@@ -159,10 +147,10 @@ export default function SidebarMain() {
 
       {/* Chat Section */}
       <div className="space-y-2">
-        <h2 className="text-lg font-medium text-gray-900">실시간 채팅방</h2>
+        <h2 className="text-xl font-extrabold text-gray-900">전체 채팅방</h2>
         <ChattingMain />
         <button
-          className="w-full py-2 text-sm bg-blue-200 text-white rounded-lg hover:text-gray-900"
+          className="mt-3 mb-5 w-full py-2 text-sm bg-blue-200 text-white rounded-lg hover:bg-blue-100"
           onClick={() => navigate('/chat')}
         >
           참여하기

@@ -23,7 +23,7 @@ export default function SidebarKeyword(props) {
         setStockRank(response.data.stock_rankings);
       } else {
         const response = await stockApi.getStcokRankByUserLike();
-        setStockRank(response.data)
+        setStockRank(response.data);
       }
     } catch (err) {
       console.error('기업 랭킹 조회 실패:', err.response?.data?.message || err.message);
@@ -34,15 +34,18 @@ export default function SidebarKeyword(props) {
   return (
     <div className="p-3">
       {/** header */}
-      <div className="lg:text-lg mb-3 font-extrabold w-full border-b border-gray-300 py-3">
+      <div className="lg:text-xl mb-3 font-extrabold w-full border-b border-gray-300 py-3">
         {keywordInfo?.keyword_id ? (
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
             {keywordInfo.keyword}
-            <span className="text-blue-200 text-xl font-bold"> ]</span> 에서 가장 많이 언급된
+            <span className="text-blue-200 text-xl font-bold">
+              {' '}
+              ]
+            </span> 을 가장 많이 언급한 종목은?
           </h2>
         ) : (
-          <h2>오늘 가장 많이 언급된</h2>
+          <h2>가장 많이 즐겨찾기된 주식 종목은?</h2>
         )}
       </div>
       {/** list */}
@@ -53,12 +56,22 @@ export default function SidebarKeyword(props) {
             return (
               <li
                 key={i}
-                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between cursor-pointer"
                 onClick={() => {
                   navigate(`stock/${el.id}`);
                 }}
               >
-                <div className=" text-blue-200 w-1/3">{i + 1}</div>
+                {/* <div className=" text-blue-200 w-1/3">{i + 1}</div> */}
+                {/* 종목 로고 이미지 */}
+                <img
+                  src={`/company_logo/${el.code}.png`}
+                  alt={`Stock Logo ${el.code}`}
+                  onError={(e) => {
+                    // 이미지 로드 실패 시 대체 이미지 처리
+                    e.target.src = '/company_logo/default.png';
+                  }}
+                  className="w-8 h-8 rounded-full mr-3"
+                />
                 <div className="w-2/3">{el.stock_name}</div>
               </li>
             );
@@ -71,12 +84,22 @@ export default function SidebarKeyword(props) {
             return (
               <li
                 key={i}
-                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+                className="text-md font-extrabold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between cursor-pointer"
                 onClick={() => {
                   navigate(`stock/${el.stock_id}`);
                 }}
               >
-                <div className=" text-blue-200 w-1/3">{i + 1}</div>
+                {/* <div className=" text-blue-200 w-1/3">{i + 1}</div> */}
+                {/* 종목 로고 이미지 */}
+                <img
+                  src={`/company_logo/${el.Stock.code}.png`}
+                  alt={`Stock Logo ${el.Stock.code}`}
+                  onError={(e) => {
+                    // 이미지 로드 실패 시 대체 이미지 처리
+                    e.target.src = '/company_logo/default.png';
+                  }}
+                  className="w-8 h-8 rounded-full mr-3"
+                />
                 <div className="w-2/3">{el.Stock.stock_name}</div>
               </li>
             );
