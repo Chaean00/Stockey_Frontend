@@ -88,7 +88,7 @@ export default function SidebarChat() {
     <div className="w-full p-6">
       {/* Title */}
       <h2
-        className="text-xl font-extrabold text-gray-900 mb-8"
+        className="text-xl font-extrabold text-gray-900 mb-8 rounded-xl hover:bg-gray-200 p-2 cursor-pointer"
         onClick={() => {
           roomListHandler(1);
         }}
@@ -107,7 +107,7 @@ export default function SidebarChat() {
             return (
               <li
                 key={i}
-                className="font-semibold flex items-center justify-between p-2 rounded-xl hover:bg-gray-200 text-md"
+                className="font-semibold flex items-center justify-between p-2 rounded-xl hover:bg-gray-200 text-md cursor-pointer"
                 onClick={() => {
                   roomListHandler(el.room_id);
                 }}
@@ -134,7 +134,7 @@ export default function SidebarChat() {
             return (
               <li
                 key={i}
-                className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-200 font-semibold"
+                className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-200 font-semibold cursor-pointer"
                 onClick={() => {
                   roomListHandler(el.room_id);
                 }}
