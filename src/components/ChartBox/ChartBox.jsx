@@ -4,7 +4,6 @@ import CandleChart from './CandleChart';
 import CandleChartSimple from '../CandleChartSimple';
 import ChartData from './ChartData';
 import UserLike from './UserLike';
-import { useOutletContext } from 'react-router-dom';
 export default function ChartBox({
   chartData,
   setChartData,
@@ -49,7 +48,7 @@ export default function ChartBox({
       if (entries.length > 0) {
         const entry = entries[0];
         setChartDimensions({
-          width: entry.contentRect.width * 0.9,
+          width: entry.contentRect.width * 0.98 || 600,
           height: entry.contentRect.height,
         });
       }
@@ -75,10 +74,10 @@ export default function ChartBox({
                 <CandleChart
                   chartData={chartData}
                   width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                  height={600} // 고정 비율로 높이 전달
+                  height={500} // 고정 비율로 높이 전달
                 />
               ) : (
-                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+                <div className="animate-skeleton h-[500px] bg-gray-200"></div>
               )}
             </Tab>
             <Tab eventKey="W" title="주봉">
@@ -86,10 +85,10 @@ export default function ChartBox({
                 <CandleChart
                   chartData={chartData}
                   width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                  height={600} // 고정 비율로 높이 전달
+                  height={500} // 고정 비율로 높이 전달
                 />
               ) : (
-                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+                <div className="animate-skeleton h-[500px] bg-gray-200"></div>
               )}
             </Tab>
             <Tab eventKey="M" title="월봉">
@@ -97,10 +96,10 @@ export default function ChartBox({
                 <CandleChartSimple
                   chartData={chartData}
                   width={chartDimensions.width || 0} // 상위 div의 너비 전달
-                  height={600} // 고정 비율로 높이 전달
+                  height={500} // 고정 비율로 높이 전달
                 />
               ) : (
-                <div className="animate-skeleton h-[600px] bg-gray-200"></div>
+                <div className="animate-skeleton h-[500px] bg-gray-200"></div>
               )}
             </Tab>
           </Tabs>

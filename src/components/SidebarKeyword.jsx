@@ -39,10 +39,7 @@ export default function SidebarKeyword(props) {
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
             {keywordInfo.keyword}
-            <span className="text-blue-200 text-xl font-bold">
-              {' '}
-              ]
-            </span> 을 가장 많이 언급한 종목은?
+            <span className="text-blue-200 text-xl font-bold"> ]</span> 을 가장 많이 언급한 종목은?
           </h2>
         ) : (
           <h2>가장 많이 즐겨찾기된 주식 종목은?</h2>
@@ -52,7 +49,6 @@ export default function SidebarKeyword(props) {
       {keywordInfo?.keyword_id ? (
         <ul className="flex flex-col gap-1">
           {stockRank?.map((el, i) => {
-            console.log('특정', el);
             return (
               <li
                 key={i}
@@ -80,7 +76,6 @@ export default function SidebarKeyword(props) {
       ) : (
         <ul className="flex flex-col gap-1 p-2">
           {stockRank?.map((el, i) => {
-            console.log('메인', el);
             return (
               <li
                 key={i}

@@ -27,7 +27,7 @@ export default function Sidebar({ isSidebarOpen }) {
         return <SidebarKeywordMemo keyword_id={keyword_id} />;
       case 'chat':
         return <SidebarChatMemo />;
-      default:
+      case 'main':
         return <SidebarMain />;
     }
   };
@@ -55,43 +55,48 @@ export default function Sidebar({ isSidebarOpen }) {
   const sidebarHandler = (clicked) => {
     setSelectedSidebar(clicked);
   };
+  const currentPath = window.location.pathname;
 
   return (
-    <div
-      className={`fixed top-0 right-0 h-full bg-gray-100 shadow-md flex justify-center text-gray-400 transition-all duration-400 z-50 w-1/4`}
-    >
-      <div className="flex-grow scrollbar-hide overflow-y-auto text-black_default">{renderSidebar()}</div>
-      <div className="min-w-20">
-        <SidebarButton
-          icon={<GoHomeFill className="text-2xl" />}
-          label="메인"
-          isSelected={selectedSidebar === 'main'}
-          onClick={() => sidebarHandler('main')}
-        />
-        {!location.pathname.startsWith('/keyword') && (
-          <SidebarButton
-            icon={<RiKey2Fill className="text-2xl" />}
-            label="키워드"
-            isSelected={selectedSidebar === 'stock'}
-            onClick={() => sidebarHandler('stock')}
-          />
-        )}
-        {!location.pathname.startsWith('/stock') && (
-          <SidebarButton
-            icon={<FaChartLine className="text-2xl" />}
-            label="종목"
-            isSelected={selectedSidebar === 'keyword'}
-            onClick={() => sidebarHandler('keyword')}
-          />
-        )}
-        <SidebarButton
-          icon={<IoChatbubblesSharp className="text-2xl" />}
-          label="채팅"
-          isSelected={selectedSidebar === 'chat'}
-          onClick={() => sidebarHandler('chat')}
-        />
-      </div>
-    </div>
+    <>
+      {!['/', '/login', '/signUp'].includes(currentPath) && (
+        <div
+          className={`fixed top-0 right-0 h-full bg-gray-100 shadow-md flex justify-center text-gray-400 transition-all duration-400 z-50 w-1/4`}
+        >
+          <div className="flex-grow scrollbar-hide overflow-y-auto text-black_default">{renderSidebar()}</div>
+          <div className="min-w-20">
+            <SidebarButton
+              icon={<GoHomeFill className="text-2xl" />}
+              label="메인"
+              isSelected={selectedSidebar === 'main'}
+              onClick={() => sidebarHandler('main')}
+            />
+            {!location.pathname.startsWith('/keyword') && (
+              <SidebarButton
+                icon={<RiKey2Fill className="text-2xl" />}
+                label="키워드"
+                isSelected={selectedSidebar === 'stock'}
+                onClick={() => sidebarHandler('stock')}
+              />
+            )}
+            {!location.pathname.startsWith('/stock') && (
+              <SidebarButton
+                icon={<FaChartLine className="text-2xl" />}
+                label="종목"
+                isSelected={selectedSidebar === 'keyword'}
+                onClick={() => sidebarHandler('keyword')}
+              />
+            )}
+            <SidebarButton
+              icon={<IoChatbubblesSharp className="text-2xl" />}
+              label="채팅"
+              isSelected={selectedSidebar === 'chat'}
+              onClick={() => sidebarHandler('chat')}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

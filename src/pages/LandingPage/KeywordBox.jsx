@@ -123,7 +123,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               <span className="text-3xl font-bold text-blue-200">[ </span>
               {keywordData?.keyword || '로딩 중...'}
               <span className="text-3xl font-bold text-blue-200"> ]</span>
-              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹</span>
+              <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹 Top 10</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
@@ -136,7 +136,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
         <div className=" mb-3 flex items-center">
           <div className="font-semibold text-gray-500">
-            키워드 "{keywordData?.keyword}" 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
+            키워드 [{keywordData?.keyword}] 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
           </div>
           <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
         </div>
@@ -180,10 +180,10 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div className="col-span-4 lg:p-4 relative">
+        <div className="col-span-4 lg:p-4 relative font-semibold">
           {/** chart */}
           <div ref={chartContainerRef}>
-            <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
+            <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
               <Tab eventKey="D" title="일봉">
                 <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>

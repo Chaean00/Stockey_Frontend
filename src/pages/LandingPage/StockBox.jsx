@@ -153,7 +153,7 @@ export default function StockBox() {
               <span className="text-3xl font-bold text-blue-200">[ </span>
               {stockInfo.stock_name}
               <span className="text-3xl font-bold text-blue-200"> ]</span>
-              <span className="text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+              <span className="text-xl hidden lg:inline-block">에 대한 키워드 랭킹 Top 10</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
