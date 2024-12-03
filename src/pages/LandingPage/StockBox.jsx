@@ -26,6 +26,10 @@ export default function StockBox() {
   const [isDataReady, setIsDataReady] = useState(false); // 데이터 로드 상태 관리
 
   const navigate = useNavigate();
+
+  // 종목 로고 Path
+  const imagePath = `/company_logo/${stockInfo.stock_code}.png`;
+
   // 데이터 로드 및 초기화
   useEffect(() => {
     bringTopStockInfo(setStockInfo)
@@ -127,16 +131,28 @@ export default function StockBox() {
       {/** Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-3">
-          <div
-            className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
-            onClick={() => {
-              navigate(`../stock/${stockInfo.stock_id}`);
-            }}
-          >
-            <span className="text-3xl font-bold text-blue-200">[ </span>
-            {stockInfo.stock_name}
-            <span className="text-3xl font-bold text-blue-200"> ]</span>
-            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+          <div className="flex flex-row">
+            {/* 종목 로고 이미지 */}
+            <img
+              src={imagePath}
+              alt={`Stock Logo ${stockInfo.stock_code}`}
+              onError={(e) => {
+                // 이미지 로드 실패 시 대체 이미지 처리
+                e.target.src = '/company_logo/default.png';
+              }}
+              className="w-10 h-10 rounded-xl mr-1"
+            />
+            <div
+              className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
+              onClick={() => {
+                navigate(`../stock/${stockInfo.stock_id}`);
+              }}
+            >
+              <span className="text-3xl font-bold text-blue-200">[ </span>
+              {stockInfo.stock_name}
+              <span className="text-3xl font-bold text-blue-200"> ]</span>
+              <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+            </div>
           </div>
           <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
