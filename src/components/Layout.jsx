@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Layout() {
+  const location = useLocation();
   const [isSidebarOpen] = useState(true);
+  const [currentPath, setCurrentPath] = useState(location.pathname);
+  useEffect(() => {
+    setCurrentPath(location.pathname);
+  }, [location.pathname]);
 
   return (
     <div className="font-sans flex text-black_default overflow-x-hidden min-h-screen">
@@ -24,7 +30,7 @@ export default function Layout() {
         transition:Bounce
       />
       {/* Main Content */}
-      <div className="flex flex-col flex-grow w-3/4">
+      <div className={`flex flex-col flex-grow ${currentPath == '/' ? '' : 'w-3/4'}`}>
         {/* Header */}
         <Header className="fixed top-0 left-0 right-20 z-10" />
 
@@ -38,8 +44,8 @@ export default function Layout() {
       </div>
 
       {/* Sidebar */}
-      <div className="w-1/4">
-        <Sidebar isSidebarOpen={isSidebarOpen} />
+      <div className={` ${currentPath == '/' ? '' : 'w-1/4'}`}>
+        <Sidebar />
       </div>
     </div>
   );
