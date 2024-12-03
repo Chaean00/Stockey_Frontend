@@ -12,7 +12,6 @@ import keywordApi from '../services/keywordApi';
 import { useLikeContext } from '../utils/likeContext';
 
 export default function SidebarMain() {
-  // const [userBookmarkList, setUserBookmarkList] = useState([]);
   const [keywordRankingList, setKeywordRankingList] = useState([]);
   const { keywordLikeList, setKeywordLikeList } = useLikeContext();
   const { stockLikeList, setStockLikeList } = useLikeContext();
@@ -21,12 +20,6 @@ export default function SidebarMain() {
 
   // 즐겨찾기, 실시간 키워드 랭킹 불러오기
   useEffect(() => {
-    // const fetchUserBookmarkList = async () => {
-    //   const res = await userApi.getKeywordLike();
-    //   console.log('유저 북마크 리스트: ', res.data.userKeywords);
-    //   setUserBookmarkList(res.data.userKeywords);
-    // };
-
     const fetchKeywordRankingList = async () => {
       try {
         const res = await keywordApi.getKeywordRank();
@@ -78,7 +71,7 @@ export default function SidebarMain() {
           <h2 className="text-xl font-extrabold text-gray-900">키워드 즐겨찾기</h2>
         </div>
         <div className="flex flex-wrap gap-2">
-          {' '}
+          {/* {' '} */}
           {/* 수정된 부분: flex-wrap 추가 */}
           {keywordLikeList?.userKeywords?.map((elm) => (
             <button
@@ -100,7 +93,7 @@ export default function SidebarMain() {
           <h2 className="text-xl font-extrabold text-gray-900">종목 즐겨찾기</h2>
         </div>
         <div className="flex flex-wrap gap-2">
-          {' '}
+          {/* {' '} */}
           {/* 수정된 부분: flex-wrap 추가 */}
           {stockLikeList?.map((elm) => (
             <button

@@ -10,14 +10,15 @@ import CandleChart from '../../components/ChartBox/CandleChart';
 import CandleChartSimple from '../../components/CandleChartSimple';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useLikeContext } from '../../utils/likeContext';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [stockInfo, setStockInfo] = useState({});
-  const [stockLikeList, setStockLikeList] = useState([]);
+  // const [stockLikeList, setStockLikeList] = useState([]);
   const [keywordRank, setKeywordRank] = useState([]);
   const [period, setPeriod] = useState('D');
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
@@ -26,6 +27,8 @@ export default function StockBox() {
   const [isDataReady, setIsDataReady] = useState(false); // 데이터 로드 상태 관리
 
   const navigate = useNavigate();
+
+  const { stockLikeList, setStockLikeList, isLiked, setIsLiked } = useLikeContext();
 
   // 종목 로고 Path
   const imagePath = `/company_logo/${stockInfo.stock_code}.png`;

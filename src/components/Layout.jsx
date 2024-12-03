@@ -39,7 +39,7 @@ export default function Layout() {
         <Header className="fixed top-0 left-0 right-20 z-10" />
 
         {/* Page Content */}
-        <main className="flex-grow flex lg:p-24 lg:py-20 p-12 pb-16 items-center justify-center relative min-h-screen animate-fadeIn">
+        <main className="flex-grow flex lg:p-16 lg:py-20 p-12 pb-16 items-center justify-center relative min-h-screen animate-fadeIn">
           <Outlet context={{ isSidebarOpen }} />
         </main>
 
