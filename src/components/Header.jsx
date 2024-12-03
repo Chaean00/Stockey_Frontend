@@ -30,7 +30,8 @@ export default function Header() {
   };
 
   return (
-    <div className="flex text-black_default justify-between p-3">
+    <div className="flex text-black_default justify-between p-3 items-center">
+      {/** 로고 */}
       <div
         className="cursor-pointer"
         onClick={() => {
@@ -39,6 +40,14 @@ export default function Header() {
       >
         <img src="/img/logo.jpg" alt="Logo" className="h-8 w-auto d-inline-block align-top" />
       </div>
+
+      {/** 검색 버튼 */}
+      <div className="flex gap-5 font-semibold">
+        <div className="cursor-pointer hover:text-blue-200">키워드 찾아보기</div>
+        <div className="cursor-pointer hover:text-blue-200">종목 찾아보기</div>
+      </div>
+
+      {/** 로그인/로그아웃/알림 버튼 */}
       {isLoggedIn ? (
         // 로그인된 상태
         <div className="flex gap-3">
