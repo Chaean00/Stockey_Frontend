@@ -108,7 +108,7 @@ export default function SidebarChat() {
       <div className="mb-8">
         <h2 className="inline-block text-xl font-semibold text-gray-900 mb-4">오늘의 키워드 커뮤니티</h2>
         <div className="inline-block">
-          <MouseHoverPopover message = {`오늘 ${formattedTime} 기준 뉴스에서 가장 많이 언급된 키워드입니다.`}/>
+          <MouseHoverPopover message = {`오늘 ${formattedTime} 기준 뉴스에서 가장 많이 언급된 키워드 커뮤니티입니다.`}/>
         </div>
         <ul>
           {weightRoomList?.map((el, i) => {
@@ -137,7 +137,7 @@ export default function SidebarChat() {
       <div>
         <h2 className="inline-block text-xl font-semibold text-gray-900 mb-2">사용자 인기 키워드 커뮤니티</h2>
         <div className="inline-block">
-          <MouseHoverPopover message = {`오늘 ${formattedTime} 기준 사용자들이 가장 많이 즐겨찾기한 키워드입니다.`}/>
+          <MouseHoverPopover message = {`오늘 ${formattedTime} 기준 사용자들이 가장 많이 즐겨찾기한 키워드 커뮤니티입니다.`}/>
         </div>
         <ul>
           {bookmarkRoomList?.map((el, i) => {
