@@ -128,9 +128,9 @@ export default function StockBox() {
     <div className="text-black_default flex flex-col bg-white">
       {/** Header */}
 
-      <div className="flex justify-between items-center mb-2">
-        <div className="flex items-center gap-3">
-          <div className="flex flex-row">
+      <div>
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-3">
             {/* 종목 로고 이미지 */}
             <img
               src={imagePath}
@@ -139,7 +139,7 @@ export default function StockBox() {
                 // 이미지 로드 실패 시 대체 이미지 처리
                 e.target.src = '/company_logo/default.png';
               }}
-              className="w-10 h-10 rounded-xl mr-1"
+              className="w-10 h-10 rounded-xl -mr-3"
             />
             <div
               className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"

@@ -133,7 +133,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
             <div
               key={i}
-              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5 cursor-pointer items-center"
+              className="flex justify-between hover:bg-gray-100 rounded-xl pl-0 cursor-pointer items-center"
               onClick={() => {
                 navigate(`../stock/${el.id}`);
               }}
@@ -147,7 +147,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
                   // 이미지 로드 실패 시 대체 이미지 처리
                   e.target.src = '/company_logo/default.png';
                 }}
-                className="w-8 h-8 rounded-full mr-1"
+                className="w-8 h-8 rounded-full mr-3"
               />
               <div className="py-1 w-2/3 font-semibold">{el.stock_name}</div>
             </div>
