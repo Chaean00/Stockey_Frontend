@@ -94,27 +94,35 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
   return (
     <div className="text-black_default flex flex-col bg-white">
       {/** Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
-            onClick={() => {
-              navigate(`../keyword/${keywordData.keyword_id}`);
-            }}
-          >
-            <span className="text-3xl font-bold text-blue-200">[ </span>
-            {keywordData?.keyword || '로딩 중...'}
-            <span className="text-3xl font-bold text-blue-200"> ]</span>
-            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+      <div>
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-3">
+            <div
+              className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
+              onClick={() => {
+                navigate(`../keyword/${keywordData.keyword_id}`);
+              }}
+            >
+              <span className="text-3xl font-bold text-blue-200">[ </span>
+              {keywordData?.keyword || '로딩 중...'}
+              <span className="text-3xl font-bold text-blue-200"> ]</span>
+              <span className="text-black_default text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+            </div>
+            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
-          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+          <SearchKeywordInput
+            setSearch={setSearch}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult}
+            searchKeyword={handleSearch}
+          />
         </div>
-        <SearchKeywordInput
-          setSearch={setSearch}
-          searchResult={searchResult}
-          setSearchResult={setSearchResult}
-          searchKeyword={handleSearch}
-        />
+        <div className=" mb-3 flex items-center">
+          <div className="font-semibold text-gray-500">
+            당신의 키워드로, 뉴스에서 가장 많이 언급된 종목을 확인하세요
+          </div>
+          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
+        </div>
       </div>
 
       {/** 그리드 레이아웃 */}
