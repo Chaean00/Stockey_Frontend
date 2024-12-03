@@ -24,7 +24,7 @@ export default function MessageInput({ roomId }) {
     if (message && roomId) {
       const newComment = {
         message: message,
-        created_at: currentDate,
+        // created_at: currentDate,
       };
 
       try {
@@ -38,7 +38,8 @@ export default function MessageInput({ roomId }) {
           roomId: roomId,
           message_id: message_id,
           message: newComment.message,
-          created_at: newComment.created_at,
+          // created_at: newComment.created_at,
+          created_at: response.data.created_at,
           nickname: username,
         });
         setMessage('');
