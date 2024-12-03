@@ -1,7 +1,7 @@
 import { useChatContext } from '../utils/chatContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
+import MouseHoverPopover from './Instruction'
 import chatApi from '../services/chatApi';
 
 // Trending keywords data
@@ -24,6 +24,11 @@ const nationalKeywords = [
   { id: 9, title: '반도체', count: 65 },
   { id: 10, title: '전기차', count: 65 },
 ];
+
+const currentTime = new Date();
+  const hours = currentTime.getHours();
+  const period = hours >= 12 ? '오후' : '오전'; // 오전/오후 구분
+  const formattedTime = `${period} ${hours % 12 === 0 ? 12 : hours % 12}시`; // 12시의 경우 12시로, 24시 체계는 12로 변환
 
 export default function SidebarChat() {
   const { chatRoomList, setRoomId } = useChatContext();
@@ -101,7 +106,10 @@ export default function SidebarChat() {
 
       {/* Trending Keywords Section */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">오늘의 키워드 커뮤니티</h2>
+        <h2 className="inline-block text-xl font-semibold text-gray-900 mb-4">오늘의 키워드 커뮤니티</h2>
+        <div className="inline-block">
+          <MouseHoverPopover message = {`오늘 ${formattedTime} 기준 뉴스에서 가장 많이 언급된 키워드 커뮤니티입니다.`}/>
+        </div>
         <ul>
           {weightRoomList?.map((el, i) => {
             return (
@@ -127,7 +135,10 @@ export default function SidebarChat() {
 
       {/* National Keywords Section */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">사용자 인기 키워드 커뮤니티</h2>
+        <h2 className="inline-block text-xl font-semibold text-gray-900 mb-2">사용자 인기 키워드 커뮤니티</h2>
+        <div className="inline-block">
+          <MouseHoverPopover message = {`오늘 ${formattedTime} 기준 사용자들이 가장 많이 즐겨찾기한 키워드 커뮤니티입니다.`}/>
+        </div>
         <ul>
           {bookmarkRoomList?.map((el, i) => {
             return (

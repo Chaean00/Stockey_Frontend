@@ -32,6 +32,9 @@ export default function KeywordChartPage() {
     setStockInfo,
   } = useLikeContext();
 
+  // 종목 로고 Path
+  const imagePath = `/company_logo/${stockInfo.stock_code}.png`;
+
   // 키워드 데이터 가져오기
   // useEffect(() => {
   //   setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
@@ -70,35 +73,33 @@ export default function KeywordChartPage() {
 
   return (
     <div className="text-black_default flex-grow bg-white">
-      {/** header */}
-      <div>
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-3">
-            <div className="font-extrabold text-4xl">{keywordData?.keyword || '로딩 중...'}</div>
-            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
-          </div>
-          <SearchKeywordInput
-            setSearch={setSearch}
-            searchResult={searchResult}
-            setSearchResult={setSearchResult}
-            searchKeyword={handleSearch}
-          />
+      <div className="flex justify-between items-center mb-3">
+        <div className="flex items-center gap-3">
+          <div className="font-extrabold text-4xl">{keywordData?.keyword || '로딩 중...'}</div>
+          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
-        {/** 종목명 및 종목 코드 */}
-        <div className=" gap-5 items-center mb-2">
-          <div className="font-bold text-2xl">
-            {stockInfo?.stock_name || '로딩 중...'} <span className="text-gray-400"> {stockInfo.stock_code}</span>
-          </div>
-          <div className=" flex items-center">
-            <div className="font-semibold text-gray-500">
-              키워드 [{keywordData?.keyword || '로딩 중...'}] 관련 뉴스에서 종목 [
-              {stockInfo?.stock_name || '로딩 중...'}]이/가 가장 많이 언급되었어요
-            </div>
-            <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
-          </div>
+        <SearchKeywordInput
+          setSearch={setSearch}
+          searchResult={searchResult}
+          setSearchResult={setSearchResult}
+          searchKeyword={handleSearch}
+        />
+      </div>
+      <div className="flex flex-row items-center mb-2">
+        {/* 종목 로고 이미지 */}
+        <img
+          src={imagePath}
+          alt={`Stock Logo ${stockInfo.stock_code}`}
+          onError={(e) => {
+            // 이미지 로드 실패 시 대체 이미지 처리
+            e.target.src = '/company_logo/default.png';
+          }}
+          className="w-8 h-8 rounded-xl mr-2"
+        />
+        <div className="font-extrabold text-2xl">
+          {stockInfo?.stock_name || '로딩 중...'} -<span className="text-gray-400"> {stockInfo.stock_code}</span>
         </div>
       </div>
-
       <div>
         <KeywordChartBox
           chartData={chartData} // 차트 데이터
