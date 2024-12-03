@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-export default function SearchInput({ setSearch, searchResult, setSearchResult, searchStock }) {
+export default function SearchInput({ setSearch, searchResult, setSearchResult, searchStock, setShow }) {
   const resultRef = useRef(null);
   const navigate = useNavigate();
+  const [tmpSearch, setTmpSearch] = useState('');
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -19,6 +20,19 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
     };
   }, []);
 
+  // setShow가 없으면 기본값 false로 설정
+  const handleCloseModal = () => {
+    if (setShow) {
+      setShow(false); // setShow가 있을 때만 호출
+    }
+  };
+
+  const handleSearchClick = () => {
+    searchKeyword();
+    setTmpSearch(''); // 검색 후, tmpSearch를 비워줍니다.
+    setSearch(''); // setSearch를 통해 외부 상태도 초기화
+  };
+
   return (
     <div className="relative font-sans font-semibold">
       <div className="flex items-center justify-between w-full px-5 py-1 bg-gray-100 rounded-xl focus-within:ring-2 focus-within:ring-blue-200 shadow-sm">
@@ -26,19 +40,19 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
           className="flex-grow bg-gray-100 border-none outline-none placeholder-gray-400 text-black_default"
           maxLength={16}
           placeholder="원하는 종목을 검색하세요"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setTmpSearch(e.target.value);
+            setSearch(e.target.value);
+          }}
+          value={tmpSearch} // input의 value는 tmpSearch로 설정
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               searchStock();
+              setTmpSearch('');
             }
           }}
         />
-        <FaSearch
-          className="text-gray-500 ml-3"
-          onClick={() => {
-            searchStock();
-          }}
-        />
+        <FaSearch className="text-gray-500 ml-3" onClick={handleSearchClick} />
       </div>
       <ul
         ref={resultRef}
@@ -52,6 +66,8 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
                 className="cursor-pointer px-4 py-2 hover:bg-blue-50 border-b last:border-none flex justify-between"
                 key={i}
                 onClick={() => {
+                  handleCloseModal();
+                  setTmpSearch(''); // 검색어 클릭 시, tmpSearch 초기화
                   navigate(`../stock/${el.id}`);
                   setSearchResult([]); // searchResult 초기화
                 }}

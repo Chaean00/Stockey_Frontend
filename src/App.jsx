@@ -10,7 +10,7 @@ function App() {
     <LikeProvider>
       <ChatProvider>
         <AuthProvider>
-          <RouterProvider router={mainRouter} />
+          <RouterProvider router={mainRouter}></RouterProvider>
         </AuthProvider>
       </ChatProvider>
     </LikeProvider>

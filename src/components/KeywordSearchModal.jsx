@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import SearchKeywordInput from './SearchKeywordInput';
 import { searchKeyword } from '../utils/keywordFunction';
 
-function KeywordSearchModal({ show, handleClose }) {
+function KeywordSearchModal({ show, setShow }) {
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
 
@@ -13,7 +13,13 @@ function KeywordSearchModal({ show, handleClose }) {
   };
   return (
     <>
-      <Modal show={show} onHide={handleClose} className="font-sans p-5">
+      <Modal
+        show={show}
+        onHide={() => {
+          setShow(false);
+        }}
+        className="font-sans p-5"
+      >
         <Modal.Body closeButton>
           <div className="min-h-40 flex flex-col justify-center items-center">
             <div className="text-lg text-center font-semibold mb-3">
@@ -24,11 +30,18 @@ function KeywordSearchModal({ show, handleClose }) {
               searchResult={searchResult}
               setSearchResult={setSearchResult}
               searchKeyword={handleSearch}
+              setShow={setShow}
             />
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" className=" bg-blue-200 border-none hover:bg-blue-100" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            className=" bg-blue-200 border-none hover:bg-blue-100"
+            onClick={() => {
+              setShow(false);
+            }}
+          >
             닫기
           </Button>
         </Modal.Footer>

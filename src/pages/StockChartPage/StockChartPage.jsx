@@ -77,30 +77,37 @@ export default function StockChartPage() {
 
   return (
     <div className="text-black_default flex-grow bg-white">
-      <div className="flex justify-between items-center mb-3">
-        <div className="flex items-center gap-3">
-          <div className="flex flex-row">
-            {/* 종목 로고 이미지 */}
-            <img
-              src={imagePath}
-              alt={`Stock Logo ${stockInfo.stock_code}`}
-              onError={(e) => {
-                // 이미지 로드 실패 시 대체 이미지 처리
-                e.target.src = '/company_logo/default.png';
-              }}
-              className="w-10 h-10 rounded-xl mr-2"
-            />
-            <div className="font-extrabold text-4xl">{stockInfo.stock_name}</div>
+      {/** header */}
+      <div>
+        <div className="flex justify-between items-center mb-3">
+          <div className="flex items-center gap-3">
+            <div className="flex flex-row">
+              {/* 종목 로고 이미지 */}
+              <img
+                src={imagePath}
+                alt={`Stock Logo ${stockInfo.stock_code}`}
+                onError={(e) => {
+                  // 이미지 로드 실패 시 대체 이미지 처리
+                  e.target.src = '/company_logo/default.png';
+                }}
+                className="w-10 h-10 rounded-xl mr-2"
+              />
+              <div className="font-extrabold text-4xl">
+                {stockInfo.stock_name}
+                <span className="text-gray-400 font-bold"> {stockInfo.stock_code}</span>
+              </div>
+            </div>
+            <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
           </div>
-          <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+          <SearchInput
+            setSearch={setSearch} //검색어 update 변수
+            searchResult={searchResult} //검색 결과 변수
+            setSearchResult={setSearchResult} //검색 결과 update 변수
+            searchStock={handleSearch} //검색 시 실행하는 함수
+          />
         </div>
-        <SearchInput
-          setSearch={setSearch} //검색어 update 변수
-          searchResult={searchResult} //검색 결과 변수
-          setSearchResult={setSearchResult} //검색 결과 update 변수
-          searchStock={handleSearch} //검색 시 실행하는 함수
-        />
       </div>
+
       <div>
         <ChartBox
           chartData={chartData} //차트 데이터
@@ -112,7 +119,12 @@ export default function StockChartPage() {
           setPeriod={setPeriod}
         />
       </div>
-      <div className="mt-3">
+      <div className="mt-5">
+        <div className="font-bold text-2xl my-3">
+          <span className="text-blue-200 text-3xl">[ </span>
+          {stockInfo.stock_name}
+          <span className="text-blue-200 text-3xl"> ]</span> 관련 뉴스에서 주목받은 키워드 한눈에 보기
+        </div>
         <CustomWordCloud data={keywordRank} width={800} height={400} />
       </div>
     </div>
