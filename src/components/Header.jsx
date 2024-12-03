@@ -106,7 +106,7 @@ export default function Header() {
       {/* Alarm 모달을 showAlarmModal 상태에 따라 렌더링 */}
       {showAlarmModal && <Alarm show={showAlarmModal} handleClose={handleCloseAlarm} />}
       {showStockModal && <StockSearchModal show={showStockModal} handleClose={handleCloseStock} />}
-      {showKeywordModal && <KeywordSearchModal show={showKeywordModal} handleClose={handleCloseKeyword} />}
+      {showKeywordModal && <KeywordSearchModal show={showKeywordModal} setShow={setShowKeywordModal} />}
     </div>
   );
 }
