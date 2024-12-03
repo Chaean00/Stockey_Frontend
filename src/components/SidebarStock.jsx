@@ -49,7 +49,10 @@ export default function SidebarStock(props) {
           <h2>
             <span className="text-blue-200 text-xl font-bold">[ </span>
             {stockInfo.stock_name}
-            <span className="text-blue-200 text-xl font-bold"> ]</span> 에서 가장 많이 언급된
+            <span className="text-blue-200 text-xl font-bold">
+              {' '}
+              ]
+            </span> 에서 가장 많이 언급된
           </h2>
         ) : (
           <h2>가장 많이 즐겨찾기된 키워드는?</h2>
