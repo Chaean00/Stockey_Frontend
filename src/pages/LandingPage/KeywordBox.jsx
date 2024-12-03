@@ -24,6 +24,8 @@ export default function KeywordBox() {
   const [chartSize, setChartSize] = useState({ width: 600, height: 40 }); // 초기값 설정
   const navigate = useNavigate();
 
+  console.log("K =",keywordData)
+
   // 사이드바 열림/닫힘 상태에 따라 차트 크기 업데이트
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -102,10 +104,10 @@ export default function KeywordBox() {
               navigate(`../keyword/${keywordData.keyword_id}`);
             }}
           >
-            <span className="text-3xl font-bold text-blue-200">[ </span>
+            <span className="text-3xl font-bold text-yellow-200">[ </span>
             {keywordData?.keyword || '로딩 중...'}
-            <span className="text-3xl font-bold text-blue-200"> ]</span>
-            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 키워드 랭킹</span>
+            <span className="text-3xl font-bold text-yellow-200"> ]</span>
+            <span className="text-gray-600 text-xl hidden lg:inline-block">에 대한 종목 랭킹</span>
           </div>
           <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
         </div>
@@ -141,6 +143,7 @@ export default function KeywordBox() {
           {/** chart */}
           <div ref={chartContainerRef}>
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">
+              {/* <Tab title={stockInfo.stock_name} className="float-right" disabled></Tab> */}
               <Tab eventKey="D" title="일봉">
                 <CandleChart chartData={chartData} width={chartSize.width * 0.98} height={450} />
               </Tab>
@@ -151,6 +154,16 @@ export default function KeywordBox() {
                 <CandleChartSimple chartData={chartData} width={chartSize.width} height={450} />
               </Tab>
             </Tabs>
+          </div>
+            {/** Stock Name */}
+          <div style={{
+            position: 'absolute',
+            top: 165,
+            right: 160,
+            fontWeight: 'bold',
+            fontSize: '20px',
+          }}>
+            {stockInfo.stock_name}
           </div>
 
           {/** chart data */}

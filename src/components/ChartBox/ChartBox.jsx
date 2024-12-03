@@ -105,7 +105,6 @@ export default function ChartBox({
             </Tab>
           </Tabs>
         </div>
-
         {/** data box */}
         <div className="w-1/4">
           <ChartData stockInfo={currData} />

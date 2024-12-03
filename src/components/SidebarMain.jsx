@@ -120,7 +120,7 @@ export default function SidebarMain() {
       {/* Rankings Section */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-extrabold text-gray-900">실시간 키워드 랭킹</h2>
+          <h2 className="text-xl font-extrabold text-gray-900">오늘의 키워드 랭킹</h2>
         </div>
         <div className="space-y-2">
           <ul>
@@ -147,7 +147,7 @@ export default function SidebarMain() {
 
       {/* Chat Section */}
       <div className="space-y-2">
-        <h2 className="text-xl font-extrabold text-gray-900">실시간 채팅방</h2>
+        <h2 className="text-xl font-extrabold text-gray-900">전체 채팅방</h2>
         <ChattingMain />
         <button
           className="mt-3 mb-5 w-full py-2 text-sm bg-blue-200 text-white rounded-lg hover:bg-blue-100"
