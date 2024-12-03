@@ -30,7 +30,6 @@ export default function SidebarMain() {
     const fetchKeywordRankingList = async () => {
       try {
         const res = await keywordApi.getKeywordRank();
-        console.log('키워드 랭킹 리스트:', res.data.slice(0, 5));
         setKeywordRankingList(res.data.slice(0, 5));
       } catch (err) {
         console.error('키워드 랭킹 리스트 가져오기 실패:', err);
