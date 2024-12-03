@@ -9,7 +9,7 @@ export default function UserKeywordLike({ keywordLikeList }) {
 
   return (
     <div className="border-2 w-full h-full  mb-3 pl-10 py-3 rounded-xl">
-      <div className="mb-2">키워드 즐겨찾기</div>
+      <div className="mb-2 font-semibold">키워드 즐겨찾기</div>
 
       {keywordLikeList?.userKeywords?.map((el, index) => {
         return (

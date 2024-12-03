@@ -68,7 +68,7 @@ export default function NewsBox({ keywordData }) {
                     className="w-6 h-6 rounded-full mr-2"
                     draggable={false} // Disable logo dragging
                   />
-                  <h5 className="text-sm text-gray-700 m-0 font-medium">{elem.newsCompany}</h5>
+                  <h5 className="text-sm text-gray-500 m-0 font-medium">{elem.newsCompany}</h5>
                 </div>
                 <p className="text-base font-bold text-gray-900">{elem.title}</p>
               </div>

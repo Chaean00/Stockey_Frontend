@@ -170,7 +170,7 @@ export default function ChattingMain() {
                 </div>
               </div>
               {/* 메시지 내용 */}
-              <p className="text-gray-700 font-medium mt-2">{comment.message}</p>
+              <p className="text-gray-500 font-medium mt-2">{comment.message}</p>
             </div>
           </div>
         </div>

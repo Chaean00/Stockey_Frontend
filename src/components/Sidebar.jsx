@@ -109,7 +109,7 @@ function SidebarButton({ icon, label, isSelected, onClick }) {
     <div
       onClick={onClick}
       className={`flex flex-col items-center hover:bg-gray-300 m-3 p-1 rounded-md mb-3 ${
-        isSelected ? 'bg-gray-300 text-gray-700' : 'text-gray-400'
+        isSelected ? 'bg-gray-300 text-gray-500' : 'text-gray-400'
       }`}
     >
       {icon}
