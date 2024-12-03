@@ -10,7 +10,7 @@ export default function MessageInput({ roomId }) {
 
   //메시지 보내기
   const sendMessage = async (e) => {
-    const currentDate = new Date();
+    const currentDate = new Date().toISOString();
 
     e.preventDefault();
     if (message && roomId) {
