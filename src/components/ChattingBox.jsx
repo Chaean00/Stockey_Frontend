@@ -111,20 +111,40 @@ export default function ChattingBox({
   }, [sortedMessages.length, sortedMessages]);
 
   // 시간 format 수정
-  function formatDate(dateString) {
-    // 한국 시간으로 ISO 8601 형식 출력
-    const now = new Date(dayjs().tz('Asia/Seoul').toISOString());
-    const past = new Date(dateString);
-    const diff = (now - past) / 1000; // 초 단위 차이
+  // function formatDate(dateString) {
+  //   // 한국 시간으로 ISO 8601 형식 출력
+  //   // const now = new Date(dayjs().tz('Asia/Seoul').toISOString());
+  //   // const diff = (now - past) / 1000; // 초 단위 차이
+  //   const past = new Date(dateString);
 
-    if (diff < 60) {
-      return `${Math.floor(diff)}초 전`;
-      // return '지금';
-    } else if (diff < 3600) {
-      return `${Math.floor(diff / 60)}분 전`;
-    } else if (diff < 86400) {
-      return `${Math.floor(diff / 3600)}시간 전`;
+  //   if (diff < 60) {
+  //     return `${Math.floor(diff)}초 전`;
+  //   } else if (diff < 3600) {
+  //     return `${Math.floor(diff / 60)}분 전`;
+  //   } else if (diff < 86400) {
+  //     return `${Math.floor(diff / 3600)}시간 전`;
+  //   } else {
+  //     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  //     return past.toLocaleDateString('ko-KR', options);
+  //   }
+  // }
+
+  function formatDate(dateString) {
+    const past = new Date(dateString);
+    const now = new Date();
+
+    // 당일인지 확인
+    const isSameDay =
+      past.getFullYear() === now.getFullYear() &&
+      past.getMonth() === now.getMonth() &&
+      past.getDate() === now.getDate();
+
+    if (isSameDay) {
+      // 당일이면 시:분 형식으로 반환
+      const options = { hour: '2-digit', minute: '2-digit' };
+      return past.toLocaleTimeString('ko-KR', options);
     } else {
+      // 당일이 아니면 년-월-일 형식으로 반환
       const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
       return past.toLocaleDateString('ko-KR', options);
     }
