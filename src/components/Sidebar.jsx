@@ -63,8 +63,8 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full bg-gray-100 shadow-md flex justify-center text-gray-400 transition-all duration-300 z-50 ${
-        isSidebarOpen ? 'w-1/4 min-w-96' : 'w-20'
+      className={`fixed top-0 right-0 h-full bg-gray-100 shadow-md flex justify-center text-gray-400 transition-all duration-400 z-50 ${
+        isSidebarOpen ? 'w-1/4' : 'w-20'
       }`}
     >
       {isSidebarOpen && (

@@ -39,11 +39,10 @@ const bringStockChart = async (stock_code, updateChart, stock_period) => {
 const bringTopStockInfo = async (updateStockInfo) => {
   try {
     const response = await stockApi.getTopStock();
-    console.log("TopStockInfo",response.data)
-    updateStockInfo(response.data[0])
+    updateStockInfo(response.data[0]);
   } catch (error) {
     console.error('Top 종목 조회 실패:', error.response?.data?.message || error.message);
   }
-}
+};
 
 export { bringStockChart, bringStockInfo, searchStock, bringTopStockInfo };
