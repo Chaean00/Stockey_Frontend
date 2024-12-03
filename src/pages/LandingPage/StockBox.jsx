@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import SearchInput from '../../components/SearchInput'; // 검색 버튼
 import LikeButton from '../../components/LikeButton'; // 좋아요 버튼
 import { removeLike, addLike, findInitialLikeStock } from '../../utils/likeFunction'; // 즐겨찾기 관련 함수
-import { bringStockChart, searchStock } from '../../utils/stockFunction'; // 주식 정보 조회 관련 함수
+import { bringStockChart, bringStockInfo, bringTopStockInfo, searchStock } from '../../utils/stockFunction'; // 주식 정보 조회 관련 함수
 import { Tabs, Tab } from 'react-bootstrap';
 import keywordApi from '../../services/keywordApi';
 import ResizeObserver from 'resize-observer-polyfill';
@@ -16,19 +16,27 @@ export default function StockBox() {
   const [isLiked, setIsLiked] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [stockInfo, setStockInfo] = useState({
-    stock_id: 11,
-    stock_code: '055550',
-    stock_name: '신한지주',
-  });
+  const [stockInfo, setStockInfo] = useState({});
   const [stockLikeList, setStockLikeList] = useState([]);
   const [keywordRank, setKeywordRank] = useState([]);
   const [period, setPeriod] = useState('D');
   const [chartDataLoaded, setChartDataLoaded] = useState(false); // Lazy Loading 상태 관리
   const chartContainerRef = useRef(null); // 차트 컨테이너 참조
   const [chartSize, setChartSize] = useState({ width: 600, height: 400 }); // 초기값 설정
+  const [isDataReady, setIsDataReady] = useState(false); // 데이터 로드 상태 관리
 
   const navigate = useNavigate();
+  // 데이터 로드 및 초기화
+  useEffect(() => {
+    bringTopStockInfo(setStockInfo)
+      .then(() => {
+        setIsDataReady(true); // 데이터 로드 완료
+      })
+      .catch((error) => {
+        console.error('Top stock info load failed:', error);
+        toast.error('데이터를 불러오지 못했습니다.');
+      });
+  }, []);
 
   // 부모 <div> 크기 변화 감지 및 업데이트
   useEffect(() => {
@@ -53,15 +61,15 @@ export default function StockBox() {
 
   // 즐겨찾기 및 키워드 랭킹 초기화
   useEffect(() => {
-    if (stockInfo.stock_id) {
+    if (isDataReady && stockInfo.stock_id) {
       findInitialLikeStock(stockInfo.stock_id, setIsLiked, setStockLikeList);
       getKeywordRank();
     }
-  }, []);
+  }, [isDataReady]);
 
   // 차트 데이터 Lazy Loading
   useEffect(() => {
-    if (period && stockInfo.stock_code && !chartDataLoaded) {
+    if (isDataReady && period && stockInfo.stock_code && !chartDataLoaded) {
       bringStockChart(
         stockInfo.stock_code,
         (data) => {
@@ -75,7 +83,7 @@ export default function StockBox() {
         period,
       );
     }
-  }, [period, stockInfo.stock_code, chartDataLoaded]);
+  }, [isDataReady, period, stockInfo.stock_code, chartDataLoaded]);
 
   // 검색 실행
   const handleSearch = () => {
@@ -148,7 +156,7 @@ export default function StockBox() {
           {keywordRank?.slice(0, 10).map((el, i) => (
             <div
               key={i}
-              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5"
+              className="flex justify-between hover:bg-gray-100 rounded-xl pl-5 cursor-pointer"
               onClick={() => {
                 navigate(`../keyword/${el.id}`);
               }}

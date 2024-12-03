@@ -16,6 +16,8 @@ const stockApi = {
   getStockById: (stock_id) => axiosInstance.get(`/stocks/id/${stock_id}`),
 
   getStcokRankByUserLike: () => axiosInstance.get(`/users/stocks/rankings/userLike`),
+
+  getTopStock: () => axiosInstance.get(`/stocks/top`),
 };
 
 export default stockApi;

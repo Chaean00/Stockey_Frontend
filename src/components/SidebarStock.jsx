@@ -61,7 +61,7 @@ export default function SidebarStock(props) {
           return (
             <li
               key={i}
-              className="text-md font-semibold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between"
+              className="text-md font-semibold flex items-center hover:bg-gray-200 p-2 px-3 rounded-2xl justify-between cursor-pointer"
               onClick={() => {
                 moveToKeywordPage(el.keyword);
               }}
