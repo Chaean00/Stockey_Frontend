@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-export default function SearchKeywordInput({ setSearch, searchResult, setSearchResult, searchKeyword }) {
+export default function SearchKeywordInput({ setSearch, searchResult, setSearchResult, searchKeyword, setShow }) {
   const resultRef = useRef(null);
   const navigate = useNavigate();
 
@@ -52,6 +52,7 @@ export default function SearchKeywordInput({ setSearch, searchResult, setSearchR
                 className="cursor-pointer px-4 py-2 hover:bg-blue-50 border-b last:border-none flex justify-between"
                 key={i}
                 onClick={() => {
+                  setShow(false);
                   navigate(`../keyword/${el.id}`);
                   setSearchResult([]); // searchResult 초기화
                 }}
