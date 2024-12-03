@@ -12,11 +12,11 @@ export default function MessageInput({ roomId }) {
   const [message, setMessage] = useState('');
   const [username, setUsername] = useState(localStorage.getItem('nickname'));
 
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
   //메시지 보내기
   const sendMessage = async (e) => {
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-
     // 한국 시간으로 ISO 8601 형식 출력
     const currentDate = dayjs().tz('Asia/Seoul').toISOString();
 
