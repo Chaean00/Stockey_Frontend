@@ -5,6 +5,7 @@ import { useAuth } from '../utils/authContext';
 import { FaBell } from 'react-icons/fa6';
 import Alarm from './Alarm/Alarm';
 import StockSearchModal from './StockSearchModal';
+import KeywordSearchModal from './KeywordSearchModal';
 
 export default function Header() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -34,6 +35,9 @@ export default function Header() {
   const handleCloseStock = () => {
     setShowStockModal(false);
   };
+  const handleCloseKeyword = () => {
+    setShowKeywordModal(false);
+  };
 
   return (
     <div className="flex text-black_default justify-between p-3 items-center">
@@ -49,7 +53,14 @@ export default function Header() {
 
       {/** 검색 버튼 */}
       <div className="flex gap-5 font-semibold">
-        <div className="cursor-pointer hover:text-blue-200">키워드 찾아보기</div>
+        <div
+          className="cursor-pointer hover:text-blue-200"
+          onClick={() => {
+            setShowKeywordModal(true);
+          }}
+        >
+          키워드 찾아보기
+        </div>
         <div
           className="cursor-pointer hover:text-blue-200"
           onClick={() => {
@@ -95,6 +106,7 @@ export default function Header() {
       {/* Alarm 모달을 showAlarmModal 상태에 따라 렌더링 */}
       {showAlarmModal && <Alarm show={showAlarmModal} handleClose={handleCloseAlarm} />}
       {showStockModal && <StockSearchModal show={showStockModal} handleClose={handleCloseStock} />}
+      {showKeywordModal && <KeywordSearchModal show={showKeywordModal} handleClose={handleCloseKeyword} />}
     </div>
   );
 }
