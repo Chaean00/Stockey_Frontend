@@ -5,6 +5,10 @@ import { toast } from 'react-toastify';
 import { socket } from '../pages/ChattingPage/ChattingPage';
 import chatApi from '../services/chatApi';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
 export default function ChattingBox({
   // messages,
   messages: initialMessages, // 초기 메시지를 전달받음
@@ -13,6 +17,9 @@ export default function ChattingBox({
   roomId,
 }) {
   const messageContainerRef = useRef(null);
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
 
   // 드롭 다운 상태 관리
   const [isOpen, setIsOpen] = useState(false); // 드롭다운 열림/닫힘 상태
@@ -105,12 +112,14 @@ export default function ChattingBox({
 
   // 시간 format 수정
   function formatDate(dateString) {
-    const now = new Date();
+    // 한국 시간으로 ISO 8601 형식 출력
+    const now = new Date(dayjs().tz('Asia/Seoul').toISOString());
     const past = new Date(dateString);
     const diff = (now - past) / 1000; // 초 단위 차이
 
     if (diff < 60) {
-      return `${Math.floor(diff)}초 전`;
+      // return `${Math.floor(diff)}초 전`;
+      return '지금';
     } else if (diff < 3600) {
       return `${Math.floor(diff / 60)}분 전`;
     } else if (diff < 86400) {
