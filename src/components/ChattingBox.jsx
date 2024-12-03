@@ -107,8 +107,10 @@ export default function ChattingBox({
 
   // scrollHeight가 변경될 때 스크롤 이동
   useEffect(() => {
-    scrollToBottom();
-  }, [sortedMessages.length, sortedMessages]);
+    setTimeout(() => {
+      scrollToBottom();
+    }, 50);
+  }, [sortedMessages.length, selectedOption]);
 
   // 시간 format 수정
   // function formatDate(dateString) {
