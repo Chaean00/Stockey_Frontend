@@ -103,6 +103,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
 
   // 검색함수 핸들링
   const handleSearch = () => {
+    
     searchKeyword(search, setSearchResult);
   };
 

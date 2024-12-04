@@ -45,8 +45,8 @@ export default function SearchKeywordInput({ setSearch, searchResult, setSearchR
             setSearch(e.target.value); // 외부 상태에도 반영
           }}
           value={tmpSearch} // input의 value는 tmpSearch로 설정
-          onKeyUp={(e) => {
-            if (e.key === 'Enter') {
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
               handleSearchClick();
             }
           }}
