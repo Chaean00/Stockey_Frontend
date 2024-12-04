@@ -107,13 +107,13 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
   };
 
   return (
-    <div className="text-black_default flex flex-col bg-white">
+    <div className="text-black_default flex flex-col bg-white ">
       {/** Header */}
       <div>
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center gap-3">
             <div
-              className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
+              className="font-extrabold text-2xl cursor-pointer hover:text-blue-200"
               onClick={() => {
                 navigate(`../keyword/${keywordData.keyword_id}`);
               }}
@@ -141,16 +141,20 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
       </div>
 
       {/** 그리드 레이아웃 */}
-      <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
+      <div className="grid grid-cols-5 gap-1 border-2 rounded-xl ">
         {/** 리스트 (1/4 차지) */}
-        <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
+        <div className="col-span-1 p-5 flex flex-col justify-between">
           {/* <div className="font-semibold text-lg mb-4"> {keywordData?.keyword}이 가장 많이 언급된</div> */}
           {keywordData?.stock_rankings?.slice(0, 10).map((el, i) => (
             <div
               key={i}
               className="flex justify-between hover:bg-gray-100 rounded-xl pl-0 cursor-pointer items-center"
               onClick={() => {
-                navigate(`../stock/${el.id}`);
+                stockInfo.stock_code = el.code;
+                stockInfo.id = el.id;
+                stockInfo.stock_name = el.stock_name;
+                setStockInfo({ id: el.id, stock_code: el.code, stock_name: el.stock_name });
+                //navigate(`../stock/${el.id}`);
               }}
             >
               {/* <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div> */}
@@ -176,7 +180,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div className="col-span-4 lg:p-4 relative font-semibold">
+        <div className="col-span-4 p-5 relative font-semibold">
           {/** chart */}
           <div ref={chartContainerRef}>
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3">
@@ -193,7 +197,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
           </div>
 
           {/** Stock Name */}
-          <div className="absolute top-5 right-10 font-bold text-2xl">{stockInfo.stock_name}</div>
+          <div className="absolute top-10 right-16 font-bold text-2xl">{stockInfo.stock_name}</div>
 
           {/** chart data */}
           <div className="mt-4 bg-gray-100 p-4 rounded-lg">
