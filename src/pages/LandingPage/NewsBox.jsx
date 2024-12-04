@@ -13,7 +13,6 @@ export default function NewsBox({ keywordData }) {
     const fetchNews = async () => {
       const resp = await newsApi.getNews();
       setNewsList(resp.data);
-      console.log(resp.data);
     };
     fetchNews();
   }, []);
