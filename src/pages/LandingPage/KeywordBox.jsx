@@ -25,17 +25,12 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
   const [chartSize, setChartSize] = useState({ width: 600, height: 40 }); // 초기값 설정
   const [imageLoaded, setImageLoaded] = useState({});
   const navigate = useNavigate();
-  const {
-    keywordLikeList,
-    setKeywordLikeList,
-    isLiked,
-    setIsLiked,
-  } = useLikeContext();
+  const { keywordLikeList, setKeywordLikeList, isLiked, setIsLiked } = useLikeContext();
 
   const handleImageLoad = (code) => {
     setImageLoaded((prev) => ({ ...prev, [code]: true }));
   };
-  
+
   const handleImageError = (e, code) => {
     e.target.src = '/company_logo/default.png';
     setImageLoaded((prev) => ({ ...prev, [code]: true }));
@@ -138,7 +133,7 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
           <div className="font-semibold text-gray-500">
             키워드 [{keywordData?.keyword}] 관련 뉴스에서 가장 많이 언급된 종목을 확인하세요
           </div>
-          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
+          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 오전 6시 기준</div>
         </div>
       </div>
 
@@ -159,21 +154,19 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               {/* 종목 로고 이미지 */}
 
               <div className="relative w-8 h-8 mr-3 rounded-full bg-gray-200">
-              {!imageLoaded[el.code] && (
-                <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs">
-                  로딩...
-                </div>
-              )}
-              <img
-                src={`/company_logo/${el.code}.png`}
-                alt={`Stock Logo ${el.code}`}
-                onLoad={() => handleImageLoad(el.code)}
-                onError={(e) => handleImageError(e, el.code)}
-                className={`w-full h-full rounded-full transition-opacity duration-500 ${
-                  imageLoaded[el.code] ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-            </div>
+                {!imageLoaded[el.code] && (
+                  <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs">로딩...</div>
+                )}
+                <img
+                  src={`/company_logo/${el.code}.png`}
+                  alt={`Stock Logo ${el.code}`}
+                  onLoad={() => handleImageLoad(el.code)}
+                  onError={(e) => handleImageError(e, el.code)}
+                  className={`w-full h-full rounded-full transition-opacity duration-500 ${
+                    imageLoaded[el.code] ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
+              </div>
               <div className="py-1 w-2/3 font-semibold">{el.stock_name}</div>
             </div>
           ))}
