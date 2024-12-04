@@ -14,7 +14,7 @@ import { useLikeContext } from '../../utils/likeContext';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
-  // const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [stockInfo, setStockInfo] = useState({});
@@ -28,7 +28,7 @@ export default function StockBox() {
 
   const navigate = useNavigate();
 
-  const { stockLikeList, setStockLikeList, isLiked, setIsLiked } = useLikeContext();
+  const { stockLikeList, setStockLikeList } = useLikeContext();
 
   // 종목 로고 Path
   const imagePath = `/company_logo/${stockInfo.stock_code}.png`;
@@ -98,9 +98,11 @@ export default function StockBox() {
   };
 
   // 즐겨찾기 추가
-  const handleAddLike = () => {
-    addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList);
-    setIsLiked(true);
+  const handleAddLike = async () => {
+    const success = await addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList);
+    if (success) {
+      setIsLiked(true);
+    }
   };
 
   // 즐겨찾기 삭제
