@@ -168,7 +168,7 @@ export default function StockBox() {
           <div className="font-semibold text-gray-500">
             "{stockInfo.stock_name}" 관련 뉴스에서 가장 많이 언급된 키워드를 확인하세요.
           </div>
-          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 8시 기준</div>
+          <div className="ml-3 text-sm bg-gray-100 p-1 rounded-md px-2">오늘 오전 6시 기준</div>
         </div>
       </div>
 

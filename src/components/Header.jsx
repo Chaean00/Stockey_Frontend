@@ -20,6 +20,7 @@ export default function Header() {
       await userApi.logout();
       setIsLoggedIn(false);
       localStorage.removeItem('nickname');
+      window.location.reload();
     } catch (err) {
       console.error('로그아웃 실패:', err);
     }

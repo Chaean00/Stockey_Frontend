@@ -24,7 +24,7 @@ import {
 
 const CandleChartSimple = ({ chartData, period, height, width }) => {
   const ScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor((d) => new Date(d.date));
-  const margin = { left: 0, right: 48, top: 0, bottom: 24 };
+  const margin = { left: 0, right: 60, top: 0, bottom: 24 };
 
   if (!chartData || chartData.length === 0) {
     return <div className={`animate-skeleton h-[${height}px] bg-gray-200`}></div>;
