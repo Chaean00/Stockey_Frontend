@@ -17,7 +17,7 @@ export default function Layout() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  console.log(currentPath, location.pathname);
+
   return (
     <div className="font-sans flex text-black_default overflow-x-hidden min-h-screen">
       <ToastContainer

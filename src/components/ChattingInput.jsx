@@ -55,7 +55,6 @@ export default function MessageInput({ roomId }) {
   // 엔터 누를 때 바로 채팅이 보내지도록 handler 설정
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      console.log('Enter');
       e.preventDefault();
       sendMessage(e);
     }

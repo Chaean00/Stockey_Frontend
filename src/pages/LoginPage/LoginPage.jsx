@@ -28,7 +28,6 @@ export default function LoginPage() {
       try {
         const response = await userApi.login(userInfo);
         login(response.data.nickname);
-        console.log('로그인 성공:', response.data);
         toast.success('로그인에 성공했습니다!');
         navigate('/home');
       } catch (error) {

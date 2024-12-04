@@ -14,7 +14,7 @@ import { useLikeContext } from '../../utils/likeContext';
 
 export default function StockBox() {
   const [search, setSearch] = useState('');
-  // const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [stockInfo, setStockInfo] = useState({});
@@ -28,7 +28,7 @@ export default function StockBox() {
 
   const navigate = useNavigate();
 
-  const { stockLikeList, setStockLikeList, isLiked, setIsLiked } = useLikeContext();
+  const { stockLikeList, setStockLikeList } = useLikeContext();
 
   // 종목 로고 Path
   const imagePath = `/company_logo/${stockInfo.stock_code}.png`;
@@ -98,9 +98,11 @@ export default function StockBox() {
   };
 
   // 즐겨찾기 추가
-  const handleAddLike = () => {
-    addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList);
-    setIsLiked(true);
+  const handleAddLike = async () => {
+    const success = await addLike(stockInfo.stock_id, stockInfo.stock_name, setStockLikeList);
+    if (success) {
+      setIsLiked(true);
+    }
   };
 
   // 즐겨찾기 삭제
@@ -113,7 +115,6 @@ export default function StockBox() {
   const getKeywordRank = async () => {
     try {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
-      // console.log(response.data)
       setKeywordRank(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
@@ -132,8 +133,8 @@ export default function StockBox() {
       {/** Header */}
 
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center gap-3">
+        <div className="flex justify-between items-end mb-2">
+          <div className="flex items-end gap-3">
             {/* 종목 로고 이미지 */}
             <img
               src={imagePath}
@@ -145,17 +146,22 @@ export default function StockBox() {
               className="w-10 h-10 rounded-xl -mr-3"
             />
             <div
-              className="font-extrabold text-2xl cursor-pointer hover:text-gray-500"
-              onClick={() => {
-                navigate(`../stock/${stockInfo.stock_id}`);
-              }}
+              className="font-extrabold text-2xl"
             >
-              <span className="text-3xl font-bold text-blue-200">[ </span>
+              <span className="text-3xl font-bold text-blue-200"> [ </span>
               {stockInfo.stock_name}
               <span className="text-3xl font-bold text-blue-200"> ]</span>
               <span className="text-xl hidden lg:inline-block">에 대한 키워드 랭킹 Top 10</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+            <button
+              className="font-medium text-white bg-blue-200 hover:bg-blue-100 px-3 py-1 rounded-lg"
+              onClick={() => {
+                navigate(`../stock/${stockInfo.stock_id}`);
+              }}
+            >
+              상세보기
+            </button>
           </div>
           <SearchInput
             setSearch={setSearch}
@@ -175,7 +181,7 @@ export default function StockBox() {
       {/** 그리드 레이아웃 */}
       <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
-        <div className="col-span-1 p-4 py-5 flex flex-col justify-between">
+        <div className="col-span-1 p-5 flex flex-col justify-between">
           {/* <div className="font-semibold text-lg mb-4">{stockInfo.stock_name}에서 가장 많이 언급된</div> */}
           {keywordRank?.slice(0, 10).map((el, i) => (
             <div
@@ -192,7 +198,7 @@ export default function StockBox() {
         </div>
 
         {/** 차트 (3/4 차지) */}
-        <div ref={chartContainerRef} className="col-span-4 lg:p-4">
+        <div ref={chartContainerRef} className="col-span-4  p-5">
           {/** chart */}
           <div className="font-semibold">
             <Tabs id="period-tabs" activeKey={period} onSelect={moveToStock} className="mb-3 font-semibold">

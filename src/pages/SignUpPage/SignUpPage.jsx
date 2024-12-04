@@ -118,8 +118,19 @@ export default function SignUpPage() {
 
           {/** 알림 설정 */}
           <div className="mb-6">
-            <label className="block text-sm font-semibold mb-2">
+            <div className="block text-sm font-semibold mb-2">
               알림 설정
+              <div className="text-gray-500 text-xs mt-2">
+                <a
+                  href="https://join.slack.com/t/team-stockey/shared_invite/zt-2uj3dnj2u-JwP4~_dzpDr1yT~MAS59_A"
+                  target="_blank" // 새 탭에서 링크 열기
+                  rel="noopener noreferrer" // 보안상 권장되는 속성
+                  className="text-blue-200 hover:underline"
+                >
+                  링크 열기
+                </a>
+                를 클릭하여 stockey 슬랙에 참여한 후, 참여한 슬랙 계정을 입력해주세요
+              </div>
               <p className="text-gray-500 text-xs mb-2">
                 알림 설정 시, Slack으로 즐겨찾기한 키워드의 정보를 받으실 수 있습니다.
               </p>
@@ -146,7 +157,7 @@ export default function SignUpPage() {
                   } rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none `}
                 />
               </div>
-            </label>
+            </div>
           </div>
 
           {/** 회원가입 버튼 */}
