@@ -86,10 +86,13 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
     setChartDataLoaded(false); // Lazy Loading 초기화
     setPeriod(chart_period);
   };
+
   // 즐겨찾기 추가 핸들링
-  const handleAddLike = () => {
-    keywordAddLike(keywordData.keyword, setKeywordLikeList);
-    setIsLiked(true);
+  const handleAddLike = async () => {
+    const success = await keywordAddLike(keywordData.keyword, setKeywordLikeList);
+    if (success) {
+      setIsLiked(true);
+    }
   };
 
   // 즐겨찾기 삭제 핸들링
