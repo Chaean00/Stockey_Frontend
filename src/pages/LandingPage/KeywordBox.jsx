@@ -110,13 +110,10 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
     <div className="text-black_default flex flex-col bg-white ">
       {/** Header */}
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center gap-3">
+        <div className="flex justify-between items-end mb-2">
+          <div className="flex items-end gap-3">
             <div
-              className="font-extrabold text-2xl cursor-pointer hover:text-blue-200"
-              onClick={() => {
-                navigate(`../keyword/${keywordData.keyword_id}`);
-              }}
+              className="font-extrabold text-2xl"
             >
               <span className="text-3xl font-bold text-blue-200">[ </span>
               {keywordData?.keyword || '로딩 중...'}
@@ -124,6 +121,14 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               <span className=" text-xl hidden lg:inline-block">에 대한 종목 랭킹 Top 10</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+            <button
+              className="font-medium text-white bg-blue-200 hover:bg-blue-100 px-3 py-1 rounded-lg"
+              onClick={() => {
+                navigate(`../keyword/${keywordData.keyword_id}`);
+              }}
+            >
+              상세 보기
+            </button>
           </div>
           <SearchKeywordInput
             setSearch={setSearch}
