@@ -33,7 +33,6 @@ export default function SidebarMain() {
       try {
         const res = await userApi.getKeywordLike();
         setKeywordLikeList(res.data);
-        // console.log('키워드 즐겨찾기 리스트 가져오가: ', res.data);
       } catch (err) {
         console.error('키워드 즐겨찾기 리스트 가져오기 실패:', err);
       }
@@ -43,7 +42,6 @@ export default function SidebarMain() {
       try {
         const res = await userApi.getStockLike();
         setStockLikeList(res.data.userStocks);
-        // console.log('종목 즐겨찾기 리스트 가져오가: ', res.data);
       } catch (err) {
         console.error('종목 즐겨찾기 리스트 가져오기 실패:', err);
       }

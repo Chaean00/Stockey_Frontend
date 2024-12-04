@@ -35,23 +35,10 @@ export default function KeywordChartPage() {
   // 종목 로고 Path
   const imagePath = `/company_logo/${stockInfo.stock_code}.png`;
 
-  // 키워드 데이터 가져오기
-  // useEffect(() => {
-  //   setUpKeywordDataAndStockInfo(keyword_id, setKeywordData, setStockInfo);
-  //   // console.log("KeywordData => ", keywordData)
-  //   // console.log("StockINFO => ", stockInfo)
-  //   console.log('12132312 =>', keywordLikeList);
-  // }, [keyword_id]);
-
   useEffect(() => {
     if (stockInfo.stock_code) {
       bringStockChart(stockInfo.stock_code, setChartData, period); //주식 정보에서 stock_code, ChartData update useState, 초기 일봉('D')으로 조회
     }
-    // 사이드바 즐겨찾기 동기화를 위해 likeContext.jsx로 상태 관리
-    // if (stockInfo.stock_id) {
-    //   // keywordData.keyword
-    //   findInitialLikeKeyword(keywordData.keyword, setIsLiked, setKeywordLikeList);
-    // }
   }, [stockInfo]);
 
   // 즐겨찾기 추가 핸들링

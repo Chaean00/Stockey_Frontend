@@ -12,7 +12,6 @@ const userApi = {
 
   // 사용자 알림 상태 업데이트
   updateSlackId: (slackId) => {
-    console.log(slackId)
     axiosInstance.put('/users/alarm', slackId)},
 
   // 로그아웃 처리

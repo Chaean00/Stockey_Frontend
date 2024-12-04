@@ -33,22 +33,6 @@ export default function ChattingPage() {
     };
   }, [roomId]);
 
-  // chatContext로 관리하는 방법으로 수정
-  // 채팅방 목록 로드
-  // useEffect(() => {
-  //   // 전체 채팅방 목록 요청
-  //   const fetchChatList = async () => {
-  //     try {
-  //       const response = await chatApi.getChatList();
-  //       setChatRoomList(response.data);
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error('채팅방 목록 로드 실패:', error);
-  //     }
-  //   }
-  //   fetchChatList();
-  // }, []);
-
   // 다른 사용자가 보낸 메시지 받기
   useEffect(() => {
     socket.on('receiveTotalMessage', (data) => {

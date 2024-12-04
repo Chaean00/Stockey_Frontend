@@ -115,7 +115,6 @@ export default function StockBox() {
   const getKeywordRank = async () => {
     try {
       const response = await keywordApi.getKeywordRankAboutStock(stockInfo.stock_id);
-      // console.log(response.data)
       setKeywordRank(response.data.keyword_rankings);
     } catch (error) {
       console.error('키워드 랭킹 조회 실패:', error.response?.data?.message || error.message);
