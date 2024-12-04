@@ -5,6 +5,10 @@ const searchKeyword = async (search, updateSearchResult) => {
   try {
     const response = await keywordApi.searchKeywordByWord(search);
     updateSearchResult(response.data);
+    // if (response.data)
+    if (response.data.length === 0) {
+      toast.error("존재하지 않는 키워드입니다.")
+    }
   } catch (error) {
     console.error('키워드 검색 실패:', error.response?.data?.message || error.message);
     toast.error('키워드 검색에 실패했습니다...');
