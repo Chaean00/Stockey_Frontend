@@ -181,7 +181,7 @@ export default function StockBox() {
       {/** 그리드 레이아웃 */}
       <div className="grid grid-cols-5 gap-1 border-2 rounded-xl">
         {/** 리스트 (1/4 차지) */}
-        <div className="col-span-1 p-5 flex flex-col justify-between">
+        <div className="col-span-1 pl-5 py-5 flex flex-col justify-between">
           {/* <div className="font-semibold text-lg mb-4">{stockInfo.stock_name}에서 가장 많이 언급된</div> */}
           {keywordRank?.slice(0, 10).map((el, i) => (
             <div
