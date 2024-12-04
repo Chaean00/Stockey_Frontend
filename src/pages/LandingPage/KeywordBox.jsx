@@ -147,7 +147,11 @@ export default function KeywordBox({ keywordData, setKeywordData }) {
               key={i}
               className="flex justify-between hover:bg-gray-100 rounded-xl pl-0 cursor-pointer items-center"
               onClick={() => {
-                navigate(`../stock/${el.id}`);
+                stockInfo.stock_code = el.code;
+                stockInfo.id = el.id;
+                stockInfo.stock_name = el.stock_name;
+                setStockInfo({ id: el.id, stock_code: el.code, stock_name: el.stock_name });
+                //navigate(`../stock/${el.id}`);
               }}
             >
               {/* <div className="text-blue-200 py-1 w-1/3 font-semibold text-lg">{i + 1}</div> */}
