@@ -133,8 +133,8 @@ export default function StockBox() {
       {/** Header */}
 
       <div>
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center gap-3">
+        <div className="flex justify-between items-end mb-2">
+          <div className="flex items-end gap-3">
             {/* 종목 로고 이미지 */}
             <img
               src={imagePath}
@@ -146,10 +146,7 @@ export default function StockBox() {
               className="w-10 h-10 rounded-xl -mr-3"
             />
             <div
-              className="font-extrabold text-2xl cursor-pointer hover:text-blue-200"
-              onClick={() => {
-                navigate(`../stock/${stockInfo.stock_id}`);
-              }}
+              className="font-extrabold text-2xl"
             >
               <span className="text-3xl font-bold text-blue-200"> [ </span>
               {stockInfo.stock_name}
@@ -157,6 +154,14 @@ export default function StockBox() {
               <span className="text-xl hidden lg:inline-block">에 대한 키워드 랭킹 Top 10</span>
             </div>
             <LikeButton isLiked={isLiked} addLike={handleAddLike} removeLike={handleRemoveLike} />
+            <button
+              className="font-medium text-white bg-blue-200 hover:bg-blue-100 px-3 py-1 rounded-lg"
+              onClick={() => {
+                navigate(`../stock/${stockInfo.stock_id}`);
+              }}
+            >
+              상세보기
+            </button>
           </div>
           <SearchInput
             setSearch={setSearch}
