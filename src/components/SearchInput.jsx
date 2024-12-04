@@ -28,7 +28,8 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
   };
 
   const handleSearchClick = () => {
-    searchKeyword();
+    console.log("^^^^^")
+    searchStock();
     setTmpSearch(''); // 검색 후, tmpSearch를 비워줍니다.
     setSearch(''); // setSearch를 통해 외부 상태도 초기화
   };
@@ -45,10 +46,9 @@ export default function SearchInput({ setSearch, searchResult, setSearchResult, 
             setSearch(e.target.value);
           }}
           value={tmpSearch} // input의 value는 tmpSearch로 설정
-          onKeyDown={(e) => {
+          onKeyUp={(e) => {
             if (e.key === 'Enter') {
-              searchStock();
-              setTmpSearch('');
+              handleSearchClick();
             }
           }}
         />
