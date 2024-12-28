@@ -29,8 +29,8 @@ jobs:
       - name: Deploy to Server with Nginx
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.FRONT_SERVER_HOST }}
+          username: ${{ secrets.FRONT_SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu
@@ -42,4 +42,4 @@ jobs:
             docker rm stockey-react || true
 
             # 새로운 컨테이너 실행 (Nginx와 연결)
-            docker run -d --name stockey-react -e VITE_SERVER_HOST=${{ secrets.EXPRESS_CONTAINER }} -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest
+            docker run -d --name stockey-react -e VITE_SERVER_HOST=${{ secrets.VITE_SERVER_HOST }} -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest
