@@ -14,20 +14,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Docker 설치 (필요한 경우에만)
-      - name: Set up Docker
-        run: |
-          # Docker 설치 (GitHub Actions의 ubuntu-latest 환경에는 기본적으로 Docker가 설치되어 있음)
-          if ! command -v docker &> /dev/null; then
-            echo "Docker가 설치되어 있지 않습니다. 설치 중..."
-            sudo apt-get update
-            sudo apt-get install -y docker.io
-            sudo systemctl start docker
-            sudo systemctl enable docker
-          else
-            echo "Docker가 이미 설치되어 있습니다."
-          fi
-
       # Docker 이미지 빌드
       - name: Build Docker image for frontend
         run: |
@@ -56,4 +42,4 @@ jobs:
             docker rm stockey-react || true
 
             # 새로운 컨테이너 실행 (Nginx와 연결)
-            docker run -d --name stockey-react --network app-network -e VITE_SERVER_HOST=${{ secrets.EXPRESS_CONTAINER }} -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest
+            docker run -d --name stockey-react -e VITE_SERVER_HOST=${{ secrets.EXPRESS_CONTAINER }} -p 80:80 ${{ secrets.DOCKER_USERNAME }}/stockey-react:latest
